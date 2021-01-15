@@ -7,12 +7,13 @@ import SkipPreviousRoundedIcon from '@material-ui/icons/SkipPreviousRounded';
 import SkipNextRoundedIcon from '@material-ui/icons/SkipNextRounded';
 import { IconButton, Slider } from '@material-ui/core';
 
+import { calculateDurationTime, calculateCurrentTime } from "../utils/player-utils"
 
 function Player() {
     const [playing, setPlaying] = useState(false)
-    const [currentTime, setCurrentTime] = useState(0)
+    const [continuousTime, setContinuousTime] = useState(0)
     const [displayCurrentTime, setDisplayCurrentTime] = useState('0:00')
-    const [displayDurationTime, setdisplayDurationTime] = useState('0:00')
+    const [displayDurationTime, setDisplayDurationTime] = useState('0:00')
     const audioRef = useRef(null)
 
     const playPauseSong = () => {
@@ -27,36 +28,27 @@ function Player() {
 
     // When the audio element is rendered on the screen, this function gets executed
     const audioElementCallbackRef = useCallback((node) => {
-        console.log(node)
         if (!node) return
         audioRef.current = node
+
         audioRef.current.ontimeupdate = (event) => {
             const { duration, currentTime } = event.srcElement;
             let progressPercent = (currentTime / duration) * 100;
-
             // calculate Total Duration of a Song
-            const durationMinute = Math.floor(duration / 60);            // minutes
-            let durationSeconds = Math.floor((duration % 60));           // Seconds
-            if (durationSeconds < 10)
-                durationSeconds = `0${durationSeconds}`;                 // to make 1 as 01
-
+            const durationTime = calculateDurationTime(duration)
             // calculate current time of a song
-            const currentMinute = Math.floor(currentTime / 60);          // minutes
-            let currentSeconds = Math.floor((currentTime % 60));         // minutes
-            if (currentSeconds < 10)
-                currentSeconds = `0${currentSeconds}`;
+            const currentRunningTime = calculateCurrentTime(currentTime)
 
-            setCurrentTime(progressPercent)
-            setDisplayCurrentTime(`${currentMinute}:${currentSeconds}`)
-            setdisplayDurationTime(`${durationMinute}:${durationSeconds}`)
+            setContinuousTime(progressPercent)
+            setDisplayCurrentTime(currentRunningTime)
+            setDisplayDurationTime(durationTime)
         }
-
-    }, [])
+    }, [audioRef])
 
     const songProgressChanged = (event, value) => {
         const newProgressSeconds = (value / 100) * audioRef.current.duration;
         audioRef.current.currentTime = newProgressSeconds
-        setCurrentTime(newProgressSeconds)
+        setContinuousTime(newProgressSeconds)
     }
 
     return (
@@ -64,7 +56,7 @@ function Player() {
 
             <div className="player__progress">
                 <Slider color="secondary"
-                    value={currentTime}
+                    value={continuousTime}
                     onChangeCommitted={songProgressChanged}
                 />
             </div>
@@ -83,7 +75,7 @@ function Player() {
                         <SkipPreviousRoundedIcon />
                     </IconButton>
 
-                    <IconButton onClick={playPauseSong} className="player__iconButton">
+                    <IconButton onClick={playPauseSong} className="player__iconButton player__mainBtn">
                         {playing ?
                             <PauseCircleOutlineRoundedIcon /> :
                             <PlayCircleFilledWhiteOutlinedIcon />
