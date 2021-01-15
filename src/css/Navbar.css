@@ -1,0 +1,38 @@
+.navbar{
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar__logo,
+.navbar__avatar{
+    object-fit: contain;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.navbar__center{
+    display: flex;
+}
+
+.navbar__link{
+    color: whitesmoke;
+    display: block;
+    margin: 0 1rem;
+    font-weight: 500;
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+.navbar__link--active{
+    opacity: 1;
+}
+
+.navbar__link:hover{
+    color: white;
+    transform: scale(1.05);
+}
