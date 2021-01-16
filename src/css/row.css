@@ -39,6 +39,8 @@
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
+    transition: all 0.5s ease;
+    scroll-behavior: smooth;
 }
 
 .row__songs::-webkit-scrollbar {
@@ -47,4 +49,13 @@
 .row__songs {
     -ms-overflow-style: none; 
     scrollbar-width: none;  
+}
+
+@media screen and (max-width:450px){
+    .row__songs{
+        overflow-x: scroll;
+    }
+    .row__leftButtonDiv,.row__rightButtonDiv{
+        display: none;
+    }
 }
