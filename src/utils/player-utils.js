@@ -18,7 +18,7 @@ export function calculateCurrentTime(currentTime) {
     return `${currentMinute}:${currentSeconds}`
 }
 
-const songList = [{
+export const songList = [{
     name: 'paris',
     artist: 'Chainsmokers',
     url: 'https://data.mymp3app.com/320/the-chainsmokers-paris-lyric.mp3',

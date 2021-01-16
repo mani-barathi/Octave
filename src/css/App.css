@@ -1,6 +1,8 @@
 :root{
     --bgColor : #212121;
     --playerBgColor:#424242;
+    --songBgColor:#292929;
+    --songHoverBgColor:#393939;
     --textColor: whitesmoke;
 }
 .app{
@@ -21,6 +23,8 @@
     flex: 1;
     width: 100%;
     max-width: 1300px;
+    overflow-y: scroll;
+    padding-bottom: 5rem;
 }
 
 .app__window::-webkit-scrollbar {

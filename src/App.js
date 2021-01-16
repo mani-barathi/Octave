@@ -2,6 +2,7 @@ import './css/App.css';
 import Navbar from "./components/Navbar"
 import Player from "./components/Player"
 import Login from "./components/Login"
+import Home from "./components/Home"
 
 function App() {
   const user = 'mani'
@@ -13,7 +14,7 @@ function App() {
           <>
             <Navbar />
             <div className="app__window">
-              {/* Main */}
+              <Home />
               {/* playlist */}
               {/* Explore */}
             </div>

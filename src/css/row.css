@@ -1,0 +1,50 @@
+.row{
+    margin-top: 1rem;
+}
+
+.row__songsContainer{
+    position: relative;
+}
+
+.row__leftButtonDiv{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.row__rightButtonDiv{
+    position: absolute;
+    top: 50%;
+    right: -0;
+    transform: translateY(-50%);
+}
+
+.row__icon{
+    background-color: rgba(211, 211, 211, 0.7) !important;
+    color: black !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+}
+.row__icon:hover{
+    background-color: rgba(211, 211, 211, 0.9) !important;
+}
+.row__icon:active{
+    transform: scale(0.9) !important;
+}
+
+.row__songs{
+    padding: 0 1rem;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.row__songs::-webkit-scrollbar {
+    display: none;
+}
+.row__songs {
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+}
