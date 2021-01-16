@@ -14,35 +14,6 @@ function Player() {
     const [currentSong, setCurrentSong] = useState(null)
     const audioRef = useRef(null)
 
-    const setupMediaSessions = () => {
-        if ("mediaSession" in navigator) {
-            console.log("navigator setupped");
-
-            navigator.mediaSession.metadata = new window.MediaMetadata({
-                title: currentSong?.name,
-                artist: currentSong?.artist,
-                artwork: [
-                    {
-                        src: currentSong?.imageUrl,
-                        sizes: "100x100",
-                        type: "image/png"
-                    }
-                ]
-            });
-            navigator.mediaSession.setActionHandler("play", () => {
-                playSong()
-            });
-            navigator.mediaSession.setActionHandler("pause", () => {
-                pauseSong()
-            });
-            navigator.mediaSession.setActionHandler("previoustrack", () => {
-                // playPrevious();
-            });
-            navigator.mediaSession.setActionHandler("nexttrack", () => {
-                playNextSong();
-            });
-        }
-    };
 
     const playPauseSong = () => {
         if (!currentSong)
@@ -57,25 +28,55 @@ function Player() {
         }
     }
 
-    const playSong = async () => {
-        console.log('This is playSong()')
+    const playSongByMediaSession = async () => {
+        console.log('This is playSongByMediaSession()')
         await audioRef.current.play()
         navigator.mediaSession.playbackState = "playing"
         setPlaying(true)
     }
 
-    const pauseSong = async () => {
-        console.log('This is pauseSong()')
+    const pauseSongByMediaSession = async () => {
+        console.log('This is pauseSongByMediaSession()')
         await audioRef.current.pause()
         navigator.mediaSession.playbackState = "paused";
         setPlaying(false)
     }
 
     const playNextSong = useCallback(() => {
-        console.log('next song function')
+        console.log('This is playNextSong()')
         const newSong = getRandomSong()
         setCurrentSong(newSong)
     }, [])
+
+    // MediaSession docs -> https://developer.mozilla.org/en-US/docs/Web/API/MediaSession
+    const setupMediaSession = useCallback(() => {
+        if ("mediaSession" in navigator) {
+            console.log("Navigator is setup")
+
+            navigator.mediaSession.metadata = new window.MediaMetadata({
+                title: currentSong.name,
+                artist: currentSong.artist,
+                artwork: [
+                    {
+                        src: currentSong.imageUrl,
+                        type: "image/png"
+                    }
+                ]
+            })
+            navigator.mediaSession.setActionHandler("play", () => {
+                playSongByMediaSession()
+            })
+            navigator.mediaSession.setActionHandler("pause", () => {
+                pauseSongByMediaSession()
+            })
+            navigator.mediaSession.setActionHandler("previoustrack", () => {
+                // playPrevious()
+            })
+            navigator.mediaSession.setActionHandler("nexttrack", () => {
+                playNextSong()
+            })
+        }
+    }, [currentSong, playNextSong])
 
     // When the audio element is rendered on the screen, this function gets executed
     const audioElementCallbackRef = useCallback((node) => {
@@ -96,16 +97,16 @@ function Player() {
             playNextSong()
             setPlaying(true)
         }
-
-        audioRef.current.onloadeddata = () => {
-            audioRef.current.play()
+        // can also use oncanplay
+        audioRef.current.onloadeddata = async () => {
+            await audioRef.current.play()
             setPlaying(true)
-            setupMediaSessions()
+            setupMediaSession()
             const durationTime = calculateDurationTime(audioRef.current.duration)
             setDisplayDurationTime(durationTime)
         }
 
-    }, [audioRef, playNextSong, setupMediaSessions])
+    }, [audioRef, playNextSong, setupMediaSession])
 
     const songProgressChanged = useCallback((event, value) => {
         if (!currentSong) return

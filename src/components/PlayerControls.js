@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined';
 import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutlineRounded';
@@ -7,9 +7,6 @@ import SkipNextRoundedIcon from '@material-ui/icons/SkipNextRounded';
 import { IconButton } from '@material-ui/core';
 
 function PlayerControls({ playPauseSong, playing, playNextSong }) {
-    useEffect(() => {
-        console.log("from controls component")
-    }, [])
     return (
         <div className="playercontrols">
             <IconButton className="player__iconButton">
