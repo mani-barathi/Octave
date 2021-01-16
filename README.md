@@ -2,7 +2,7 @@
 Developing a Web based Music Streaming App using ReactJs.
 
 ### Currenly Working on 👇
-    * player functionalities such as moving to next, previous tracks.
+* player functionalities such as moving to next, previous tracks.
 
 ### Technology Used
 * **React** (FrontEnd)

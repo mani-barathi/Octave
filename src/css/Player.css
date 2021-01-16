@@ -24,10 +24,11 @@
 
 .player__song{
     display: flex;
+    align-items: center;
 }
 
 .song__infoImage{
-    object-fit: contain;
+    object-fit: cover;
     width: 3rem;
     height: 3rem;
     border-radius: 5px;
@@ -43,7 +44,7 @@
     font-size: 0.8rem;
 }
 
-/* Controls--------------------------------------- */
+/* PlayerControls     --------------------------------------- */
 .player__iconButton{
     color:whitesmoke !important;
 }
@@ -59,6 +60,10 @@
 
 @media screen and (max-width:450px){
     .player__duration{
-        font-size: 0.8rem;
+        font-size: 0.9rem;
+    }
+    .song__infoImage{
+        height: 2.2rem;
+        width: 2.2rem;
     }
 }
