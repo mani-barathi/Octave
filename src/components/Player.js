@@ -1,11 +1,12 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react'
 import "../css/Player.css"
+import PlayerControls from './PlayerControls';
 
 import { Slider } from '@material-ui/core';
 
 import { calculateDurationTime, calculateCurrentTime, getRandomSong } from "../utils/player-utils"
 import { setRecentSongsLocalStorage } from "../utils/home-utils"
-import PlayerControls from './PlayerControls';
+import { useStateValue } from "../context/StateProvider"
 
 function Player() {
     const [playing, setPlaying] = useState(0)
@@ -14,11 +15,19 @@ function Player() {
     const [displayDurationTime, setDisplayDurationTime] = useState('0:00')
     const [currentSong, setCurrentSong] = useState(null)
     const audioRef = useRef(null)
+    const [{ newSong }] = useStateValue()
 
     useEffect(() => {
         if (currentSong)
             setRecentSongsLocalStorage(currentSong)
     }, [currentSong])
+
+    useEffect(() => {
+        if (newSong) {
+            console.log(newSong)
+            setCurrentSong(newSong)
+        }
+    }, [newSong])
 
     // playing  0 -> paused  | 1 -> playing  | -1 -> loading
     const playPauseSong = () => {
@@ -40,14 +49,14 @@ function Player() {
         console.log('This is playSongByMediaSession()')
         await audioRef.current.play()
         navigator.mediaSession.playbackState = "playing"
-        setPlaying(true)
+        setPlaying(1)
     }
 
     const pauseSongByMediaSession = async () => {
         console.log('This is pauseSongByMediaSession()')
         await audioRef.current.pause()
         navigator.mediaSession.playbackState = "paused";
-        setPlaying(false)
+        setPlaying(0)
     }
 
     const playNextSong = useCallback(() => {

@@ -2,9 +2,9 @@
 Developing a Web based Music Streaming App using ReactJs.
 
 ### Currenly Working on 👇
-- [ ] Playing that particular song when clicked
+- [ ] Creating Global Context and reducers
+- [x] ~Playing that particular song when clicked~
 - [x] ~Saving recenty played song to localStorage~
-- [x] ~Scroll functionality of SongRows~
 
 ### Design Preview
 <img src="https://github.com/mani-barathi/Music-Streaming-App/blob/master/public/preview.JPG" />
