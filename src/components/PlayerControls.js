@@ -4,7 +4,7 @@ import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFill
 import PauseCircleOutlineRoundedIcon from '@material-ui/icons/PauseCircleOutlineRounded';
 import SkipPreviousRoundedIcon from '@material-ui/icons/SkipPreviousRounded';
 import SkipNextRoundedIcon from '@material-ui/icons/SkipNextRounded';
-import { IconButton } from '@material-ui/core';
+import { IconButton, CircularProgress } from '@material-ui/core';
 
 function PlayerControls({ playPauseSong, playing, playNextSong }) {
     return (
@@ -14,9 +14,11 @@ function PlayerControls({ playPauseSong, playing, playNextSong }) {
             </IconButton>
 
             <IconButton onClick={playPauseSong} className="player__iconButton player__mainBtn">
-                {playing ?
+                {playing === 1 ?
                     <PauseCircleOutlineRoundedIcon /> :
-                    <PlayCircleFilledWhiteOutlinedIcon />
+                    playing === 0 ?
+                        <PlayCircleFilledWhiteOutlinedIcon /> :
+                        <CircularProgress size={20} color="secondary" />
                 }
             </IconButton>
 

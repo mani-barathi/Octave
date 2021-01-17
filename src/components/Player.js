@@ -8,7 +8,7 @@ import { setRecentSongsLocalStorage } from "../utils/home-utils"
 import PlayerControls from './PlayerControls';
 
 function Player() {
-    const [playing, setPlaying] = useState(false)
+    const [playing, setPlaying] = useState(0)
     const [continuousTime, setContinuousTime] = useState(0)
     const [displayCurrentTime, setDisplayCurrentTime] = useState('0:00')
     const [displayDurationTime, setDisplayDurationTime] = useState('0:00')
@@ -20,16 +20,19 @@ function Player() {
             setRecentSongsLocalStorage(currentSong)
     }, [currentSong])
 
+    // playing  0 -> paused  | 1 -> playing  | -1 -> loading
     const playPauseSong = () => {
-        if (!currentSong)
+        if (!currentSong) {
             playNextSong()
+            return
+        }
 
-        if (playing) {
+        if (playing === 1) {
             audioRef.current.pause()
-            setPlaying(false)
+            setPlaying(0)
         } else {
             audioRef.current.play()
-            setPlaying(true)
+            setPlaying(1)
         }
     }
 
@@ -51,6 +54,7 @@ function Player() {
         console.log('This is playNextSong()')
         const newSong = getRandomSong()
         setCurrentSong(newSong)
+        setPlaying(-1)
     }, [])
 
     // MediaSession docs -> https://developer.mozilla.org/en-US/docs/Web/API/MediaSession
@@ -98,14 +102,14 @@ function Player() {
         }
 
         audioRef.current.onended = () => {
-            setPlaying(false)
+            setPlaying(0)
             playNextSong()
-            setPlaying(true)
+            // setPlaying(1)
         }
         // can also use oncanplay
         audioRef.current.onloadeddata = async () => {
             await audioRef.current.play()
-            setPlaying(true)
+            setPlaying(1)
             setupMediaSession()
             const durationTime = calculateDurationTime(audioRef.current.duration)
             setDisplayDurationTime(durationTime)
