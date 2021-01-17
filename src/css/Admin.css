@@ -1,0 +1,29 @@
+.admin{
+    border-radius: 5px;
+    background-color: rgba(245, 245, 245, 0.377);
+}
+.admin__form{
+    padding: 1rem;
+}
+
+.admin__form > input{
+    margin: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.admin__form > label{
+    margin-left:0.5rem;
+}
+
+.admin__form > .MuiButtonBase-root ,.MuiInputBase-root {
+    margin-left: 0.5rem !important;
+}
+
+.admin__formInput{
+    display: block;
+    padding: 0.5rem 0.7rem;
+    width: 100%;
+    font-size: 1rem;
+    border-radius: 3px;
+    box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.233);
+}

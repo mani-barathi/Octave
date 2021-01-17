@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import "../css/row.css"
+import Song from "./Song"
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
-import Song from "./Song"
-import { songList } from "../utils/player-utils"
+import { db } from "../firebase"
 
 function NewReleases() {
     const [isLeftBtn, setIsLeftBtn] = useState(false)
@@ -14,12 +14,25 @@ function NewReleases() {
     const rowRef = useRef()
 
     useEffect(() => {
+        db.collection('songs').orderBy('createdAt', 'desc').limit(10).get()
+            .then(snapshot => {
+                setNewReleases(
+                    snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        data: doc.data()
+                    }))                 // end of map()
+                )                       // end of setNewReleases()
+            })
+    }, [])
+
+
+    useEffect(() => {
         window.addEventListener('resize', toggleButtonOnWindowResize)
-        setNewReleases(songList)
         return () => window.removeEventListener('resize', toggleButtonOnWindowResize)
     }, [])
 
     const toggleButtonOnWindowResize = () => {
+        if (!rowRef.current) return
         if (rowRef.current.scrollWidth - rowRef.current.offsetWidth > 0) setIsRightBtn(true)
         else setIsRightBtn(false)
 
@@ -61,9 +74,9 @@ function NewReleases() {
                 <div ref={rowRef} className="row__songs">
                     {newReleases.map((song, index) => (
                         (newReleases.length === index + 1) ? (
-                            <div key={index} ref={lastSongRef}> <Song key={index} data={song} /> </div>
+                            <div key={song.id} ref={lastSongRef}> <Song key={song.id} data={song.data} /> </div>
                         ) : (
-                                <Song key={index} data={song} />
+                                <Song key={song.id} data={song.data} />
                             )
                     )
                     )}

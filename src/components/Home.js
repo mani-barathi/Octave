@@ -2,6 +2,7 @@ import React from 'react'
 import "../css/Home.css"
 import RecentlyListened from "./RecentlyListened"
 import NewReleases from "./NewReleases"
+import Admin from "./Admin"
 
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { getRandomWelcomeText } from "../utils/home-utils"
@@ -20,7 +21,9 @@ function Home() {
 
             <RecentlyListened />
             <NewReleases />
-            {/* Randomiszed Suggestion */}
+            {/* Randomiszed Suggestion  */}
+
+            {/* <Admin /> */}
 
         </div>
     )

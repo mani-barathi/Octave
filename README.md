@@ -1,8 +1,11 @@
 # Music Streaming App
-Developing a Web based Music Streaming App using ReactJs.
+Developing a Web based Music Streaming App using ReactJs and Firebase
+
+**Click [Here](https://music-streaming-app-4a392.web.app/) to the Demo!**
 
 ### Currenly Working on 👇
-- [ ] Creating Global Context and reducers
+- [ ] Fetching Songs from Firebase
+- [x] Creating Global Context and reducers
 - [x] ~Playing that particular song when clicked~
 - [x] ~Saving recenty played song to localStorage~
 
@@ -12,6 +15,9 @@ Developing a Web based Music Streaming App using ReactJs.
 ### Technology Used
 * **React** (FrontEnd)
     * **Material-UI** - For Icons and prebuilt Components
+* **Firebase** - Baas (Backend as a Service)
+    * **Firestore** - NoSQL database
+    * **Storage** - Cloud Storage for uploading and serving Songs
 
 ### To run this on Local machine
 * Clone the repo, and cd into it
