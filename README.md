@@ -4,6 +4,9 @@ Developing a Web based Music Streaming App using ReactJs.
 ### Currenly Working on 👇
 * Scroll functionality of SongRows
 
+### Design Preview
+<img src="./public/preview.jpg" />
+
 ### Technology Used
 * **React** (FrontEnd)
     * **Material-UI** - For using some Icons and prebuilt Components
