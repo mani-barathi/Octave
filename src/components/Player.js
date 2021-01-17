@@ -1,9 +1,10 @@
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useState, useCallback, useEffect } from 'react'
 import "../css/Player.css"
 
 import { Slider } from '@material-ui/core';
 
 import { calculateDurationTime, calculateCurrentTime, getRandomSong } from "../utils/player-utils"
+import { setRecentSongsLocalStorage } from "../utils/home-utils"
 import PlayerControls from './PlayerControls';
 
 function Player() {
@@ -14,6 +15,10 @@ function Player() {
     const [currentSong, setCurrentSong] = useState(null)
     const audioRef = useRef(null)
 
+    useEffect(() => {
+        if (currentSong)
+            setRecentSongsLocalStorage(currentSong)
+    }, [currentSong])
 
     const playPauseSong = () => {
         if (!currentSong)
