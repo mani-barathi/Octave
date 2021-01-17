@@ -5,7 +5,7 @@ Developing a Web based Music Streaming App using ReactJs.
 * Scroll functionality of SongRows
 
 ### Design Preview
-<img src="./public/preview.jpg" />
+<img src="https://github.com/mani-barathi/Music-Streaming-App/blob/master/public/preview.JPG" />
 
 ### Technology Used
 * **React** (FrontEnd)
