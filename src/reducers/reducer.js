@@ -1,6 +1,7 @@
 export const intialState = {
     user: 'john',
     newSong: null,
+    nextSong: null,
 }
 
 export const reducer = (state, action) => {

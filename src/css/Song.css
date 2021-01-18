@@ -8,7 +8,8 @@
     background-color: var(--songBgColor);
     border-radius: 10px;
     transition: 0.3s ease;
-    cursor: pointer;
+    position: relative;
+    user-select: none;
 }
 .song:hover{
     background-color: var(--songHoverBgColor);
@@ -28,4 +29,41 @@
 .song__artist{
     text-overflow: ellipsis;
     font-size: 0.8rem;
+}
+
+.song__playButton{
+    position: absolute;
+    bottom:70px;
+    right: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0px 5px 17px 0px rgba(50, 50, 50, 0.63);
+    transition: 0.2s ease;
+}
+.song__playButton:hover{
+    transform:scale(1.1);
+}
+
+.song__playIcon{
+    transform: scale(2);
+    padding: 0 !important;
+    font-size: 2rem ;
+}
+
+.song__option{
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+}
+
+.song__optionIcon{
+    color: rgb(158, 158, 158) !important;
+}
+
+.song__optionIcon:hover{
+    color: white !important;
+}
+
+.song__optionItem{
+    font-size: 0.8rem !important;
 }

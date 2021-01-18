@@ -1,12 +1,12 @@
 import React from 'react'
 import "../css/Home.css"
 import RecentlyListened from "./RecentlyListened"
-import NewReleases from "./NewReleases"
-import Admin from "./Admin"
+// import NewReleases from "./NewReleases"
+// import Admin from "./Admin"
 
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import { getRandomWelcomeText } from "../utils/home-utils"
 
+import { getRandomWelcomeText } from "../utils/home-utils"
 import { useStateValue } from "../context/StateProvider"
 
 function Home() {
@@ -20,7 +20,8 @@ function Home() {
             </h1>
 
             <RecentlyListened />
-            <NewReleases />
+            <RecentlyListened />
+            {/* <NewReleases /> */}
             {/* Randomiszed Suggestion  */}
 
             {/* <Admin /> */}
