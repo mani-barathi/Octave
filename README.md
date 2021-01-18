@@ -19,6 +19,7 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
 ### Technology Used
 * **React** (FrontEnd)
     * **Material-UI** - For Icons and prebuilt Components
+    * **react-router-dom** - To manage routing between different pages(Home, Library, Search)
 * **Firebase** - Baas (Backend as a Service)
     * **Firestore** - NoSQL database
     * **Storage** - Cloud Storage for uploading and serving Songs

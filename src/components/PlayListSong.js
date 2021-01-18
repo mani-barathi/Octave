@@ -5,42 +5,19 @@ import { IconButton, Menu, MenuItem } from "@material-ui/core"
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
-import { useStateValue } from "../context/StateProvider"
+import useSongFunctions from '../hooks/useSongFunctions';
 
 function Song({ data }) {
-    const [, dispatch] = useStateValue()
     const [anchorEl, setAnchorEl] = useState(null);
-
-    const playSong = () => {
-        dispatch({
-            type: 'SET_NEW_SONG',
-            newSong: data
-        })
-    }
-
-    const playNext = () => {
-        dispatch({
-            type: 'SET_NEXT_SONG',
-            nextSong: data
-        })
-        setAnchorEl(false)
-    }
-
-    const addToQueue = () => {
-
-        setAnchorEl(false)
-    }
+    const [playSong, playNext, addToQueue] = useSongFunctions(data, setAnchorEl)
 
     const removeSong = () => {
-        let favourites = JSON.parse(localStorage.getItem('FAVOURITES'))
-        favourites = (favourites) ? favourites : []
-        localStorage.setItem('FAVOURITES', JSON.stringify([data, ...favourites]))
+        console.log("This is removeSong()")
         setAnchorEl(false)
     }
 
     const openOptions = (event) => {
         setAnchorEl(event.currentTarget)
-        event.stopPropagation()
     }
 
     return (
