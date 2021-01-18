@@ -18,27 +18,4 @@ export function calculateCurrentTime(currentTime) {
     return `${currentMinute}:${currentSeconds}`
 }
 
-export const songList = [{
-    name: 'paris',
-    artist: 'Chainsmokers',
-    url: 'https://data.mymp3app.com/320/the-chainsmokers-paris-lyric.mp3',
-    imageUrl: 'https://i1.sndcdn.com/artworks-000241607187-d5elh4-t500x500.jpg',
-},
-{
-    name: 'Bujji',
-    artist: 'Anirudh',
-    url: 'https://dslink.xyz/Masstamilan.In/Jagame%20Thanthiram/Bujji-Masstamilan.In.mp3',
-    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcgqVN3Iy5Y4XJeXK10n0o4_GZ_YfGE35JtQ&usqp=CAU',
-},
-{
-    name: 'This Feeling',
-    artist: 'Chainsmokers',
-    url: 'https://data.mymp3app.com/320/the-chainsmokers-this-feeling-ft.-kelsea-ballerini-lyric.mp3',
-    imageUrl: 'https://i1.sndcdn.com/artworks-000241607187-d5elh4-t500x500.jpg',
-}
-]
 
-export function getRandomSong() {
-    const randomIndex = Math.floor(Math.random() * songList.length)
-    return songList[randomIndex]
-}

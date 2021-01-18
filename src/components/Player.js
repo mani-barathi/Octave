@@ -5,7 +5,7 @@ import PlayerControls from './PlayerControls';
 import { Slider } from '@material-ui/core';
 
 import { calculateDurationTime, calculateCurrentTime } from "../utils/player-utils"
-import { setRecentSongsLocalStorage } from "../utils/home-utils"
+import { setRecentSongsLocalStorage } from "../utils/song-utils"
 import { useStateValue } from "../context/StateProvider"
 
 function Player() {
@@ -18,9 +18,15 @@ function Player() {
     const [{ newSong, nextSong }, dispatch] = useStateValue()
 
     useEffect(() => {
-        if (currentSong)
+        if (currentSong) {
+            dispatch({
+                type: 'ADD_SONG_TO_SONGLIST',
+                song: currentSong
+            })
+            document.title = `${currentSong.name} (${currentSong.artist}) | Music App`
             setRecentSongsLocalStorage(currentSong)
-    }, [currentSong])
+        }
+    }, [currentSong, dispatch])
 
     useEffect(() => {
         if (newSong) {
@@ -64,7 +70,7 @@ function Player() {
         if (nextSong) {
             setCurrentSong(nextSong)
             console.log("There is a next Song", nextSong.name)
-            dispatch({ type: 'SET_NEXT_SONG', nextSong: null })
+            dispatch({ type: 'RESET_NEXT_SONG', nextSong: null })
         } else {
             console.log("No next song")
         }
@@ -77,8 +83,6 @@ function Player() {
     // MediaSession docs -> https://developer.mozilla.org/en-US/docs/Web/API/MediaSession
     const setupMediaSession = useCallback(() => {
         if ("mediaSession" in navigator) {
-            console.log("Navigator is setup")
-
             navigator.mediaSession.metadata = new window.MediaMetadata({
                 title: currentSong.name,
                 artist: currentSong.artist,

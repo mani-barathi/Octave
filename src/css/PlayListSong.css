@@ -1,0 +1,45 @@
+.playlistsong{
+    background-color: var(--songBgColor);
+    display: flex;
+    padding: 0.5rem;
+    align-items: center ;
+    margin: 0.5rem;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 400px;
+    user-select: none;
+    position: relative;
+}
+
+.playlistsong:hover{
+    background-color: var(--songHoverBgColor);
+}
+
+.playlistsong__img{
+    border-radius: 3px;
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+}
+
+.playlistsong__info{
+    margin-left: 0.5rem;
+    flex: 1;
+}
+
+.playlistsong__infoArtist{
+    font-size: 0.8rem;
+}
+
+.playlistsong__optionsIcon{
+    color: rgb(158, 158, 158) !important;
+}
+
+.playlistsong__optionsIcon:hover{
+    color: white !important;
+}
+
+.playlistsong__optionsItem{
+    font-size: 0.8rem !important;
+}

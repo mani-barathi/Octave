@@ -6,7 +6,7 @@ import RecentlyListened from "./RecentlyListened"
 
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
-import { getRandomWelcomeText } from "../utils/home-utils"
+import { getRandomWelcomeText } from "../utils/utils"
 import { useStateValue } from "../context/StateProvider"
 
 function Home() {

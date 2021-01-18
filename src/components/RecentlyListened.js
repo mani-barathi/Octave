@@ -5,7 +5,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
 import Song from "./Song"
-import { getRecentSongsLocalStorage } from "../utils/home-utils"
+import { getRecentSongsLocalStorage } from "../utils/song-utils"
 
 
 
