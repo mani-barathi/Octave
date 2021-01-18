@@ -2,6 +2,7 @@ export const intialState = {
     user: 'john',
     newSong: null,
     nextSong: null,
+    songList: []
 }
 
 export const reducer = (state, action) => {
@@ -19,6 +20,13 @@ export const reducer = (state, action) => {
                 ...state,
                 newSong: action.newSong
             }
+
+        case 'SET_NEXT_SONG':
+            return {
+                ...state,
+                nextSong: action.nextSong
+            }
+
         default:
             return state
     }

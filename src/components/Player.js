@@ -4,7 +4,7 @@ import PlayerControls from './PlayerControls';
 
 import { Slider } from '@material-ui/core';
 
-import { calculateDurationTime, calculateCurrentTime, getRandomSong } from "../utils/player-utils"
+import { calculateDurationTime, calculateCurrentTime } from "../utils/player-utils"
 import { setRecentSongsLocalStorage } from "../utils/home-utils"
 import { useStateValue } from "../context/StateProvider"
 
@@ -15,7 +15,7 @@ function Player() {
     const [displayDurationTime, setDisplayDurationTime] = useState('0:00')
     const [currentSong, setCurrentSong] = useState(null)
     const audioRef = useRef(null)
-    const [{ newSong }] = useStateValue()
+    const [{ newSong, nextSong }, dispatch] = useStateValue()
 
     useEffect(() => {
         if (currentSong)
@@ -24,7 +24,7 @@ function Player() {
 
     useEffect(() => {
         if (newSong) {
-            console.log(newSong)
+            console.log("Currently Playing: ", newSong.name)
             setCurrentSong(newSong)
         }
     }, [newSong])
@@ -61,9 +61,17 @@ function Player() {
 
     const playNextSong = useCallback(() => {
         console.log('This is playNextSong()')
-        const newSong = getRandomSong()
-        setCurrentSong(newSong)
-        setPlaying(-1)
+        if (nextSong) {
+            setCurrentSong(nextSong)
+            console.log("There is a next Song", nextSong.name)
+            dispatch({ type: 'SET_NEXT_SONG', nextSong: null })
+        } else {
+            console.log("No next song")
+        }
+    }, [dispatch, nextSong])
+
+    const playPreviousSong = useCallback(() => {
+        console.log('This is playPreviousSong()')
     }, [])
 
     // MediaSession docs -> https://developer.mozilla.org/en-US/docs/Web/API/MediaSession
@@ -115,6 +123,7 @@ function Player() {
             playNextSong()
             // setPlaying(1)
         }
+
         // can also use oncanplay
         audioRef.current.onloadeddata = async () => {
             await audioRef.current.play()
@@ -156,6 +165,7 @@ function Player() {
                     playPauseSong={playPauseSong}
                     playing={playing}
                     playNextSong={playNextSong}
+                    playPreviousSong={playPreviousSong}
                 />
 
                 <div className="player__duration">

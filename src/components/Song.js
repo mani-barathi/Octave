@@ -18,6 +18,24 @@ function Song({ data }) {
         })
     }
 
+    const playNext = () => {
+        dispatch({
+            type: 'SET_NEXT_SONG',
+            nextSong: data
+        })
+        setAnchorEl(false)
+    }
+
+    const addToQueue = () => {
+
+        setAnchorEl(false)
+    }
+
+    const addToFavourites = () => {
+
+        setAnchorEl(false)
+    }
+
     const openOptions = (event) => {
         setAnchorEl(event.currentTarget)
     }
@@ -46,9 +64,9 @@ function Song({ data }) {
                     open={Boolean(anchorEl)}
                     onClose={() => setAnchorEl(false)}
                 >
-                    <MenuItem className="song__optionItem" onClick={() => setAnchorEl(false)}>Play Next</MenuItem>
-                    <MenuItem className="song__optionItem" onClick={() => setAnchorEl(false)}>Add to Queue</MenuItem>
-                    <MenuItem className="song__optionItem" onClick={() => setAnchorEl(false)}>Add To Favourites</MenuItem>
+                    <MenuItem className="song__optionItem" onClick={playNext}>Play Next</MenuItem>
+                    <MenuItem className="song__optionItem" onClick={addToQueue}>Add to Queue</MenuItem>
+                    <MenuItem className="song__optionItem" onClick={addToFavourites}>Add To Favourites</MenuItem>
                 </Menu>
             </div>
 
