@@ -1,7 +1,7 @@
 import React from 'react'
 import "../css/Home.css"
 import RecentlyListened from "./RecentlyListened"
-// import NewReleases from "./NewReleases"
+import NewReleases from "./NewReleases"
 // import Admin from "./Admin"
 
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -21,7 +21,7 @@ function Home() {
 
             <RecentlyListened />
             <RecentlyListened />
-            {/* <NewReleases /> */}
+            <NewReleases />
             {/* Randomiszed Suggestion  */}
 
             {/* <Admin /> */}

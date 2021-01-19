@@ -1,10 +1,8 @@
-import { addSongtoList } from "../utils/reducer-utils"
-
 export const intialState = {
     user: 'john',
     newSong: null,
     nextSong: null,
-    songList: []
+    isSongListOpen: false
 }
 
 export const reducer = (state, action) => {
@@ -28,16 +26,6 @@ export const reducer = (state, action) => {
                 ...state,
                 nextSong: action.nextSong
             }
-
-        case 'RESET_NEXT_SONG':
-            return { ...state, nextSong: null }
-
-
-        case 'ADD_SONG_TO_SONGLIST':
-            return addSongtoList(state, action.song)
-
-        case 'ADD_SONG_TO_QUEUE':
-            return addSongtoList(state, action.queueSong)
 
         default:
             return state

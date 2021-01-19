@@ -1,6 +1,4 @@
 import './css/App.css';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-
 import Navbar from "./components/Navbar"
 import Player from "./components/Player"
 import Login from "./components/Login"
@@ -9,6 +7,7 @@ import Library from "./components/Library"
 import PlayList from "./components/PlayList"
 import Search from "./components/Search"
 
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { useStateValue } from "./context/StateProvider"
 
 function App() {

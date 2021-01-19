@@ -1,8 +1,10 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react'
 import "../css/Player.css"
-import PlayerControls from './PlayerControls';
+import PlayerControls from './PlayerControls'
+import ToggleSongListBtn from './ToggleSongListBtn'
+import SongList from './SongList';
 
-import { Slider } from '@material-ui/core';
+import { Slider } from '@material-ui/core'
 
 import { calculateDurationTime, calculateCurrentTime } from "../utils/player-utils"
 import { setRecentSongsLocalStorage } from "../utils/song-utils"
@@ -14,16 +16,15 @@ function Player() {
     const [displayCurrentTime, setDisplayCurrentTime] = useState('0:00')
     const [displayDurationTime, setDisplayDurationTime] = useState('0:00')
     const [currentSong, setCurrentSong] = useState(null)
+    const [isSongListOpen, setIsSongListOpen] = useState(false)
+    const [songs, setSongs] = useState([])
     const audioRef = useRef(null)
     const [{ newSong, nextSong }, dispatch] = useStateValue()
 
     useEffect(() => {
         if (currentSong) {
-            dispatch({
-                type: 'ADD_SONG_TO_SONGLIST',
-                song: currentSong
-            })
             document.title = `${currentSong.name} (${currentSong.artist}) | Music App`
+            setSongs(prev => [...prev, currentSong])
             setRecentSongsLocalStorage(currentSong)
         }
     }, [currentSong, dispatch])
@@ -34,6 +35,7 @@ function Player() {
             setCurrentSong(newSong)
         }
     }, [newSong])
+
 
     // playing  0 -> paused  | 1 -> playing  | -1 -> loading
     const playPauseSong = () => {
@@ -70,7 +72,7 @@ function Player() {
         if (nextSong) {
             setCurrentSong(nextSong)
             console.log("There is a next Song", nextSong.name)
-            dispatch({ type: 'RESET_NEXT_SONG', nextSong: null })
+            dispatch({ type: 'SET_NEXT_SONG', nextSong: null })
         } else {
             console.log("No next song")
         }
@@ -149,6 +151,8 @@ function Player() {
     return (
         <div className="player">
 
+            {isSongListOpen && <SongList songs={songs} setIsSongListOpen={setIsSongListOpen} />}
+
             <div className="player__progress">
                 <Slider color="secondary"
                     value={continuousTime}
@@ -172,10 +176,14 @@ function Player() {
                     playPreviousSong={playPreviousSong}
                 />
 
-                <div className="player__duration">
-                    <span className="duration__current">{displayCurrentTime}</span>
-                    <span>/</span>
-                    <span className="duration__total">{displayDurationTime}</span>
+                <div className="player__left">
+                    <ToggleSongListBtn setIsSongListOpen={setIsSongListOpen} />
+
+                    <div className="player__duration">
+                        <span className="duration__current">{displayCurrentTime}</span>
+                        <span>/</span>
+                        <span className="duration__total">{displayDurationTime}</span>
+                    </div>
                 </div>
             </div>
 

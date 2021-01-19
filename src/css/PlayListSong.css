@@ -7,7 +7,7 @@
     border-radius: 3px;
     transition: all 0.3s ease;
     width: 100%;
-    max-width: 400px;
+    max-width: 300px;
     user-select: none;
     position: relative;
 }
@@ -43,3 +43,9 @@
 .playlistsong__optionsItem{
     font-size: 0.8rem !important;
 }
+
+@media screen and (max-width:500px){
+    .playlistsong{
+      max-width: 100%;
+    }
+  }
