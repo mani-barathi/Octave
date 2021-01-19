@@ -25,6 +25,10 @@
   flex-direction: column;
 }
 
+.songlist > h4{
+  margin-left: 1rem;
+}
+
 .songlist__header{
   padding: 0 0.5rem;
   display: flex;

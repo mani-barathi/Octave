@@ -20,7 +20,6 @@ function Home() {
             </h1>
 
             <RecentlyListened />
-            <RecentlyListened />
             <NewReleases />
             {/* Randomiszed Suggestion  */}
 

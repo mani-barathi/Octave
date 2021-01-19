@@ -46,9 +46,53 @@ export function getSongSessionStorage() {
     return (songs) ? songs : []
 }
 
-export function setSongessionStorage(currentSong) {
+export function setSongSessionStorage(currentSong) {
     let songs = getSongSessionStorage()
     songs = songs.filter((song) => song.name !== currentSong.name)
     songs.push(currentSong)
     sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
+}
+
+export function removeSongSessionStorage(removeSong) {
+    let songs = getSongSessionStorage()
+    songs = songs.filter((song) => song.name !== removeSong.name)
+    sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
+}
+
+export function removeSongAndReturnSessionStorage(removeSong) {
+    let songs = getSongSessionStorage()
+    songs = songs.filter((song) => song.name !== removeSong.name)
+    return songs
+}
+
+
+export function setNextSongSessionStorage(nextSong) {
+    const songs = removeSongAndReturnSessionStorage(nextSong)
+    let newSongList
+    if (songs.length <= 1)
+        newSongList = [...songs, nextSong]
+    else {
+        let [firstSong, ...remainingSong] = songs
+        newSongList = [firstSong, nextSong, ...remainingSong]
+    }
+    sessionStorage.setItem('SONG_LIST', JSON.stringify(newSongList))
+}
+
+export function queueSongSessionStorage(qSong) {
+    let songs = removeSongAndReturnSessionStorage(qSong)
+    songs.push(qSong)
+    sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
+}
+
+export function popSongFromSessionStorage() {
+    let songs = getSongSessionStorage()
+    let returnSong
+    if (songs.length >= 1) {
+        returnSong = songs[0]
+        songs.shift()
+        sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
+    }
+    else
+        returnSong = null
+    return returnSong
 }

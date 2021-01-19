@@ -4,14 +4,10 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
 **Click [Here](https://music-streaming-app-4a392.web.app/) to view the Demo!**
 
 ### Currenly Working on 👇
-- [ ] Setting a Song to play as next song
-- [x] ~Song Component Styling~
-- [x] ~Fetching Songs from Firebase~
-- [x] ~Creating Global Context and reducers~
-
-### Ideas and Features that can be implemented
-- [ ] Song queue
-- [ ] Favourite Song (user can add songs to their favourites list)
+- [ ] Reusability of PlayListsong Component
+- [x] ~Adding a Song to Queue~
+- [x] ~Adding Song to Favourites~
+- [x] ~Creating Custom Hook to handle Song Functions~
 
 ### Design Preview
 <img src="https://github.com/mani-barathi/Music-Streaming-App/blob/master/public/preview.JPG" />

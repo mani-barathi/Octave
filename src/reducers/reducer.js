@@ -1,7 +1,7 @@
 export const intialState = {
     user: 'john',
     newSong: null,
-    nextSong: null,
+    playingSong: null,
     isSongListOpen: false
 }
 
@@ -21,10 +21,16 @@ export const reducer = (state, action) => {
                 newSong: action.newSong
             }
 
-        case 'SET_NEXT_SONG':
+        case 'SET_PLAYING_SONG':
             return {
                 ...state,
-                nextSong: action.nextSong
+                playingSong: action.playingSong
+            }
+
+        case 'TOGGLE_IS_SONGLIST_OPEN':
+            return {
+                ...state,
+                isSongListOpen: !state.isSongListOpen
             }
 
         default:

@@ -1,17 +1,26 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import "../css/SongList.css"
 import PlayListSong from "./PlayListSong"
 
-import { IconButton } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { IconButton } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close'
+import { getSongSessionStorage } from "../utils/song-utils"
+import { useStateValue } from "../context/StateProvider"
 
-function SongList({ songs, setIsSongListOpen }) {
+function SongList() {
     const songListContainerRef = useRef()
+    const [{ playingSong }, dispatch] = useStateValue()
+    const [songs, setSongs] = useState([])
+
+    useEffect(() => {
+        console.log('SongList Component')
+        setSongs(getSongSessionStorage)
+    }, [])
+
 
     const closeSongList = (event) => {
-        console.log('This is closeSongList()')
         if (event.target === songListContainerRef.current)
-            setIsSongListOpen(false)
+            dispatch({ type: "TOGGLE_IS_SONGLIST_OPEN" })
     }
 
     return (
@@ -19,13 +28,24 @@ function SongList({ songs, setIsSongListOpen }) {
             <div className="songlist">
 
                 <div className="songlist__header">
-                    <h3>Currnet SongList</h3>
-                    <IconButton className="songlist__headerCloseBtn" onClick={() => setIsSongListOpen(false)}>
+                    <h3>SongList</h3>
+                    <IconButton className="songlist__headerCloseBtn" onClick={() => dispatch({ type: "TOGGLE_IS_SONGLIST_OPEN" })}>
                         <CloseIcon />
                     </IconButton>
                 </div>
 
+                {(playingSong) &&
+                    <>
+                        <h4>Playing Now</h4>
+                        <div className="songlist__songs">
+                            <PlayListSong key={playingSong.name} data={playingSong} />
+                        </div >
+                    </>
+                }
+
+                <h4>List</h4>
                 <div className="songlist__songs">
+
                     {
                         songs.map(song => <PlayListSong key={song.name} data={song} />)
                     }

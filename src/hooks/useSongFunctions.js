@@ -1,9 +1,15 @@
 import { useStateValue } from "../context/StateProvider"
+import {
+    setNextSongSessionStorage,
+    queueSongSessionStorage,
+    removeSongSessionStorage
+} from "../utils/song-utils"
 
 function useSongFunctions(data, setAnchorEl) {
     const [, dispatch] = useStateValue()
 
     const playSong = () => {
+        removeSongSessionStorage(data)
         dispatch({
             type: 'SET_NEW_SONG',
             newSong: data
@@ -11,15 +17,12 @@ function useSongFunctions(data, setAnchorEl) {
     }
 
     const playNext = () => {
-        dispatch({
-            type: 'SET_NEXT_SONG',
-            nextSong: data
-        })
+        setNextSongSessionStorage(data)
         setAnchorEl(false)
     }
 
     const addToQueue = () => {
-        console.log("This is addToQueue()")
+        queueSongSessionStorage(data)
         setAnchorEl(false)
     }
 

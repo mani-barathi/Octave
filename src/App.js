@@ -5,13 +5,14 @@ import Login from "./components/Login"
 import Home from "./components/Home"
 import Library from "./components/Library"
 import PlayList from "./components/PlayList"
+import SongList from "./components/SongList"
 import Search from "./components/Search"
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { useStateValue } from "./context/StateProvider"
 
 function App() {
-  const [{ user }] = useStateValue()
+  const [{ user, isSongListOpen }] = useStateValue()
   return (
     <Router>
       <div className="app">
@@ -40,7 +41,7 @@ function App() {
                   </Route>
                 </Switch>
               </div>
-
+              {isSongListOpen && <SongList />}
               <Player />
             </>
           ) : (
