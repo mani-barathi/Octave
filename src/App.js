@@ -7,8 +7,9 @@ import Login from "./components/Login"
 import Home from "./components/Home"
 import Library from "./components/Library"
 import PlayList from "./components/PlayList"
-import { useStateValue } from "./context/StateProvider"
+import Search from "./components/Search"
 
+import { useStateValue } from "./context/StateProvider"
 
 function App() {
   const [{ user }] = useStateValue()
@@ -35,9 +36,9 @@ function App() {
                     <PlayList />
                   </Route>
 
-                  {/* <Route path="/search">
-              <Search />
-                </Route> */}
+                  <Route path="/search">
+                    <Search />
+                  </Route>
                 </Switch>
               </div>
 
