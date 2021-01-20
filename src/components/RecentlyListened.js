@@ -7,8 +7,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import Song from "./Song"
 import { getRecentSongsLocalStorage } from "../utils/song-utils"
 
-
-
 function RecentlyListened() {
     const [isLeftBtn, setIsLeftBtn] = useState(false)
     const [isRightBtn, setIsRightBtn] = useState(false)
@@ -53,11 +51,12 @@ function RecentlyListened() {
             setIsRightBtn(false)
         setIsLeftBtn(true)
     }
-    return (
-        (recentPlayedSongs.length > 0) ? (
-            <div className="row">
+
+    if (recentPlayedSongs.length > 0) {
+        return (
+            <div className="row user-select-none">
                 <h2>Listen Again </h2>
-                <p>Your evening music </p>
+                <p>Your Daily Music </p>
 
                 <div className="row__songsContainer">
                     <div className="row__leftButtonDiv" onClick={scrollLeft}>
@@ -82,12 +81,9 @@ function RecentlyListened() {
                     </div>
                 </div>
             </div>
-        ) : (
-                <> </>
-            )
-    )
-
-
+        )
+    } else {
+        return null
+    }
 }
-
 export default RecentlyListened

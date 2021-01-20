@@ -3,16 +3,17 @@ import "../css/PlayListSong.css"
 
 import { IconButton, Menu, MenuItem } from "@material-ui/core"
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow'
+import DeleteIcon from '@material-ui/icons/Delete'
 
-import useSongFunctions from '../hooks/useSongFunctions';
+import useSongFunctions from '../hooks/useSongFunctions'
 
-function Song({ data }) {
+function Song({ data, isPlayListSong, removeSong, isPlayingSong }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [playSong, playNext, addToQueue] = useSongFunctions(data, setAnchorEl)
 
-    const removeSong = () => {
-        console.log("This is removeSong()")
+    const removeSongFunc = () => {
+        removeSong(data)
         setAnchorEl(false)
     }
 
@@ -28,30 +29,44 @@ function Song({ data }) {
                 <p className="playlistsong__infoArtist">{data?.artist}</p>
             </div>
 
-            <div className="">
-                <IconButton className="playlistsong__optionsIcon" onClick={playSong}>
-                    <PlayArrowIcon />
-                </IconButton>
-            </div>
+            {/* If this is the current playing Song then don't show the play Icon */}
+            {!isPlayingSong &&
+                <div >
+                    <IconButton className="playlistsong__optionsIcon" onClick={playSong}>
+                        <PlayArrowIcon />
+                    </IconButton>
+                </div>
+            }
 
-            <div className="playlistsong__options" >
-                <IconButton className="playlistsong__optionsIcon" aria-controls="simple-menu" aria-haspopup="true"
-                    onClick={openOptions} >
-                    <MoreVertIcon />
-                </IconButton>
-                <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={() => setAnchorEl(false)}
-                >
-                    <MenuItem className="playlistsong__optionsItem" onClick={playNext}>Play Next</MenuItem>
-                    <MenuItem className="playlistsong__optionsItem" onClick={addToQueue}>Add to Queue</MenuItem>
-                    <MenuItem className="playlistsong__optionsItem" onClick={removeSong}>Remove</MenuItem>
-                </Menu>
-            </div>
-
+            {/* If this is the not the current playing Song then show the options */}
+            {!isPlayingSong &&
+                <div className="playlistsong__options" >
+                    {/* If this song is from PlayList then show the options (playnext,add to queue,add to Favaourites) */}
+                    {/* else this song is from SongList then show the remove Icon alone */}
+                    {isPlayListSong ? (
+                        <>
+                            <IconButton className="playlistsong__optionsIcon" aria-controls="simple-menu" aria-haspopup="true"
+                                onClick={openOptions} >
+                                <MoreVertIcon />
+                            </IconButton>
+                            <Menu
+                                id="simple-menu"
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={() => setAnchorEl(false)}>
+                                <MenuItem className="playlistsong__optionsItem" onClick={playNext}>Play Next</MenuItem>
+                                <MenuItem className="playlistsong__optionsItem" onClick={addToQueue}>Add to Queue</MenuItem>
+                                <MenuItem className="playlistsong__optionsItem" onClick={removeSongFunc}>Remove</MenuItem>
+                            </Menu>
+                        </>
+                    ) : (
+                            <IconButton className="playlistsong__optionsIcon" onClick={removeSongFunc} >
+                                <DeleteIcon />
+                            </IconButton>
+                        )}
+                </div>
+            }
         </div >
     )
 }

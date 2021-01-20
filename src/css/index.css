@@ -44,3 +44,7 @@ button,input{
 a{
   text-decoration: none;
 }
+
+.user-select-none{
+  user-select: none;
+}

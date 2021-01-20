@@ -59,13 +59,14 @@ export function removeSongSessionStorage(removeSong) {
     sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
 }
 
-export function removeSongAndReturnSessionStorage(removeSong) {
+// This removeSongAndReturnSessionStorage() is used only inside this file
+function removeSongAndReturnSessionStorage(removeSong) {
     let songs = getSongSessionStorage()
     songs = songs.filter((song) => song.name !== removeSong.name)
     return songs
 }
 
-
+// --------------------------------------------------------------------------
 export function setNextSongSessionStorage(nextSong) {
     const songs = removeSongAndReturnSessionStorage(nextSong)
     let newSongList

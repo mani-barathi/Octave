@@ -3,7 +3,7 @@
     z-index: 50;
     top: 0;
     background-color: var(--bgColor);
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,15 +22,16 @@
 
 .navbar__center{
     display: flex;
+    align-items: center;
 }
 
 .navbar__link{
     color: whitesmoke;
-    display: block;
     margin: 0 1rem;
     font-weight: 500;
     font-size: 1.1rem;
     opacity: 0.8;
+
 }
 
 .navbar__link--active{
@@ -39,5 +40,25 @@
 
 .navbar__link:hover{
     color: white;
-    transform: scale(1.05);
+}
+
+.navbar__linkIcon{
+    display: none;
+}
+
+.navbar__linkIcon .MuiSvgIcon-root .MuiSvgIcon-fontSizeLarge{
+    transform: scale(0.9) !important;  
+}
+
+.navbar__rightMenuItem{
+    margin-left: 5px;
+}
+
+@media screen and (max-width:600px){
+    .navbar__linkSpan{
+        display:none;
+    }
+    .navbar__linkIcon{
+        display: inline;
+    }
 }

@@ -61,7 +61,7 @@ function NewReleases() {
     }
 
     return (
-        <div className="row">
+        <div className="row user-select-none">
             <h2>New Releases </h2>
             <p>Try Out These New Tracks </p>
 

@@ -3,10 +3,6 @@
     color: whitesmoke;
 }
 
-.home__welcomeText{
-    user-select: none;
-    font-weight: 500;
-}
 .home__welcomeTextIcon{
     transform: scale(1.5);
 }

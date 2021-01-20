@@ -6,7 +6,7 @@ import {
 } from "../utils/song-utils"
 
 function useSongFunctions(data, setAnchorEl) {
-    const [, dispatch] = useStateValue()
+    const [{ playingSong }, dispatch] = useStateValue()
 
     const playSong = () => {
         removeSongSessionStorage(data)
@@ -17,12 +17,14 @@ function useSongFunctions(data, setAnchorEl) {
     }
 
     const playNext = () => {
-        setNextSongSessionStorage(data)
+        if (playingSong && data.name !== playingSong.name)
+            setNextSongSessionStorage(data)
         setAnchorEl(false)
     }
 
     const addToQueue = () => {
-        queueSongSessionStorage(data)
+        if (playingSong && data.name !== playingSong.name)
+            queueSongSessionStorage(data)
         setAnchorEl(false)
     }
 
