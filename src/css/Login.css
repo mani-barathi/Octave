@@ -1,0 +1,51 @@
+.login{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    color: var(--textColor);
+}
+
+.login__wrapper{
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--songBgColor);
+    padding:1.5rem 1rem;
+    border-radius: 5px;
+    box-shadow: 0 15px 30px 5px rgba(0,0,0,0.1);
+}
+
+.login__form{
+    margin: 1rem 0;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.login__formGroup{
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem;
+}
+
+.login__formInput{
+    padding: 0.6rem;
+    border-radius: 3px;
+    font-size: 1.2rem;
+}
+
+.forgotpassword__input{
+    border: 2px solid grey;
+    background-color: rgb(236, 232, 232);
+    width: 100%;
+}
+
+@media screen and (max-width:450px){
+    .login__wrapper{
+        padding: 1rem 0.5rem;
+    }
+}

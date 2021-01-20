@@ -1,5 +1,5 @@
 export const intialState = {
-    user: 'john',
+    user: null,
     newSong: null,
     playingSong: null,
     isSongListOpen: false

@@ -3,7 +3,7 @@
     z-index: 50;
     top: 0;
     background-color: var(--bgColor);
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,8 +14,8 @@
 .navbar__logo,
 .navbar__avatar{
     object-fit: contain;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.6rem !important;
+    height: 1.6rem !important;
     border-radius: 50%;
     cursor: pointer;
 }
@@ -23,6 +23,8 @@
 .navbar__center{
     display: flex;
     align-items: center;
+    padding-top: 5px;
+    margin-left: 1rem;
 }
 
 .navbar__link{

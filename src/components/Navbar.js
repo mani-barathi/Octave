@@ -1,24 +1,32 @@
 import React, { useState } from 'react'
 import "../css/Navbar.css"
 import { Link } from "react-router-dom"
-import { Menu, MenuItem, IconButton } from '@material-ui/core'
+import { Menu, MenuItem, IconButton, Avatar } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import SearchIcon from '@material-ui/icons/Search'
 import LibraryMusicIcon from '@material-ui/icons/LibraryMusic'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { useStateValue } from "../context/StateProvider"
+import useAuth from "../hooks/useAuth"
 
 function Navbar() {
     const [anchorEl, setAnchorEl] = useState(null)
-    const [, dispatch] = useStateValue()
-
-    const logoutUser = () => {
-        dispatch({ type: 'SET_USER', user: null })
-    }
+    const [{ user }, dispatch] = useStateValue()
+    const { signOut } = useAuth()
 
     const openOptions = (event) => {
         setAnchorEl(event.currentTarget)
+    }
+
+    const logout = async () => {
+        try {
+            await signOut()
+            await dispatch({ type: 'SET_USER', user: null })
+        }
+        catch (error) {
+            alert(error.message)
+        }
     }
 
     return (
@@ -55,7 +63,7 @@ function Navbar() {
             <div className="navbar__right">
                 <IconButton className="song__optionIcon" aria-controls="simple-menu" aria-haspopup="true"
                     onClick={openOptions} >
-                    <img src="https://avatars2.githubusercontent.com/u/49336839?s=460&u=fbbc21b3ee2066b82cf7ddf1205524757ac5f3f4&v=4" alt="" className="navbar__avatar" />
+                    <Avatar src={user.photoURL} className="navbar__avatar" > </Avatar>
                 </IconButton>
                 <Menu
                     elevation={0}
@@ -74,7 +82,7 @@ function Navbar() {
                     open={Boolean(anchorEl)}
                     onClose={() => setAnchorEl(false)}
                 >
-                    <MenuItem onClick={logoutUser}>
+                    <MenuItem onClick={logout}>
                         <ExitToAppIcon fontSize="small" />
                         <span className="navbar__rightMenuItem">Logout </span>
                     </MenuItem>

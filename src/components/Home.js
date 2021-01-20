@@ -1,7 +1,7 @@
 import React from 'react'
 import "../css/Home.css"
 import RecentlyListened from "./RecentlyListened"
-// import NewReleases from "./NewReleases"
+import NewReleases from "./NewReleases"
 // import Admin from "./Admin"
 
 import { Typography } from "@material-ui/core"
@@ -12,7 +12,7 @@ import { useStateValue } from "../context/StateProvider"
 
 function Home() {
     const [{ user }] = useStateValue()
-    const welcomeText = getRandomWelcomeText(user)
+    const welcomeText = user.displayName ? getRandomWelcomeText(user.displayName) : `Hey there, thanks for Choosing Octave`
     return (
         <div className="home">
             <div className="user-select-none">
@@ -21,7 +21,7 @@ function Home() {
             </div>
 
             <RecentlyListened />
-            {/* <NewReleases /> */}
+            <NewReleases />
             {/* Randomiszed Suggestion  */}
 
             {/* <Admin /> */}

@@ -20,7 +20,7 @@ function Player() {
 
     useEffect(() => {
         if (currentSong) {
-            document.title = `${currentSong.name} (${currentSong.artist}) | Music App`
+            document.title = `${currentSong.name} (${currentSong.artist}) | Octave`
             dispatch({
                 type: 'SET_PLAYING_SONG',
                 playingSong: currentSong

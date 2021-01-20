@@ -4,9 +4,9 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
 **Click [Here](https://music-streaming-app-4a392.web.app/) to view the Demo!**
 
 ### Currenly Working on 👇
-- [ ] Reusability of PlayListsong Component
-- [x] ~Adding a Song to Queue~
-- [x] ~Adding Song to Favourites~
+- [ ] Sign Up and Sign In Functionality using Firebase
+- [x] ~Design of Login Component~
+- [x] ~Reusability of PlayListsong Component~
 - [x] ~Creating Custom Hook to handle Song Functions~
 
 ### Design Preview
