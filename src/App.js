@@ -6,6 +6,7 @@ import Home from "./components/Home"
 import Library from "./components/Library"
 import SongList from "./components/SongList"
 import Search from "./components/Search"
+import Admin from "./components/Admin"
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { useStateValue } from "./context/StateProvider"
@@ -33,6 +34,10 @@ function App() {
 
                   <Route path="/search">
                     <Search />
+                  </Route>
+
+                  <Route path="/admin">
+                    <Admin />
                   </Route>
                 </Switch>
               </div>

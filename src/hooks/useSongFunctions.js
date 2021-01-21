@@ -39,7 +39,7 @@ function useSongFunctions(data, setAnchorEl) {
     const addToQueue = () => {
         // If user is trying to add the current playing song again to the songlist.. simply return
         if (playingSong && data.name === playingSong.name)
-            return
+            return setAnchorEl(false)
 
         // removes the song and returns the songList without saving to sessionStorage
         let songs = removeSongAndReturnSessionStorage(data)

@@ -57,6 +57,9 @@
 }
 
 @media screen and (max-width:600px){
+    .navbar{
+        padding: 0.4rem 0.5rem;
+    }
     .navbar__linkSpan{
         display:none;
     }

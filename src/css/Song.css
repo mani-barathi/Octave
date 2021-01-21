@@ -23,7 +23,9 @@
 }
 
 .song__name{
-    text-overflow: ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
 }
 
 .song__artist{
@@ -52,7 +54,7 @@
 
 .song__option{
     position: absolute;
-    bottom: 5px;
+    bottom: 0px;
     right: 0;
 }
 

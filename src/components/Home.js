@@ -2,7 +2,6 @@ import React from 'react'
 import "../css/Home.css"
 import RecentlyListened from "./RecentlyListened"
 import NewReleases from "./NewReleases"
-// import Admin from "./Admin"
 
 import { Typography } from "@material-ui/core"
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -23,8 +22,6 @@ function Home() {
             <NewReleases />
             <RecentlyListened />
             {/* Randomiszed Suggestion  */}
-
-            {/* <Admin /> */}
 
         </div>
     )

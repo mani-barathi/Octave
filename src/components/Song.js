@@ -18,7 +18,7 @@ function Song({ data }) {
     return (
         <div className="song" >
             <img src={data?.imageUrl} alt="" className="song__image" />
-            <p className="song__name">{data?.name}</p>
+            <p className="song__name" title={data?.name} >{data?.name}</p>
             <p className="song__artist" >{data?.artist}</p>
 
             <div className="song__playButton">

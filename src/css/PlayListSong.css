@@ -26,6 +26,9 @@
 .playlistsong__info{
     margin-left: 0.5rem;
     flex: 1;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
 }
 
 .playlistsong__infoArtist{
