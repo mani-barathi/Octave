@@ -4,7 +4,6 @@ import RecentlyListened from "./RecentlyListened"
 import Favourites from "./Favourites"
 
 function Library() {
-
     return (
         <div className="library">
             <div className="library__header">

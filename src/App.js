@@ -8,11 +8,13 @@ import SongList from "./components/SongList"
 import Search from "./components/Search"
 import Admin from "./components/Admin"
 
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { useStateValue } from "./context/StateProvider"
 
 function App() {
   const [{ user, isSongListOpen }] = useStateValue()
+
   return (
     <Router>
       <div className="app">

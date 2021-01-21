@@ -9,7 +9,7 @@ import { IconButton, CircularProgress } from '@material-ui/core';
 function PlayerControls({ playPreviousSong, playPauseSong, playing, playNextSong }) {
     return (
         <div className="playercontrols">
-            <IconButton onClick={playPreviousSong} className="player__iconButton">
+            <IconButton onClick={playPreviousSong} className="player__iconButton player__iconPrevBtn">
                 <SkipPreviousRoundedIcon />
             </IconButton>
 

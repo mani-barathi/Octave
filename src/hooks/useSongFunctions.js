@@ -6,7 +6,7 @@ import {
 } from "../utils/song-utils"
 import { db } from "../firebase"
 
-function useSongFunctions(data, setAnchorEl) {
+function useSongFunctions(data, setAnchorEl, setSnackBar) {
     const [{ user, playingSong }, dispatch] = useStateValue()
 
     const playSong = () => {
@@ -33,6 +33,7 @@ function useSongFunctions(data, setAnchorEl) {
             sessionStorage.setItem('SONG_LIST', JSON.stringify(newSongList))
         }
         setAnchorEl(false)
+        setSnackBar("Song will Play Next ")
     }
 
 
@@ -46,6 +47,7 @@ function useSongFunctions(data, setAnchorEl) {
         songs.push(data)
         sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
         setAnchorEl(false)
+        setSnackBar("Song added to Queue")
     }
 
     const addToFavourites = () => {
@@ -56,7 +58,8 @@ function useSongFunctions(data, setAnchorEl) {
             addedAt: firebase.firestore.FieldValue.serverTimestamp(),
             name, url, imageUrl, artist
         })
-        console.log(`added ${name} to Favorites`)
+        "Song added to Queue"
+        setSnackBar("Song added to Favorites")
     }
 
     const removeFromFavourites = (id) => {

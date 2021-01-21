@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "../css/PlayListSong.css"
+import SnackBar from "./SnackBar"
 
 import { IconButton, Menu, MenuItem } from "@material-ui/core"
 import MoreVertIcon from '@material-ui/icons/MoreVert'
@@ -8,9 +9,10 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import useSongFunctions from '../hooks/useSongFunctions'
 
-function Song({ id, data, isFavourites, isPlayingSong, removeFromSongList }) {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const { playSong, playNext, addToQueue, removeFromFavourites } = useSongFunctions(data, setAnchorEl)
+function PlayListSong({ id, data, isFavourites, isPlayingSong, removeFromSongList }) {
+    const [anchorEl, setAnchorEl] = useState(null)
+    const [snackBar, setSnackBar] = useState(null)
+    const { playSong, playNext, addToQueue, removeFromFavourites } = useSongFunctions(data, setAnchorEl, setSnackBar)
 
     const removeSongFunc = () => {
         if (isFavourites)
@@ -70,8 +72,12 @@ function Song({ id, data, isFavourites, isPlayingSong, removeFromSongList }) {
                         )}
                 </div>
             }
+
+            { isFavourites && snackBar &&
+                <SnackBar snackBar={snackBar} setSnackBar={setSnackBar} />}     {/* To Show Pop Up messages */}
+
         </div >
     )
 }
 
-export default Song
+export default PlayListSong

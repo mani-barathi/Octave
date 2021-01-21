@@ -47,9 +47,9 @@
 }
 
 .song__infoArtist{
-    color: lightgrey;
     font-size: 0.8rem;
 }
+
 
 /* PlayerControls     --------------------------------------- */
 .player__iconButton{
@@ -80,5 +80,16 @@
     }
     .player__duration{
         display: none;
+    }
+}
+@media screen and (max-width:400px){
+    .song__infoImage{
+        display: none;
+    }
+    .song__infoArtist,.song__infoTrack{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100px;
     }
 }

@@ -49,6 +49,16 @@
 
 @media screen and (max-width:500px){
     .playlistsong{
-      max-width: 100%;
+      max-width: 95%;
     }
-  }
+}
+
+@media screen and (max-width:450px){
+    .playlistsong__infoArtist{
+         overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100px;
+    }
+}
+

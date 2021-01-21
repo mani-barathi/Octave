@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "../css/Song.css"
+import SnackBar from "./SnackBar"
 
 import { IconButton, Menu, MenuItem } from "@material-ui/core"
 import MoreVertIcon from '@material-ui/icons/MoreVert'
@@ -9,7 +10,8 @@ import useSongFunctions from '../hooks/useSongFunctions';
 
 function Song({ data }) {
     const [anchorEl, setAnchorEl] = useState(null);
-    const { playSong, playNext, addToQueue, addToFavourites } = useSongFunctions(data, setAnchorEl)
+    const [snackBar, setSnackBar] = useState(null)
+    const { playSong, playNext, addToQueue, addToFavourites } = useSongFunctions(data, setAnchorEl, setSnackBar)
 
     const openOptions = (event) => {
         setAnchorEl(event.currentTarget)
@@ -44,6 +46,9 @@ function Song({ data }) {
                     <MenuItem className="song__optionItem" onClick={addToFavourites}>Add To Favourites</MenuItem>
                 </Menu>
             </div>
+
+            { snackBar &&
+                <SnackBar snackBar={snackBar} setSnackBar={setSnackBar} />}     {/* To Show Pop Up messages */}
 
         </div >
     )
