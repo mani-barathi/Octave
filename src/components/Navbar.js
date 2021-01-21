@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "../css/Navbar.css"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { Menu, MenuItem, IconButton, Avatar } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import SearchIcon from '@material-ui/icons/Search'
@@ -11,9 +11,18 @@ import { useStateValue } from "../context/StateProvider"
 import useAuth from "../hooks/useAuth"
 
 function Navbar() {
+    const histroy = useHistory()
     const [anchorEl, setAnchorEl] = useState(null)
+    const [location, setLocation] = useState('/')
     const [{ user }, dispatch] = useStateValue()
     const { signOut } = useAuth()
+
+    useEffect(() => {
+        let unlisten = histroy.listen((location, action) => {
+            setLocation(location.pathname)
+        })
+        return unlisten
+    }, [histroy])
 
     const openOptions = (event) => {
         setAnchorEl(event.currentTarget)
@@ -34,7 +43,7 @@ function Navbar() {
             <img className="navbar__logo" src="https://raw.githubusercontent.com/mani-barathi/mani-barathi.github.io/master/assets/favicon.ico" alt="" />
 
             <div className="navbar__center">
-                <Link to="/" className="navbar__link navbar__link--active">
+                <Link to="/" className={location === '/' ? `navbar__link navbar__link--active` : 'navbar__link'}>
                     <span className="navbar__linkSpan">
                         Home
                     </span>
@@ -42,7 +51,7 @@ function Navbar() {
                         <HomeIcon />
                     </span>
                 </Link>
-                <Link to="/library" className="navbar__link">
+                <Link to="/library" className={location === '/library' ? `navbar__link navbar__link--active` : 'navbar__link'}>
                     <span className="navbar__linkSpan">
                         Library
                     </span>
@@ -50,7 +59,7 @@ function Navbar() {
                         <LibraryMusicIcon />
                     </span>
                 </Link>
-                <Link to="/search" className="navbar__link">
+                <Link to="/search" className={location === '/search' ? `navbar__link navbar__link--active` : 'navbar__link'}>
                     <span className="navbar__linkIcon">
                         <SearchIcon />
                     </span>
