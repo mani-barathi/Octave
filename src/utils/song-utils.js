@@ -23,7 +23,7 @@ export function getRandomSong() {
     return songList[randomIndex]
 }
 
-
+// -------------------- LocalStorage -----------------------------
 // Retrive Recently Listned Songs from localStorage
 export function getRecentSongsLocalStorage() {
     const songs = JSON.parse(localStorage.getItem("RECENT_SONGS"))
@@ -40,7 +40,7 @@ export function setRecentSongsLocalStorage(currentSong) {
     localStorage.setItem('RECENT_SONGS', JSON.stringify([currentSong, ...songs]))
 }
 
-
+// -------------------- sessionStorage -----------------------------
 export function getSongSessionStorage() {
     const songs = JSON.parse(sessionStorage.getItem('SONG_LIST'))
     return (songs) ? songs : []
@@ -59,32 +59,14 @@ export function removeSongSessionStorage(removeSong) {
     sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
 }
 
-// This removeSongAndReturnSessionStorage() is used only inside this file
-function removeSongAndReturnSessionStorage(removeSong) {
+
+export function removeSongAndReturnSessionStorage(removeSong) {
     let songs = getSongSessionStorage()
     songs = songs.filter((song) => song.name !== removeSong.name)
     return songs
 }
 
-// --------------------------------------------------------------------------
-export function setNextSongSessionStorage(nextSong) {
-    const songs = removeSongAndReturnSessionStorage(nextSong)
-    let newSongList
-    if (songs.length <= 1)
-        newSongList = [...songs, nextSong]
-    else {
-        let [firstSong, ...remainingSong] = songs
-        newSongList = [firstSong, nextSong, ...remainingSong]
-    }
-    sessionStorage.setItem('SONG_LIST', JSON.stringify(newSongList))
-}
-
-export function queueSongSessionStorage(qSong) {
-    let songs = removeSongAndReturnSessionStorage(qSong)
-    songs.push(qSong)
-    sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
-}
-
+// pop the first song from sessionStorage
 export function popSongFromSessionStorage() {
     let songs = getSongSessionStorage()
     let returnSong

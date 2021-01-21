@@ -4,10 +4,10 @@
 }
 
 .playlist__titleText{
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight:500;
     margin-left: 0.5rem;
-        margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .playlist__container{

@@ -55,8 +55,10 @@ function RecentlyListened() {
     if (recentPlayedSongs.length > 0) {
         return (
             <div className="row user-select-none">
-                <h2>Listen Again </h2>
-                <p>Your Daily Music </p>
+                <div className="row__headerText">
+                    <h2>Recently Activity</h2>
+                    <p>Your Daily Music </p>
+                </div>
 
                 <div className="row__songsContainer">
                     <div className="row__leftButtonDiv" onClick={scrollLeft}>

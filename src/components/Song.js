@@ -9,14 +9,7 @@ import useSongFunctions from '../hooks/useSongFunctions';
 
 function Song({ data }) {
     const [anchorEl, setAnchorEl] = useState(null);
-    const [playSong, playNext, addToQueue] = useSongFunctions(data, setAnchorEl)
-
-    const addToFavourites = () => {
-        let favourites = JSON.parse(localStorage.getItem('FAVOURITES'))
-        favourites = (favourites) ? favourites : []
-        localStorage.setItem('FAVOURITES', JSON.stringify([data, ...favourites]))
-        setAnchorEl(false)
-    }
+    const { playSong, playNext, addToQueue, addToFavourites } = useSongFunctions(data, setAnchorEl)
 
     const openOptions = (event) => {
         setAnchorEl(event.currentTarget)

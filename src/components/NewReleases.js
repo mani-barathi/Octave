@@ -5,6 +5,7 @@ import Song from "./Song"
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
+
 import { db } from "../firebase"
 
 function NewReleases() {
@@ -62,8 +63,12 @@ function NewReleases() {
 
     return (
         <div className="row user-select-none">
-            <h2>New Releases </h2>
-            <p>Try Out These New Tracks </p>
+            { newReleases.length > 0 &&
+                <div className="row__headerText">
+                    <h2>New Releases </h2>
+                    <p>Try Out These New Tracks </p>
+                </div>
+            }
 
             <div className="row__songsContainer">
                 <div className="row__leftButtonDiv" onClick={scrollLeft}>

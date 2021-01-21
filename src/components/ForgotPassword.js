@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
     Button,
     Dialog,
@@ -15,6 +15,10 @@ function ForgotPassword({ open, setOpen }) {
     const [error, setError] = useState('')
     const [isDone, setIsDone] = useState(false)
     const { resetPassword } = useAuth()
+
+    useEffect(() => {
+        setError('')
+    }, [open])
 
     const handleResetEmail = async () => {
         const email = inputRef.current.value
@@ -65,8 +69,9 @@ function ForgotPassword({ open, setOpen }) {
                 </DialogContent>
 
                 <DialogActions>
-                    {!isDone && <Button onClick={handleResetEmail} color="primary" variant="contained">
-                        Send
+                    {!isDone &&
+                        <Button onClick={handleResetEmail} color="primary" variant="contained">
+                            Send
                     </Button>}
 
                     <Button onClick={() => setOpen(false)} color="secondary" variant="contained">

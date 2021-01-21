@@ -20,8 +20,8 @@ function Home() {
             <FavoriteBorderIcon className="home__welcomeTextIcon" />
             </div>
 
-            <RecentlyListened />
             <NewReleases />
+            <RecentlyListened />
             {/* Randomiszed Suggestion  */}
 
             {/* <Admin /> */}

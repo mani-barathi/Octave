@@ -14,7 +14,7 @@ function Login() {
     const [err, setErr] = useState(null)
     const formRef = useRef()
     const [, dispatch] = useStateValue()
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false)                 // To handle ForgotPassword Component
 
     // EveryTime User switches between Login and Sign Up reset all the InputFields
     useEffect(() => {
@@ -29,7 +29,7 @@ function Login() {
             formRef.current.password.value = ''
     }, [err])
 
-    // Setting Up an Listener, that will keep listening for AuthChange events
+    // Setting Up a Listener, that will keep listening for AuthChange events
     useEffect(() => {
         setIsLoading(true)
         const unsubscribe = auth.onAuthStateChanged((userAuth) => {
@@ -155,6 +155,7 @@ function Login() {
                         </div>
                     )
             }
+            {/* ForgotPassword Component */}
             <ForgotPassword open={open} setOpen={setOpen} />
         </div>
     )

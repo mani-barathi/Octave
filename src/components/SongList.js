@@ -16,7 +16,8 @@ function SongList() {
         setSongs(getSongSessionStorage)
     }, [playingSong])
 
-    const removeSong = (data) => {
+
+    const removeFromSongList = (data) => {
         removeSongSessionStorage(data)
         setSongs(getSongSessionStorage)
     }
@@ -37,7 +38,7 @@ function SongList() {
                     </IconButton>
                 </div>
 
-                {(playingSong) &&
+                {(playingSong) && /* If it is the current Playing song then show that in the Top */
                     <>
                         <h4>Playing Now</h4>
                         <div className="songlist__songs">
@@ -52,13 +53,13 @@ function SongList() {
                         songs.map(song => <PlayListSong
                             key={song.name}
                             data={song}
-                            removeSong={removeSong}
+                            removeFromSongList={removeFromSongList}
                         />)
                     }
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
 

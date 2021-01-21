@@ -2,6 +2,10 @@
     margin-top: 1rem;
 }
 
+.row__headerText{
+    margin-left: 1rem;
+}
+
 .row__songsContainer{
     position: relative;
 }

@@ -4,7 +4,6 @@ import Player from "./components/Player"
 import Login from "./components/Login"
 import Home from "./components/Home"
 import Library from "./components/Library"
-import PlayList from "./components/PlayList"
 import SongList from "./components/SongList"
 import Search from "./components/Search"
 
@@ -32,16 +31,13 @@ function App() {
                     <Library />
                   </Route>
 
-                  <Route path="/playlist/:name">
-                    <PlayList />
-                  </Route>
-
                   <Route path="/search">
                     <Search />
                   </Route>
                 </Switch>
               </div>
-              {isSongListOpen && <SongList />}
+
+              {isSongListOpen && <SongList />}     {/* current Playing Song List */}
               <Player />
             </>
           ) : (

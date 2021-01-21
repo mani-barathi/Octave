@@ -8,12 +8,15 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import useSongFunctions from '../hooks/useSongFunctions'
 
-function Song({ data, isPlayListSong, removeSong, isPlayingSong }) {
+function Song({ id, data, isFavourites, isPlayingSong, removeFromSongList }) {
     const [anchorEl, setAnchorEl] = useState(null);
-    const [playSong, playNext, addToQueue] = useSongFunctions(data, setAnchorEl)
+    const { playSong, playNext, addToQueue, removeFromFavourites } = useSongFunctions(data, setAnchorEl)
 
     const removeSongFunc = () => {
-        removeSong(data)
+        if (isFavourites)
+            removeFromFavourites(id)
+        else
+            removeFromSongList(data)
         setAnchorEl(false)
     }
 
@@ -43,7 +46,7 @@ function Song({ data, isPlayListSong, removeSong, isPlayingSong }) {
                 <div className="playlistsong__options" >
                     {/* If this song is from PlayList then show the options (playnext,add to queue,add to Favaourites) */}
                     {/* else this song is from SongList then show the remove Icon alone */}
-                    {isPlayListSong ? (
+                    {isFavourites ? (
                         <>
                             <IconButton className="playlistsong__optionsIcon" aria-controls="simple-menu" aria-haspopup="true"
                                 onClick={openOptions} >
