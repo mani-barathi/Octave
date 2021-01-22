@@ -9,29 +9,15 @@ import { auth } from "../firebase"
 
 function Login() {
     const { signUp, signIn, updateProfile } = useAuth()
-    const [isLogin, setIsLogin] = useState(true)
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLogin, setIsLogin] = useState(true)          // to keep track of whether the user is trying to login or Signup
+    const [isLoading, setIsLoading] = useState(true)
     const [err, setErr] = useState(null)
     const formRef = useRef()
     const [, dispatch] = useStateValue()
-    const [open, setOpen] = React.useState(false)                 // To handle ForgotPassword Component
-
-    // EveryTime User switches between Login and Sign Up reset all the InputFields
-    useEffect(() => {
-        formRef.current.email.value = ''
-        formRef.current.password.value = ''
-        setErr(null)                       // reset the error State
-    }, [isLogin])
-
-    // Everytime an Error Occur Reset the passwordField
-    useEffect(() => {
-        if (err)
-            formRef.current.password.value = ''
-    }, [err])
+    const [open, setOpen] = React.useState(false)         // To handle ForgotPassword Component
 
     // Setting Up a Listener, that will keep listening for AuthChange events
     useEffect(() => {
-        setIsLoading(true)
         const unsubscribe = auth.onAuthStateChanged((userAuth) => {
             if (userAuth) {                                     // If the authChange gives the logged in user,
                 const user = {
@@ -41,13 +27,34 @@ function Login() {
                     photoURL: userAuth.photoURL
                 }
                 dispatch({ type: 'SET_USER', user: user })      // then dispatch the User to DataLayer
+            } else {
+                setIsLoading(false)
             }
         })
-        setIsLoading(false)
 
-        return unsubscribe     // unsubscribe from listening to Auth Changes when the componenet Closes
+        const timeOut = setTimeout(() => {
+            setIsLoading(false)
+        }, 3000)
+
+        return () => {
+            clearTimeout(timeOut) // clears the setTimeout
+            unsubscribe()         // unsubscribe from listening to Auth Changes when the componenet Closes
+        }
     }, [dispatch])
 
+    // EveryTime User switches between Login and Sign Up reset all the InputFields
+    useEffect(() => {
+        if (isLoading) return
+        formRef.current.email.value = ''
+        formRef.current.password.value = ''
+        setErr(null)                       // reset the error State
+    }, [isLogin, isLoading])
+
+    // Everytime an Error Occur Reset the passwordField
+    useEffect(() => {
+        if (err)
+            formRef.current.password.value = ''
+    }, [err])
 
     const handleFormSubmit = async (event) => {
         event.preventDefault()
