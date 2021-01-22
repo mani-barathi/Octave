@@ -1,4 +1,4 @@
-import { auth } from '../firebase'
+import { auth, provider } from '../firebase'
 
 function useAuth() {
 
@@ -14,6 +14,15 @@ function useAuth() {
         auth.signOut()
     }
 
+    const signInWithGoogle = () => {
+        auth.signInWithPopup(provider)
+            .then(result => console.log(`${result.user.displayName} Logged In!`))
+            .catch(error => {
+                console.log('Login Error: ', error)
+                alert(error.message)
+            })
+    }
+
     const updateProfile = (userAuth, name, photoURL) => {
         return userAuth.user.updateProfile({
             displayName: name,
@@ -26,7 +35,7 @@ function useAuth() {
     }
 
 
-    return { signUp, signIn, signOut, updateProfile, resetPassword }
+    return { signUp, signIn, signOut, signInWithGoogle, updateProfile, resetPassword }
 }
 
 export default useAuth
