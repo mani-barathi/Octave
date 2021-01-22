@@ -2,6 +2,7 @@ import React from 'react'
 import { Snackbar, IconButton } from "@material-ui/core"
 import CloseIcon from '@material-ui/icons/Close'
 
+// This is the small Notification popup that appear whenever a song is added to the queue
 function SnackBar({ setSnackBar, snackBar }) {
 
     const closeSnackBar = () => {
@@ -14,10 +15,10 @@ function SnackBar({ setSnackBar, snackBar }) {
                 vertical: 'bottom',
                 horizontal: 'left',
             }}
-            open={Boolean(snackBar)}
+            open={Boolean(snackBar)}       // snackBar will be a message so ,its being converted into a Boolean
             onClose={closeSnackBar}
             autoHideDuration={3000}
-            message={snackBar}
+            message={snackBar}             // Actual Message
             action={
                 <IconButton size="small" aria-label="close" color="inherit" onClick={closeSnackBar}>
                     <CloseIcon fontSize="small" />

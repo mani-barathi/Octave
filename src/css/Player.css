@@ -47,9 +47,14 @@
 }
 
 .song__infoArtist{
+    overflow: hidden;
     font-size: 0.8rem;
 }
-
+.song__infoArtist,.song__infoTrack{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 /* PlayerControls     --------------------------------------- */
 .player__iconButton{
@@ -81,15 +86,18 @@
     .player__duration{
         display: none;
     }
+    .song__infoArtist,.song__infoTrack{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 120px;
+    }
 }
 @media screen and (max-width:400px){
     .song__infoImage{
         display: none;
     }
     .song__infoArtist,.song__infoTrack{
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
         max-width: 100px;
     }
 }

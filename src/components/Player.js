@@ -16,7 +16,7 @@ function Player() {
     const [displayDurationTime, setDisplayDurationTime] = useState('0:00')
     const [currentSong, setCurrentSong] = useState(null)
     const audioRef = useRef(null)
-    const [{ newSong }, dispatch] = useStateValue()
+    const [{ playingSong }, dispatch] = useStateValue()
 
     useEffect(() => {
         if (currentSong) {
@@ -30,9 +30,9 @@ function Player() {
     }, [currentSong, dispatch])
 
     useEffect(() => {
-        if (newSong)
-            setCurrentSong(newSong)
-    }, [newSong])
+        if (playingSong)
+            setCurrentSong(playingSong)
+    }, [playingSong])
 
 
     // playing  0 -> paused  | 1 -> playing  | -1 -> loading

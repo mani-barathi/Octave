@@ -44,11 +44,20 @@
   color: whitesmoke !important;
 }
 
+.songlist__playingSong{
+  height: max-content;
+}
+
 .songlist__songs{
   display: flex;
   align-items: center;
   flex-direction: column;
   overflow-y: scroll;
+}
+
+.songlist__songs{            /* Custom Scroll Bar for firefox */
+  scrollbar-width:thin;
+  scrollbar-color:  rgba(146, 145, 145, 0.705) #292929;
 }
 
 .songlist__songs::-webkit-scrollbar{
@@ -59,6 +68,8 @@
 .songlist__songs::-webkit-scrollbar-thumb{
   background-color: rgba(146, 145, 145, 0.705);
 } 
+
+
 
 @media screen and (max-width:500px){
   .songlist{

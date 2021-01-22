@@ -41,22 +41,28 @@ function SongList() {
                 {(playingSong) && /* If it is the current Playing song then show that in the Top */
                     <>
                         <h4>Playing Now</h4>
-                        <div className="songlist__songs">
-                            <PlayListSong key={playingSong.name} data={playingSong} isPlayingSong />
-                        </div >
+                        <div className="songlist__playingSong">
+                            <div className="songlist__songs">
+                                <PlayListSong key={playingSong.name} data={playingSong} isPlayingSong />
+                            </div >
+                        </div>
                     </>
                 }
 
-                <h4>List</h4>
-                <div className="songlist__songs">
-                    {
-                        songs.map(song => <PlayListSong
-                            key={song.name}
-                            data={song}
-                            removeFromSongList={removeFromSongList}
-                        />)
-                    }
-                </div>
+                {(songs.length > 0) &&  /* List  */
+                    <>
+                        <h4>List</h4>
+                        <div className="songlist__songs">
+                            {
+                                songs.map(song => <PlayListSong
+                                    key={song.name}
+                                    data={song}
+                                    removeFromSongList={removeFromSongList}
+                                />)
+                            }
+                        </div>
+                    </>
+                }
 
             </div>
         </div >

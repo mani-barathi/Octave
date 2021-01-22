@@ -12,8 +12,8 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
     const playSong = () => {
         removeSongSessionStorage(data)     // removes the song and saves the resultant list to the sessionStorage
         dispatch({
-            type: 'SET_NEW_SONG',
-            newSong: data
+            type: 'SET_PLAYING_SONG',
+            playingSong: data
         })
     }
 
@@ -58,7 +58,6 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
             addedAt: firebase.firestore.FieldValue.serverTimestamp(),
             name, url, imageUrl, artist
         })
-        "Song added to Queue"
         setSnackBar("Song added to Favorites")
     }
 
