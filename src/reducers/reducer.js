@@ -1,7 +1,8 @@
 export const intialState = {
     user: null,
     playingSong: null,
-    isSongListOpen: false
+    isSongListOpen: false,
+    artist: null
 }
 
 export const reducer = (state, action) => {
@@ -18,6 +19,12 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 playingSong: action.playingSong
+            }
+
+        case 'SET_ARTIST':
+            return {
+                ...state,
+                artist: action.artist
             }
 
         case 'TOGGLE_IS_SONGLIST_OPEN':

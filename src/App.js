@@ -7,6 +7,7 @@ import Library from "./components/Library"
 import SongList from "./components/SongList"
 import Search from "./components/Search"
 import Admin from "./components/Admin"
+import ArtistPage from "./components/ArtistPage"
 
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
@@ -38,7 +39,11 @@ function App() {
                     <Search />
                   </Route>
 
-                  <Route path="/admin">
+                  <Route path="/artist/:id">
+                    <ArtistPage />
+                  </Route>
+
+                  <Route path="/admin" exact>
                     <Admin />
                   </Route>
                 </Switch>

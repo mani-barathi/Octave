@@ -1,0 +1,29 @@
+.artist{
+    padding: 1rem;
+    margin:1rem 0;
+    margin-right: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: var(--songBgColor);
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s ease;
+}
+.artist:hover{
+    background-color: var(--songHoverBgColor);
+}
+.artist:active{
+    transform: scale(0.98);
+}
+
+.artist__image{
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+.artist__name{
+    text-align: center;
+    font-weight: 500;
+}

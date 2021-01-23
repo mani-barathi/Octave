@@ -1,7 +1,8 @@
 import React from 'react'
 import "../css/Home.css"
-import RecentlyListened from "./RecentlyListened"
+// import RecentlyListened from "./RecentlyListened"
 import NewReleases from "./NewReleases"
+import ArtistsList from "./ArtistsList"
 
 import { Typography } from "@material-ui/core"
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -20,7 +21,8 @@ function Home() {
             </div>
 
             <NewReleases />
-            <RecentlyListened />
+            {/* <RecentlyListened /> */}
+            <ArtistsList />
             {/* Randomiszed Suggestion  */}
 
         </div>

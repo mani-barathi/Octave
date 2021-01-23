@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import "../css/row.css"
+import Song from "./Song"
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
-import Song from "./Song"
+import useMoveLeftRight from '../hooks/useMoveLeftRight'
 import { getRecentSongsLocalStorage } from "../utils/song-utils"
 
 function RecentlyListened() {
@@ -12,6 +13,7 @@ function RecentlyListened() {
     const [isRightBtn, setIsRightBtn] = useState(false)
     const [recentPlayedSongs, setRecentPlayedSongs] = useState([])
     const rowRef = useRef()
+    const [scrollLeft, scrollRight] = useMoveLeftRight(rowRef, setIsLeftBtn, setIsRightBtn)
 
     useEffect(() => {
         const recentSongs = getRecentSongsLocalStorage()
@@ -21,36 +23,23 @@ function RecentlyListened() {
     useEffect(() => {
         window.addEventListener('resize', toggleButtonOnWindowResize)
         return () => window.removeEventListener('resize', toggleButtonOnWindowResize)
+        // eslint-disable-next-line
     }, [])
 
-    const toggleButtonOnWindowResize = () => {
+    const toggleButtonOnWindowResize = useCallback(() => {
         if (!rowRef.current) return
         if (rowRef.current.scrollWidth - rowRef.current.offsetWidth > 0) setIsRightBtn(true)
         else setIsRightBtn(false)
 
         if (rowRef.current.scrollLeft > 300) setIsLeftBtn(true)
         else setIsLeftBtn(false)
-    }
+    }, [])
+
 
     const lastSongRef = useCallback(() => {
         toggleButtonOnWindowResize()
-    }, [])
+    }, [toggleButtonOnWindowResize])
 
-    const scrollLeft = () => {
-        rowRef.current.scrollLeft -= 300
-        const hasMoreLeft = rowRef.current.scrollLeft > 300
-        if (!hasMoreLeft)
-            setIsLeftBtn(false)
-        setIsRightBtn(true)
-    }
-    const scrollRight = () => {
-        const offsetWidth = rowRef.current.offsetWidth
-        rowRef.current.scrollLeft += 300
-        const hasMoreRight = (rowRef.current.scrollWidth - (offsetWidth + rowRef.current.scrollLeft)) > 300
-        if (!hasMoreRight)
-            setIsRightBtn(false)
-        setIsLeftBtn(true)
-    }
 
     if (recentPlayedSongs.length > 0) {
         return (

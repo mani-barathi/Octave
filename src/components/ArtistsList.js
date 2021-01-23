@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import "../css/row.css"
-import Song from "./Song"
+import Artist from "./Artist"
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
@@ -8,10 +8,10 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import useMoveLeftRight from '../hooks/useMoveLeftRight'
 import { db } from "../firebase"
 
-function NewReleases() {
+function ArtistsList() {
     const [isLeftBtn, setIsLeftBtn] = useState(false)
     const [isRightBtn, setIsRightBtn] = useState(false)
-    const [newReleases, setNewReleases] = useState([])
+    const [artists, setArtists] = useState([])
     const rowRef = useRef()
     const [scrollLeft, scrollRight] = useMoveLeftRight(rowRef, setIsLeftBtn, setIsRightBtn)
 
@@ -22,14 +22,14 @@ function NewReleases() {
     }, [])
 
     useEffect(() => {
-        db.collection('songs').orderBy('createdAt', 'desc').limit(10).get()
+        db.collection('artists').orderBy('createdAt', 'desc').limit(10).get()
             .then(snapshot => {
-                setNewReleases(
+                setArtists(
                     snapshot.docs.map(doc => ({
                         id: doc.id,
                         data: doc.data()
                     }))                 // end of map()
-                )                       // end of setNewReleases()
+                )                       // end of setArtists()
             })
     }, [])
 
@@ -43,16 +43,17 @@ function NewReleases() {
         else setIsLeftBtn(false)
     }, [])
 
-    const lastSongRef = useCallback(() => {
+    const lastArtistRef = useCallback(() => {
         toggleButtonOnWindowResize()
     }, [toggleButtonOnWindowResize])
 
+
     return (
         <div className="row user-select-none">
-            { newReleases.length > 0 &&
+            { artists.length > 0 &&
                 <div className="row__headerText">
-                    <h2>New Releases </h2>
-                    <p>Try Out These New Tracks </p>
+                    <h2>Artist </h2>
+                    <p>Popular Artists </p>
                 </div>
             }
 
@@ -63,11 +64,13 @@ function NewReleases() {
                 </div>
 
                 <div ref={rowRef} className="row__songs">
-                    {newReleases.map((song, index) => (
-                        (newReleases.length === index + 1) ? (
-                            <div key={song.id} ref={lastSongRef}> <Song key={song.id} data={song.data} /> </div>
+                    {artists.map((artist, index) => (
+                        (artists.length === index + 1) ? (
+                            <div key={artist.id} ref={lastArtistRef}>
+                                <Artist key={artist.id} id={artist.id} data={artist.data} />
+                            </div>
                         ) : (
-                                <Song key={song.id} data={song.data} />
+                                <Artist key={artist.id} id={artist.id} data={artist.data} />
                             )
                     )
                     )}
@@ -80,6 +83,8 @@ function NewReleases() {
             </div>
         </div>
     )
+
 }
 
-export default NewReleases
+export default ArtistsList
+
