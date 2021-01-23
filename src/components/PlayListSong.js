@@ -9,7 +9,13 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import useSongFunctions from '../hooks/useSongFunctions'
 
-function PlayListSong({ id, data, isFavourites, isPlayingSong, removeFromSongList }) {
+function PlayListSong({ id, data,
+    isFavourites,        // is it created from Favourites Component ?
+    isArtistPage,        // is it created from ArtistPage Component ?
+    isPlayingSong,       // is it currentPlaying Song ?
+    removeFromSongList,  // removeSong() to remove it from SongList 
+    isSearchSong }) {    // is it created from Search Component ?
+
     const [anchorEl, setAnchorEl] = useState(null)
     const [snackBar, setSnackBar] = useState(null)
     const { playSong, playNext, addToQueue, removeFromFavourites } = useSongFunctions(data, setAnchorEl, setSnackBar)
@@ -46,9 +52,9 @@ function PlayListSong({ id, data, isFavourites, isPlayingSong, removeFromSongLis
             {/* If this is the not the current playing Song then show the options */}
             {!isPlayingSong &&
                 <div className="playlistsong__options" >
-                    {/* If this song is from PlayList then show the options (playnext,add to queue,add to Favaourites) */}
+                    {/* If this song is from Favourites or ArtistPage then show the options (playnext,add to queue,add to Favaourites) */}
                     {/* else this song is from SongList then show the remove Icon alone */}
-                    {isFavourites ? (
+                    {isFavourites || isArtistPage ? (
                         <>
                             <IconButton className="playlistsong__optionsIcon" aria-controls="simple-menu" aria-haspopup="true"
                                 onClick={openOptions} >
@@ -62,7 +68,10 @@ function PlayListSong({ id, data, isFavourites, isPlayingSong, removeFromSongLis
                                 onClose={() => setAnchorEl(false)}>
                                 <MenuItem className="playlistsong__optionsItem" onClick={playNext}>Play Next</MenuItem>
                                 <MenuItem className="playlistsong__optionsItem" onClick={addToQueue}>Add to Queue</MenuItem>
-                                <MenuItem className="playlistsong__optionsItem" onClick={removeSongFunc}>Remove</MenuItem>
+                                {/* If this is not from search and ArtistPage then show the removebutton */}
+                                {!isSearchSong && !isArtistPage &&
+                                    <MenuItem className="playlistsong__optionsItem" onClick={removeSongFunc}>Remove</MenuItem>
+                                }
                             </Menu>
                         </>
                     ) : (
@@ -73,7 +82,8 @@ function PlayListSong({ id, data, isFavourites, isPlayingSong, removeFromSongLis
                 </div>
             }
 
-            { isFavourites && snackBar &&
+            {/* If this song is from Favourites or ArtistPage then show SnackBar Notifications */}
+            { (isFavourites || isArtistPage) && snackBar &&
                 <SnackBar snackBar={snackBar} setSnackBar={setSnackBar} />}     {/* To Show Pop Up messages */}
 
         </div >

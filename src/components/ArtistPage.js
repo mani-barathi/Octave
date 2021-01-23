@@ -62,7 +62,7 @@ function ArtistPage() {
                 {
                     songs.map(song =>
                         <PlaylistSong key={song.id} id={song.id} data={song.data}
-                            isPlayListSong isFavourites />
+                            isArtistPage />
                     )
                 }
             </div>

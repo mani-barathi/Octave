@@ -26,7 +26,8 @@
 }
 
 .search__results{
-    
+    display: flex;
+    flex-wrap: wrap;
 }
 .search__resultsTitle{
     font-weight: 500;

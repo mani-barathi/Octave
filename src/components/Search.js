@@ -1,14 +1,47 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "../css/Search.css"
-import { TextField, IconButton, InputAdornment } from '@material-ui/core'
+import PlayListSong from "./PlayListSong"
+import Artist from "./Artist"
+import { TextField, IconButton, InputAdornment, Typography } from '@material-ui/core'
 import SearchIcon from "@material-ui/icons/Search"
+
+import { capitalize, capitalizeAllWords } from "../utils/utils"
+import { db } from "../firebase"
 
 function Search() {
     const [input, setInput] = useState('')
+    const [infoText, setInfoText] = useState('')
+    const [songs, setSongs] = useState(null)
+    const [artists, setArtists] = useState(null)
 
-    const handleSearch = (event) => {
+    useEffect(() => {
+        setInfoText('')
+    }, [input])
+
+    const handleSearch = async (event) => {
         event.preventDefault()
-        console.log(input)
+        if (!input) return
+
+        let searchText = capitalize(input)
+        setInfoText(`Search Result for ${input}`)
+        await db.collection('songs').where('names', "array-contains", searchText).get()
+            .then(snapshot => {
+                setSongs(snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    data: doc.data()
+                }))
+                )
+            })
+
+        searchText = capitalizeAllWords(input)
+        await db.collection('artists').where('names', "array-contains", searchText).get()
+            .then(snapshot => {
+                setArtists(snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    data: doc.data()
+                }))
+                )
+            })
     }
 
     return (
@@ -16,12 +49,12 @@ function Search() {
             <div className="search__bar">
                 <form className="search__barForm" onSubmit={handleSearch}>
                     <TextField onChange={e => setInput(e.target.value)} value={input}
-                        variant="filled" label="search" fullWidth margin="dense" size="medium"
+                        variant="filled" label="Search for Songs or Artists" fullWidth margin="dense" size="medium"
                         color="secondary"
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment>
-                                    <IconButton className="search__barSearchIcon">
+                                    <IconButton className="search__barSearchIcon" onClick={handleSearch}>
                                         <SearchIcon />
                                     </IconButton>
                                 </InputAdornment>
@@ -31,8 +64,38 @@ function Search() {
                 </form>
             </div>
 
+            {/*  Results Info Text ------------------------*/}
+            <Typography variant="h6" align="center">
+                {infoText}
+            </Typography>
+
+            <Typography variant="subtitle1" align="center">
+                {(songs?.length === 0 && artists?.length === 0) && infoText && `No Results`}
+            </Typography>
+
+
+            {/* Songs Results ------------------------*/}
+            <Typography variant="h6">
+                {songs?.length > 0 && `Songs`}
+            </Typography>
+
             <div className="search__results">
-                <h1 className="search__resultsTitle">Results </h1>
+                {songs?.length > 0 && songs.map(song =>
+                    <PlayListSong key={song.id} data={song.data} isFavourites isSearchSong />
+                )}
+            </div>
+
+            <br />
+
+            {/* Artists Results----------------------------------- */}
+            <Typography variant="h6">
+                {artists?.length > 0 && `Artists`}
+            </Typography>
+
+            <div className="search__results">
+                {artists?.length > 0 && artists.map(artist =>
+                    <Artist key={artist.id} id={artist.id} data={artist.data} />
+                )}
             </div>
 
         </div>

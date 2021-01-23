@@ -3,15 +3,12 @@ import "../css/Admin.css"
 
 import firebase from "firebase"
 import { Container, Typography, Button, Input } from '@material-ui/core';
+import { capitalize, createNamesArray } from "../utils/utils"
 import { db, storage } from "../firebase"
 
 function Admin() {
     const formRef = useRef()
     const [file, setFile] = useState(null)
-
-    const capitalize = (string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
 
     const clearFormFields = () => {
         formRef.current.name.value = ''
@@ -23,8 +20,10 @@ function Admin() {
 
     const handleFormSubmit = (event) => {
         event.preventDefault()
+        const names = createNamesArray(formRef.current.name.value)
         const data = {
             name: capitalize(formRef.current.name.value),
+            names: names,
             artist: capitalize(formRef.current.artist.value),
             imageUrl: formRef.current.imageUrl.value,
             url: formRef.current.url.value,

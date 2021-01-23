@@ -4,11 +4,11 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
 **Click [Here](https://music-streaming-app-4a392.web.app/) to view the Demo!**
 
 ### Currenly Working on 👇 
-- [ ] Listing Songs based on Artist
-- [ ] Sign In With Google
+- [ ] Search based on Song and Artist
+- [x] ~Listing Songs based on Artist~
+- [x] ~Sign In With Google~
 - [x] ~Adding and Removing song from Favourites~
 - [x] ~Sign Up and Sign In Functionality using Firebase~
-- [x] ~Design of Login Component~
 
 ### Design Preview
 <img src="https://github.com/mani-barathi/Music-Streaming-App/blob/master/public/preview.JPG" />

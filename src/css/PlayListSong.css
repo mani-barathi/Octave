@@ -47,7 +47,7 @@
     font-size: 0.8rem !important;
 }
 
-@media screen and (max-width:670px){
+@media screen and (max-width:695px){
     .playlistsong{
       max-width: 95%;
     }
