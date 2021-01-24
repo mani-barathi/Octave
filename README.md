@@ -13,7 +13,7 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
 ### Design Preview
 <img src="https://github.com/mani-barathi/Music-Streaming-App/blob/master/public/preview.JPG" />
 
-### Technology Used
+## Technology Used
 * **React** (FrontEnd)
     * **Material-UI** - For Icons and prebuilt Components (**package**)
     * **react-router-dom** - To manage routing between different pages(Home, Library, Search). (**package**)
@@ -24,10 +24,11 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
         * SignIn & SignUp functionality using Email and Password verification
         * Sign In With Google Account
     * **Storage** - Cloud Storage for uploading and serving Songs
+    * **Hosting** - To Host the Web Page
 
-### Components
+## Components
 * **App** - Main component which Hold all the other Components, this is where all the **Routing** has been done.
-* **Layout Components (Holds other Components)**
+* **Page/Layout Components (Holds other Components)**
     * **Login** - Login Page where Login, Sign Up and Sign In with Google Account functionalities are implemented
     * **Home** - Home Page where User can view all Snaps. (**Route - '/'**)
     * **Library** - Library Page which displays the Recently Played Songs and Favourite Songs of the User. (**Route - '/library'**)
@@ -48,9 +49,30 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
     * **Artist** - Artist. (Used Inside AritstList, Search Components)
     * **Song** - Song. (This is the Square One used Inside Home Component)
     * **PlayListSong** - This is the Song (Rectangular One) used Inside Library,Favourites,SongList Components. (Reusing single Component for Multiple Things)
-    * **PlayerControls** - This is Controls of Player (play, pause, next, previous). (Inside Player Component)
+    * **PlayerControls** - This holds the Control Buttons of the Player (play, pause, next, previous). (Inside Player Component)
     * **ForgotPassword** - Forgot Password Dialog Box. (Inside Login Component)
     * **SnackBar** - Notification Popup which appears on bottom of the page. (Used Inside Song and PlaylistSong Component)
+
+## Custom Hooks
+Created a few Custom Hooks to keep the Complex functionality outside the Components. (check `src/hooks/` folder)
+* **useAuth** - This provides all the Functions related to Authentication (SignUp, Login, SignOut ,Update Profile, Reset Password, Sign in with Google).
+* **useSongFunctions** - This provides all the Functions related to Songs (Playing a Song, Play a Particular Song as the Next song, Adding a Song to Queue, Adding a Song to Favourites, Removing a Song from Favourities).
+
+## Functionalities
+### SongList (Current Playlist)
+User can add and remove Songs to the SongList. SongList is Implemented using Browser's **Session Storage** for saving the Songlist temporarily for the Current Session.
+### Favourites 
+User can add a song to their Favourites List, which is saved to Firestore Database.
+### Recently Played Songs
+The Recently Played Songs are stored in Local Storage.
+### Media Session API
+Media Session allows the user to Control the playing song using Keyboard buttons. Essentially allowing user to know what song is playing and to control it, without needing to open the Webpage. Check `src/Player.js` Component for the code Implementation. (Click [Here](https://developer.mozilla.org/en-US/docs/Web/API/Media_Session_API) to see the Docs)
+
+## Helper Functions 
+Files which has Helper Functions are kept in `src/utils/`. 
+These files include 
+* functions which calculates current Time, durations.
+* functions to fetch and save data to Local Storage and Session Storage.
 
 ### To run this on Local machine
 * Clone the repo, and cd into it
@@ -58,3 +80,5 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
 * Create a firebase project place project Keys inside **src/firebase.js**
 * Run app by typing `npm start`in command line
 
+### Note
+You will have to create an **Index** in firestore, as **Favourites** Component uses Nested Queries to fetch data from Firestore. While Developing the Favourites Component there will be an error in console stating you to create an Index in Firestore. That Error will provide a link to create an Index in Firestore , you can click on the link and create an Index. (This Error will be solved after that particular Index is created)
