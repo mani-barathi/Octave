@@ -54,7 +54,7 @@ function ArtistPage() {
 
                 <br />
                 <Typography variant="h6">
-                    {songs.length > 1 && 'Songs'}
+                    {songs.length > 0 && 'Songs'}
                 </Typography>
             </div>
 

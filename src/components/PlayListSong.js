@@ -18,7 +18,8 @@ function PlayListSong({ id, data,
 
     const [anchorEl, setAnchorEl] = useState(null)
     const [snackBar, setSnackBar] = useState(null)
-    const { playSong, playNext, addToQueue, removeFromFavourites } = useSongFunctions(data, setAnchorEl, setSnackBar)
+    const { playSong, playNext, addToQueue,
+        removeFromFavourites, addToFavourites } = useSongFunctions(data, setAnchorEl, setSnackBar)
 
     const removeSongFunc = () => {
         if (isFavourites)
@@ -71,6 +72,9 @@ function PlayListSong({ id, data,
                                 {/* If this is not from search and ArtistPage then show the removebutton */}
                                 {!isSearchSong && !isArtistPage &&
                                     <MenuItem className="playlistsong__optionsItem" onClick={removeSongFunc}>Remove</MenuItem>
+                                }
+                                {(isSearchSong || isArtistPage) &&
+                                    <MenuItem className="playlistsong__optionsItem" onClick={addToFavourites}>add To Favourites</MenuItem>
                                 }
                             </Menu>
                         </>
