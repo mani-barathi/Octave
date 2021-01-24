@@ -17,8 +17,8 @@
 }
 
 .artist__image{
-    max-width: 165px;
-    max-height: 165px;
+    width: 165px;
+    height: 165px;
     object-fit: cover;
     border-radius: 50%;
     margin-bottom: 0.5rem;
