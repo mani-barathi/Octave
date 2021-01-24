@@ -74,7 +74,7 @@ These files include
 * functions which calculates current Time, durations.
 * functions to fetch and save data to Local Storage and Session Storage.
 
-### To run this on Local machine
+## To run this on Local machine
 * Clone the repo, and cd into it
 * Install all the dependcies from package.json
 * Create a firebase project place project Keys inside **src/firebase.js**
