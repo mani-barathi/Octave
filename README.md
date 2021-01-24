@@ -15,8 +15,9 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
 
 ### Technology Used
 * **React** (FrontEnd)
-    * **Material-UI** - For Icons and prebuilt Components
-    * **react-router-dom** - To manage routing between different pages(Home, Library, Search)
+    * **Material-UI** - For Icons and prebuilt Components (**package**)
+    * **react-router-dom** - To manage routing between different pages(Home, Library, Search). (**package**)
+    * **Context-Api** - To manage Global states across all Components (**Hook present in React**)
 * **Firebase** - Baas (Backend as a Service)
     * **Firestore** - NoSQL database
     * **Authentication** 
@@ -25,8 +26,8 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
     * **Storage** - Cloud Storage for uploading and serving Songs
 
 ### Components
-**App** - Main component which Hold all the other Components, this is where all the **Routing** has been done.
-**Layout Components (Holds other Components)**
+* **App** - Main component which Hold all the other Components, this is where all the **Routing** has been done.
+* **Layout Components (Holds other Components)**
     * **Login** - Login Page where Login, Sign Up and Sign In with Google Account functionalities are implemented
     * **Home** - Home Page where User can view all Snaps. (**Route - '/'**)
     * **Library** - Library Page which displays the Recently Played Songs and Favourite Songs of the User. (**Route - '/library'**)
@@ -34,7 +35,7 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
     * **AritstPage** -This Page Describes about an Artist and lists all of his/her Songs. (**Route -'/artist/artistID'**)
     * **Admin** - Admin Page where new Songs and Artists can be added. (**Route -'/admin'**)
 
-**Holder/Container Components**
+* **Holder/Container Components**
     * **Navbar** - (Inside App Component)
     * **NewReleases** - NewReleases displays all the latest Songs. (Inside Home Component)
     * **AritstList** - AritstList displays all the latest Songs. (Inside Home Component)
@@ -43,7 +44,7 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
     * **SongList** - This shows the Current Playlist. (Inside App Component)
     * **Player** - Player Component placed to the bottom of the page. (Inside App Component)
 
-**Functionality Specific Components (Present inside Container/Layout Components)**
+* **Functionality Specific Components (Present inside Container/Layout Components)**
     * **Artist** - Artist. (Used Inside AritstList, Search Components)
     * **Song** - Song. (This is the Square One used Inside Home Component)
     * **PlayListSong** - This is the Song (Rectangular One) used Inside Library,Favourites,SongList Components. (Reusing single Component for Multiple Things)
