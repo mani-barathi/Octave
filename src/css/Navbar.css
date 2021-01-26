@@ -54,6 +54,7 @@
 
 .navbar__rightMenuItem{
     margin-left: 5px;
+    font-size: 0.8rem;
 }
 
 @media screen and (max-width:600px){

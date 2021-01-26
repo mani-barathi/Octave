@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import "../css/Admin.css"
 
 import firebase from "firebase"
-import { Typography, Button, Input } from '@material-ui/core';
+import { Typography, Button, Input, LinearProgress } from '@material-ui/core';
 import { capitalize, createNamesArray, createNamesArrayWithCaptitalizedWords, capitalizeAllWords } from "../utils/utils"
 import { db, storage } from "../firebase"
 
@@ -11,6 +11,7 @@ function Admin() {
     const [isAddSong, setIsAddSong] = useState(true)
     const [artists, setArtists] = useState([])
     const [file, setFile] = useState(null)
+    const [progress, setProgress] = useState(null)
 
     useEffect(() => {
         db.collection('artists').orderBy('name')
@@ -22,12 +23,12 @@ function Admin() {
     }, [])
 
     const clearFormFields = () => {
+        setFile(null)
         if (isAddSong) {
             formRef.current.songName.value = ''
             formRef.current.artist.value = ''
             formRef.current.imageUrl.value = ''
             formRef.current.url.value = ''
-            setFile(null)
         } else {
             formRef.current.artistName.value = ''
             formRef.current.artistImageUrl.value = ''
@@ -52,20 +53,23 @@ function Admin() {
             url: formRef.current.url.value,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         }
-        console.log(data)
+
 
         if (file) {
             const uploadTask = storage.ref(`songs/${file.name}`).put(file)
             uploadTask.on('state_change',
-                null,                       // Progress function
+                (snapshot) => {             // Progress function
+                    const progress = Math.round(((snapshot.bytesTransferred / snapshot.totalBytes) * 100));
+                    setProgress(progress)
+                },
                 (error) => {                // error function
                     alert(error.message)
                     console.log(error.message)
                 },
-                () => {                      // Success function
+                () => {
                     storage.ref('songs').child(file.name)
-                        .getDownloadURL(url => {
-                            data.url = url
+                        .getDownloadURL().then((url) => {
+                            data.url = url             // adding the recived Url
                             db.collection('songs').add(data)
                             alert("Song Added!")
                             clearFormFields()
@@ -139,7 +143,10 @@ function Admin() {
                         <Input type="file" accept="audio/mp3,audio/*;" color="secondary"
                             onChange={e => setFile(e.target.files[0])}
                         />
-                        <br /> <br />
+
+                        <br /><br />
+                        <LinearProgress value={progress} variant="determinate" color='secondary' />
+                        <br />
                         <Button type="submit" variant="contained" color="secondary">
                             Add
                     </Button>

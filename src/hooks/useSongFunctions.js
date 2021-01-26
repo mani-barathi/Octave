@@ -2,18 +2,22 @@ import firebase from "firebase"
 import { useStateValue } from "../context/StateProvider"
 import {
     removeSongAndReturnSessionStorage,
-    removeSongSessionStorage
 } from "../utils/song-utils"
 import { db } from "../firebase"
 
 function useSongFunctions(data, setAnchorEl, setSnackBar) {
-    const [{ user, playingSong }, dispatch] = useStateValue()
+    const [{ user, playingSong, songIndex }, dispatch] = useStateValue()
 
     const playSong = () => {
-        removeSongSessionStorage(data)     // removes the song and saves the resultant list to the sessionStorage
+        if (playingSong && data.name === playingSong.name)
+            return setAnchorEl(false)
+
+        const [songs] = removeSongAndReturnSessionStorage(data)
+        sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
+
         dispatch({
-            type: 'SET_PLAYING_SONG',
-            playingSong: data
+            type: 'SET_NEW_SONG',
+            newSong: data
         })
     }
 
@@ -23,13 +27,17 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
             return setAnchorEl(false)
 
         // removes the song and returns the songList without saving to sessionStorage
-        const songs = removeSongAndReturnSessionStorage(data)
+        const [songs, removedSongIndex] = removeSongAndReturnSessionStorage(data)
+        console.log(`removeSongIndex:`, removedSongIndex)
+        if (typeof removedSongIndex === 'number' && removedSongIndex < songIndex)
+            dispatch({ type: 'DEC_SONG_INDEX' })
+
         let newSongList
         if (songs.length === 0) {           // songlist is Empty
             sessionStorage.setItem('SONG_LIST', JSON.stringify([data]))
         }
         else if (songs.length >= 1) {       // songlist is not Empty
-            newSongList = [data, ...songs]
+            newSongList = [songs[0], data, ...songs.slice(1)]
             sessionStorage.setItem('SONG_LIST', JSON.stringify(newSongList))
         }
         setAnchorEl(false)
@@ -43,12 +51,17 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
             return setAnchorEl(false)
 
         // removes the song and returns the songList without saving to sessionStorage
-        let songs = removeSongAndReturnSessionStorage(data)
+        const [songs, removedSongIndex] = removeSongAndReturnSessionStorage(data)
+        console.log(`removeSongIndex:`, removedSongIndex)
+        if (typeof removedSongIndex === 'number' && removedSongIndex < songIndex)
+            dispatch({ type: 'DEC_SONG_INDEX' })
+
         songs.push(data)
         sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
         setAnchorEl(false)
         setSnackBar("Song added to Queue")
     }
+
 
     const addToFavourites = () => {
         setAnchorEl(false)

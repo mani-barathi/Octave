@@ -53,29 +53,42 @@ export function setSongSessionStorage(currentSong) {
     sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
 }
 
-export function removeSongSessionStorage(removeSong) {
-    let songs = getSongSessionStorage()
-    songs = songs.filter((song) => song.name !== removeSong.name)
-    sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
-}
-
 
 export function removeSongAndReturnSessionStorage(removeSong) {
     let songs = getSongSessionStorage()
-    songs = songs.filter((song) => song.name !== removeSong.name)
-    return songs
+
+    let removedSongIndex = null
+    let newSongList = []
+    for (let i = 0; i < songs.length; i++) {
+        if (songs[i].name === removeSong.name)
+            removedSongIndex = i
+        else
+            newSongList.push(songs[i])
+    }
+    // songs = songs.filter((song) => song.name !== removeSong.name)
+
+    return [newSongList, removedSongIndex]
 }
 
 // pop the first song from sessionStorage
-export function popSongFromSessionStorage() {
+export function getNextSong(index) {
     let songs = getSongSessionStorage()
-    let returnSong
-    if (songs.length >= 1) {
-        returnSong = songs[0]
-        songs.shift()
-        sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
+    return songs[index + 1]
+}
+
+export function getPreviousSong(index) {
+    let songs = getSongSessionStorage()
+    return songs[index - 1]
+}
+
+export function playNewSong(index, newSong) {
+    let songList = getSongSessionStorage()
+    if (songList.length === 0 || index === -1)
+        songList.push(newSong)
+    else {
+        songList = songList.slice(index)
+        songList = [newSong, ...songList]
     }
-    else
-        returnSong = null
-    return returnSong
+    console.log('SongList:', songList)
+    sessionStorage.setItem('SONG_LIST', JSON.stringify(songList))
 }

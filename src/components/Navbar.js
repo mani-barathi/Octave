@@ -6,6 +6,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import SearchIcon from '@material-ui/icons/Search'
 import LibraryMusicIcon from '@material-ui/icons/LibraryMusic'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 import { useStateValue } from "../context/StateProvider"
 import useAuth from "../hooks/useAuth"
@@ -41,6 +42,10 @@ function Navbar() {
         catch (error) {
             alert(error.message)
         }
+    }
+    const goToAdmin = () => {
+        histroy.push('/admin')
+        setAnchorEl(false)
     }
 
     return (
@@ -96,9 +101,14 @@ function Navbar() {
                     open={Boolean(anchorEl)}
                     onClose={() => setAnchorEl(false)}
                 >
+                    <MenuItem onClick={goToAdmin}>
+                        <SupervisorAccountIcon fontSize="small" />
+                        <span className="navbar__rightMenuItem">Admin</span>
+                    </MenuItem>
+
                     <MenuItem onClick={logout}>
                         <ExitToAppIcon fontSize="small" />
-                        <span className="navbar__rightMenuItem">Logout </span>
+                        <span className="navbar__rightMenuItem">Logout</span>
                     </MenuItem>
                 </Menu>
             </div>

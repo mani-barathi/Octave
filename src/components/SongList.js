@@ -4,21 +4,25 @@ import PlayListSong from "./PlayListSong"
 
 import { IconButton } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
-import { getSongSessionStorage, removeSongSessionStorage } from "../utils/song-utils"
+import { getSongSessionStorage, removeSongAndReturnSessionStorage } from "../utils/song-utils"
 import { useStateValue } from "../context/StateProvider"
 
 function SongList() {
     const songListContainerRef = useRef()
-    const [{ playingSong }, dispatch] = useStateValue()
+    const [{ playingSong, songIndex }, dispatch] = useStateValue()
     const [songs, setSongs] = useState([])
 
     useEffect(() => {
         setSongs(getSongSessionStorage)
-    }, [playingSong])
-
+    }, [playingSong, songIndex])
 
     const removeFromSongList = (data) => {
-        removeSongSessionStorage(data)
+        const [songs, removedSongIndex] = removeSongAndReturnSessionStorage(data)
+        console.log(`removeSongIndex:`, removedSongIndex)
+        if (typeof removedSongIndex === 'number' && removedSongIndex < songIndex)
+            dispatch({ type: 'DEC_SONG_INDEX' })
+
+        sessionStorage.setItem('SONG_LIST', JSON.stringify(songs))
         setSongs(getSongSessionStorage)
     }
 
@@ -38,30 +42,18 @@ function SongList() {
                     </IconButton>
                 </div>
 
-                {(playingSong) && /* If it is the current Playing song then show that in the Top */
-                    <>
-                        <h4>Playing Now</h4>
-                        <div className="songlist__playingSong">
-                            <div className="songlist__songs">
-                                <PlayListSong key={playingSong.name} data={playingSong} isPlayingSong />
-                            </div >
-                        </div>
-                    </>
-                }
-
                 {(songs.length > 0) &&  /* List  */
-                    <>
-                        <h4>List</h4>
-                        <div className="songlist__songs">
-                            {
-                                songs.map(song => <PlayListSong
+                    <div className="songlist__songs">
+                        {
+                            songs.map(song =>
+                                <PlayListSong
                                     key={song.name}
                                     data={song}
+                                    isPlayingSong={song.name === playingSong.name ? true : false}
                                     removeFromSongList={removeFromSongList}
                                 />)
-                            }
-                        </div>
-                    </>
+                        }
+                    </div>
                 }
 
             </div>

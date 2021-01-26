@@ -12,7 +12,7 @@
     position: relative;
 }
 
-.playlistsong:hover{
+.playlistsong:hover,.playing-song{
     background-color: var(--songHoverBgColor);
 }
 

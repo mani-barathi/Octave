@@ -6,7 +6,7 @@ import PlayerSongListButton from './PlayerSongListButton'
 import { Slider } from '@material-ui/core'
 
 import { calculateDurationTime, calculateCurrentTime } from "../utils/player-utils"
-import { setRecentSongsLocalStorage, popSongFromSessionStorage } from "../utils/song-utils"
+import { setRecentSongsLocalStorage, getNextSong, playNewSong, getPreviousSong } from "../utils/song-utils"
 import { useStateValue } from "../context/StateProvider"
 
 function Player() {
@@ -16,7 +16,7 @@ function Player() {
     const [displayDurationTime, setDisplayDurationTime] = useState('0:00')
     const [currentSong, setCurrentSong] = useState(null)
     const audioRef = useRef(null)
-    const [{ playingSong }, dispatch] = useStateValue()
+    const [{ newSong, songIndex }, dispatch] = useStateValue()
 
     useEffect(() => {
         if (currentSong) {
@@ -30,10 +30,20 @@ function Player() {
     }, [currentSong, dispatch])
 
     useEffect(() => {
-        if (playingSong)
-            setCurrentSong(playingSong)
-    }, [playingSong])
+        if (newSong) {
+            playNewSong(songIndex, newSong)
+            dispatch({ type: 'SET_SONG_INDEX', songIndex: 0 })
+            setCurrentSong(newSong)
+            dispatch({
+                type: 'SET_NEW_SONG',
+                newSong: null
+            })
+        }
+        // eslint-disable-next-line
+    }, [newSong])
 
+
+    useEffect(() => console.log("songIndex: ", songIndex), [songIndex])
 
     // playing  0 -> paused  | 1 -> playing  | -1 -> loading
     const playPauseSong = () => {
@@ -53,18 +63,25 @@ function Player() {
 
     const playNextSong = useCallback(() => {
         console.log('This is playNextSong()')
-        const nextSong = popSongFromSessionStorage()
+        const nextSong = getNextSong(songIndex)
         if (nextSong) {
             setCurrentSong(nextSong)
+            dispatch({ type: 'INC_SONG_INDEX' })
             console.log("There is a next Song", nextSong.name)
         } else {
             console.log("No next song")
         }
-    }, [])
+    }, [songIndex, dispatch])
 
     const playPreviousSong = useCallback(() => {
         console.log('This is playPreviousSong()')
-    }, [])
+        const prevSong = getPreviousSong(songIndex)
+        if (prevSong) {
+            setCurrentSong(prevSong)
+            dispatch({ type: 'DEC_SONG_INDEX' })
+        } else
+            console.log('No prev song!')
+    }, [songIndex, dispatch])
 
     const playSongByMediaSession = async () => {
         console.log('This is playSongByMediaSession()')
@@ -95,13 +112,13 @@ function Player() {
                 pauseSongByMediaSession()
             })
             navigator.mediaSession.setActionHandler("previoustrack", () => {
-                // playPrevious()
+                playPreviousSong()
             })
             navigator.mediaSession.setActionHandler("nexttrack", () => {
                 playNextSong()
             })
         }
-    }, [currentSong, playNextSong])
+    }, [currentSong, playNextSong, playPreviousSong])
 
     // When the audio element is rendered on the screen, this function gets executed
     const audioElementCallbackRef = useCallback((node) => {
@@ -151,6 +168,7 @@ function Player() {
             </div>
 
             <div className="player__main">
+
                 <div className="player__song">
                     {currentSong?.imageUrl && <img src={currentSong.imageUrl} alt="" className="song__infoImage" />}
                     <div className="song__info">

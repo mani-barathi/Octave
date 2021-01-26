@@ -13,7 +13,7 @@ function PlayListSong({ id, data,
     isFavourites,        // is it created from Favourites Component ?
     isArtistPage,        // is it created from ArtistPage Component ?
     isPlayingSong,       // is it currentPlaying Song ?
-    removeFromSongList,  // removeSong() to remove it from SongList 
+    removeFromSongList,
     isSearchSong }) {    // is it created from Search Component ?
 
     const [anchorEl, setAnchorEl] = useState(null)
@@ -34,7 +34,7 @@ function PlayListSong({ id, data,
     }
 
     return (
-        <div className="playlistsong">
+        <div className={isPlayingSong ? 'playlistsong playing-song' : 'playlistsong'}>
             <img src={data?.imageUrl} alt="" className="playlistsong__img" />
             <div className="playlistsong__info">
                 <p className="playlistsong__infoName">{data?.name}</p>
