@@ -43,7 +43,9 @@ function Player() {
     }, [newSong])
 
 
-    useEffect(() => console.log("songIndex: ", songIndex), [songIndex])
+    useEffect(() =>
+        console.log("songIndex: ", songIndex)
+        , [songIndex])
 
     // playing  0 -> paused  | 1 -> playing  | -1 -> loading
     const playPauseSong = () => {
@@ -55,9 +57,11 @@ function Player() {
         if (playing === 1) {
             audioRef.current.pause()
             setPlaying(0)
+            document.title = `Octave`
         } else {
             audioRef.current.play()
             setPlaying(1)
+            document.title = `${currentSong?.name} (${currentSong?.artist}) | Octave`
         }
     }
 
@@ -83,18 +87,18 @@ function Player() {
             console.log('No prev song!')
     }, [songIndex, dispatch])
 
-    const playSongByMediaSession = async () => {
-        console.log('This is playSongByMediaSession()')
+    const playSongByMediaSession = useCallback(async () => {
         await audioRef.current.play()
         navigator.mediaSession.playbackState = "playing"
         setPlaying(1)
-    }
+        document.title = `${currentSong?.name} (${currentSong?.artist}) | Octave`
+    }, [currentSong])
 
     const pauseSongByMediaSession = async () => {
-        console.log('This is pauseSongByMediaSession()')
         await audioRef.current.pause()
         navigator.mediaSession.playbackState = "paused";
         setPlaying(0)
+        document.title = `Octave`
     }
 
 
@@ -118,7 +122,7 @@ function Player() {
                 playNextSong()
             })
         }
-    }, [currentSong, playNextSong, playPreviousSong])
+    }, [currentSong, playNextSong, playPreviousSong, playSongByMediaSession])
 
     // When the audio element is rendered on the screen, this function gets executed
     const audioElementCallbackRef = useCallback((node) => {
@@ -135,6 +139,7 @@ function Player() {
 
         audioRef.current.onended = () => {
             setPlaying(0)
+            document.title = `Octave`
             playNextSong()
             // setPlaying(1)
         }

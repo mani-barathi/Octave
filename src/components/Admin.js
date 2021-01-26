@@ -14,12 +14,13 @@ function Admin() {
     const [progress, setProgress] = useState(null)
 
     useEffect(() => {
-        db.collection('artists').orderBy('name')
+        const unsubscribe = db.collection('artists').orderBy('name')
             .onSnapshot(snapshot => {
                 setArtists(
                     snapshot.docs.map(doc => doc.data().name)
                 )
             })
+        return unsubscribe
     }, [])
 
     const clearFormFields = () => {

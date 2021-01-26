@@ -49,7 +49,7 @@ function SongList() {
                                 <PlayListSong
                                     key={song.name}
                                     data={song}
-                                    isPlayingSong={song.name === playingSong.name ? true : false}
+                                    isPlayingSong={song?.name === playingSong.name ? true : false}
                                     removeFromSongList={removeFromSongList}
                                 />)
                         }
