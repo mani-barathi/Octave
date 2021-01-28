@@ -66,7 +66,7 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
     const addToFavourites = () => {
         setAnchorEl(false)
         const { name, url, imageUrl, artist } = data   // destructuring to exclude the createdAt Timestamp from Song obj
-        db.collection('favourites').add({
+        db.collection('favorites').add({
             uid: user.uid,
             addedAt: firebase.firestore.FieldValue.serverTimestamp(),
             name, url, imageUrl, artist
@@ -74,13 +74,13 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
         setSnackBar("Song added to Favorites")
     }
 
-    const removeFromFavourites = (id) => {
+    const removeFromPlaylist = (collectionName, id) => {
         setAnchorEl(false)
-        db.collection('favourites').doc(id).delete()
-        console.log('deleted from Favorites')
+        db.collection(collectionName).doc(id).delete()
+        console.log(`deleted ${id} from ${collectionName}`)
     }
 
-    return { playSong, playNext, addToQueue, addToFavourites, removeFromFavourites }
+    return { playSong, playNext, addToQueue, addToFavourites, removeFromPlaylist }
 }
 
 export default useSongFunctions

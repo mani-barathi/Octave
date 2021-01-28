@@ -3,11 +3,24 @@
     padding:1rem;
 }
 
-.playlist__titleText{
-    font-size: 1.8rem;
-    font-weight:500;
+.playlist__header{
+    display: flex;
+    align-items: center;
     margin-left: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+.playlist__titleText{
+    font-size: 2rem;
+    font-weight:500;
+    margin-left: 0.5rem;
+}
+
+.playlist__image{
+    max-width: 50;
+    max-height: 50px;
+    border-radius: 5px;
+    object-fit: contain;
 }
 
 .playlist__container{

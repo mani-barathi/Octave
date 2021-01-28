@@ -46,7 +46,7 @@ function RecentlyListened() {
             <div className="row user-select-none">
                 <div className="row__headerText">
                     <h2>Recently Activity</h2>
-                    <p>Your Daily Music </p>
+                    <h4 style={{ fontWeight: "500" }}>Your Daily Music </h4>
                 </div>
 
                 <div className="row__songsContainer">
@@ -71,7 +71,7 @@ function RecentlyListened() {
                             <ChevronRightIcon fontSize="large" className="row__icon" />}
                     </div>
                 </div>
-            </div>
+            </div >
         )
     } else {
         return null

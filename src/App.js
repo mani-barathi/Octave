@@ -8,7 +8,7 @@ import SongList from "./components/SongList"
 import Search from "./components/Search"
 import Admin from "./components/Admin"
 import ArtistPage from "./components/ArtistPage"
-
+import PlayListPage from "./components/PlayListPage"
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { useStateValue } from "./context/StateProvider"
@@ -33,6 +33,10 @@ function App() {
 
                   <Route path="/library">
                     <Library />
+                  </Route>
+
+                  <Route path="/playlists/:id">
+                    <PlayListPage />
                   </Route>
 
                   <Route path="/search">

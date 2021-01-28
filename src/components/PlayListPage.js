@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import "../css/PlayList.css"
 import PlayListSong from "./PlayListSong"
+import { useParams, useHistory } from "react-router-dom"
 import { useStateValue } from "../context/StateProvider"
-import { db } from "../firebase"
 
-function Favourites() {
+import usePlayListFunctions from "../hooks/usePlayListFunctions"
+
+function PlayListPage() {
     const [songs, setSongs] = useState([])
-    const [{ user }] = useStateValue()
+    const { id } = useParams()
+    const history = useHistory()
+    const [{ artist }] = useStateValue()
+    const { getFavouriteSongs, getPlaylistSongs } = usePlayListFunctions()
 
     useEffect(() => {
-        const unsubscribe = db.collection('favourites')
-            .where('uid', "==", user.uid)
-            .orderBy('addedAt', 'desc')
+        if (!artist) history.replace('/')
+
+        const getSongs = (id === 'favorites') ? getFavouriteSongs : getPlaylistSongs
+
+        let unsubscribe = getSongs(id)
             .onSnapshot(snapshot => {
                 setSongs(
                     snapshot.docs.map(doc => ({
@@ -20,24 +27,26 @@ function Favourites() {
                     }))
                 )
             })
-        return unsubscribe
-    }, [user.uid])
 
-    const removeSong = () => {
-        console.log("this is the passed on removeSong()")
-    }
+        return unsubscribe
+        // eslint-disable-next-line
+    }, [id])
+
 
     return (
         <div className="playlist">
-            <h1 className="playlist__titleText"> Favourites </h1>
+            <div className="playlist__header">
+                <img src={artist?.imageUrl} alt="" className="playlist__image" />
+                <h1 className="playlist__titleText"> {artist?.name} </h1>
+            </div>
             <div className="playlist__container">
                 {songs.length > 0 ? (
                     songs.map((song) => <PlayListSong key={song.id} id={song.id} data={song.data}
-                        isFavourites removeSong={removeSong} />
+                        isPlaylistSong collectionName={id} />
                     )
                 ) : (
                         <p style={{ marginLeft: "1rem" }}>
-                            You haven't added any songs to your Favourites List...Try Adding a song!
+                            You haven't added any songs this Playlist...Try Adding a song!
                         </p>
                     )
                 }
@@ -46,4 +55,4 @@ function Favourites() {
     )
 }
 
-export default Favourites
+export default PlayListPage

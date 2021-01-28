@@ -10,7 +10,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import useSongFunctions from '../hooks/useSongFunctions'
 
 function PlayListSong({ id, data,
-    isFavourites,        // is it created from Favourites Component ?
+    isPlaylistSong,        // is it created from Favourites Component ?
+    collectionName,       // what collection is this song from (favourites or playlistsong)
     isArtistPage,        // is it created from ArtistPage Component ?
     isPlayingSong,       // is it currentPlaying Song ?
     removeFromSongList,
@@ -19,11 +20,11 @@ function PlayListSong({ id, data,
     const [anchorEl, setAnchorEl] = useState(null)
     const [snackBar, setSnackBar] = useState(null)
     const { playSong, playNext, addToQueue,
-        removeFromFavourites, addToFavourites } = useSongFunctions(data, setAnchorEl, setSnackBar)
+        removeFromPlaylist, addToFavourites } = useSongFunctions(data, setAnchorEl, setSnackBar)
 
     const removeSongFunc = () => {
-        if (isFavourites)
-            removeFromFavourites(id)
+        if (isPlaylistSong)
+            removeFromPlaylist(collectionName, id)
         else
             removeFromSongList(data)
         setAnchorEl(false)
@@ -55,7 +56,7 @@ function PlayListSong({ id, data,
                 <div className="playlistsong__options" >
                     {/* If this song is from Favourites or ArtistPage then show the options (playnext,add to queue,add to Favaourites) */}
                     {/* else this song is from SongList then show the remove Icon alone */}
-                    {isFavourites || isArtistPage ? (
+                    {isPlaylistSong || isArtistPage ? (
                         <>
                             <IconButton className="playlistsong__optionsIcon" aria-controls="simple-menu" aria-haspopup="true"
                                 onClick={openOptions} >
@@ -87,7 +88,7 @@ function PlayListSong({ id, data,
             }
 
             {/* If this song is from Favourites or ArtistPage then show SnackBar Notifications */}
-            { (isFavourites || isArtistPage) && snackBar &&
+            { (isPlaylistSong || isArtistPage) && snackBar &&
                 <SnackBar snackBar={snackBar} setSnackBar={setSnackBar} />}     {/* To Show Pop Up messages */}
 
         </div >

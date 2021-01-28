@@ -43,3 +43,16 @@ export function createNamesArrayWithCaptitalizedWords(name) {
     let names = createNamesArray(capitalizedword)
     return names
 }
+
+const playlistImages = [
+    'https://prexoo.com/images/no-music-cover.png',
+    'https://www.soundlaunch.com/cover_photos/default_cover.jpg',
+    'https://d1csarkz8obe9u.cloudfront.net/posterpreviews/abstract-music-cd-cover-art-design-template-e43d2f90de58fd720f97f7e8068bb4f8_screen.jpg?ts=1570368591',
+    'https://upload.wikimedia.org/wikipedia/en/c/c9/Zedd-True-Colors.png',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnJL-5T0rDIVexjW4ndJko_z_YnBtFmTRauQ&usqp=CAU'
+]
+
+export function getRandomPlaylistImage() {
+    const randomIndex = Math.floor(Math.random() * playlistImages.length)
+    return playlistImages[randomIndex]
+}
