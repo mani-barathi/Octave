@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "../css/PlayListSong.css"
 import SnackBar from "./SnackBar"
+import AddPlayListSongModal from "./AddPlayListSongModal"
 
 import { IconButton, Menu, MenuItem } from "@material-ui/core"
 import MoreVertIcon from '@material-ui/icons/MoreVert'
@@ -19,8 +20,10 @@ function PlayListSong({ id, data,
 
     const [anchorEl, setAnchorEl] = useState(null)
     const [snackBar, setSnackBar] = useState(null)
+    const [isModalOpen, SetIsModalOpen] = useState(false)
     const { playSong, playNext, addToQueue,
         removeFromPlaylist, addToFavourites } = useSongFunctions(data, setAnchorEl, setSnackBar)
+
 
     const removeSongFunc = () => {
         if (isPlaylistSong)
@@ -32,6 +35,11 @@ function PlayListSong({ id, data,
 
     const openOptions = (event) => {
         setAnchorEl(event.currentTarget)
+    }
+
+    const openAddSongPlaylistModal = () => {
+        SetIsModalOpen(true)
+        setAnchorEl(false)
     }
 
     return (
@@ -56,7 +64,7 @@ function PlayListSong({ id, data,
                 <div className="playlistsong__options" >
                     {/* If this song is from Favourites or ArtistPage then show the options (playnext,add to queue,add to Favaourites) */}
                     {/* else this song is from SongList then show the remove Icon alone */}
-                    {isPlaylistSong || isArtistPage ? (
+                    {isSearchSong || isPlaylistSong || isArtistPage ? (
                         <>
                             <IconButton className="playlistsong__optionsIcon" aria-controls="simple-menu" aria-haspopup="true"
                                 onClick={openOptions} >
@@ -70,12 +78,15 @@ function PlayListSong({ id, data,
                                 onClose={() => setAnchorEl(false)}>
                                 <MenuItem className="playlistsong__optionsItem" onClick={playNext}>Play Next</MenuItem>
                                 <MenuItem className="playlistsong__optionsItem" onClick={addToQueue}>Add to Queue</MenuItem>
-                                {/* If this is not from search and ArtistPage then show the removebutton */}
-                                {!isSearchSong && !isArtistPage &&
+                                {/* If this is not from search and ArtistPage then show the removebutton cause it is from songlist */}
+                                {(!isSearchSong && !isArtistPage) &&
                                     <MenuItem className="playlistsong__optionsItem" onClick={removeSongFunc}>Remove</MenuItem>
                                 }
                                 {(isSearchSong || isArtistPage) &&
-                                    <MenuItem className="playlistsong__optionsItem" onClick={addToFavourites}>add To Favourites</MenuItem>
+                                    <div>
+                                        <MenuItem className="playlistsong__optionsItem" onClick={addToFavourites}>add To Favourites</MenuItem>
+                                        <MenuItem className="song__optionItem" onClick={openAddSongPlaylistModal}>Add To Playlist</MenuItem>
+                                    </div>
                                 }
                             </Menu>
                         </>
@@ -87,9 +98,14 @@ function PlayListSong({ id, data,
                 </div>
             }
 
-            {/* If this song is from Favourites or ArtistPage then show SnackBar Notifications */}
-            { (isPlaylistSong || isArtistPage) && snackBar &&
+            {/* If this song is from Playlist or Favourites or ArtistPage then show SnackBar Notifications */}
+            {(isSearchSong || isPlaylistSong || isArtistPage) && snackBar &&
                 <SnackBar snackBar={snackBar} setSnackBar={setSnackBar} />}     {/* To Show Pop Up messages */}
+
+            {/* If this song is from Playlist or ArtistPage then show SnackBar Notifications */}
+            {isModalOpen &&
+                <AddPlayListSongModal song={data} SetIsModalOpen={SetIsModalOpen} setSnackBar={setSnackBar} />
+            }
 
         </div >
     )

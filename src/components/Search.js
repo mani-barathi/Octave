@@ -81,7 +81,7 @@ function Search() {
 
             <div className="search__results">
                 {songs?.length > 0 && songs.map(song =>
-                    <PlayListSong key={song.id} data={song.data} isFavourites isSearchSong />
+                    <PlayListSong key={song.id} data={song.data} isSearchSong />
                 )}
             </div>
 

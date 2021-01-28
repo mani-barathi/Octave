@@ -16,10 +16,29 @@ function usePlayListFunctions() {
         })
     }
 
+    const deletePlaylist = (playlistId) => {
+        return db.collection('playlists').doc(playlistId).delete()
+    }
+
     const getAllPlaylists = () => {
         return db.collection('playlists')
             .where("uid", "==", user.uid)
             .orderBy('createdAt', 'desc')
+    }
+
+    const addSongToPlaylist = (playlistId, song) => {
+        const { name, url, imageUrl, artist } = song
+        const data = {
+            playlistId,
+            name, url, imageUrl, artist,
+            addedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        }
+        return db.collection('playlistsongs').add(data)
+    }
+
+    const deleteSongFromPlaylist = (playlistSongId) => {
+        console.log(playlistSongId)
+        return db.collection('playlistsongs').doc(playlistSongId).delete()
     }
 
     const getFavouriteSongs = () => {
@@ -34,7 +53,12 @@ function usePlayListFunctions() {
             .orderBy('addedAt', 'desc')
     }
 
-    return { createNewPlaylist, getAllPlaylists, getFavouriteSongs, getPlaylistSongs }
+    return {
+        createNewPlaylist, deletePlaylist,
+        getAllPlaylists,
+        getFavouriteSongs, getPlaylistSongs,
+        addSongToPlaylist, deleteSongFromPlaylist
+    }
 }
 
 export default usePlayListFunctions

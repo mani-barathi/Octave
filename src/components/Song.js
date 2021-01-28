@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "../css/Song.css"
 import SnackBar from "./SnackBar"
+import AddPlayListSongModal from "./AddPlayListSongModal"
 
 import { IconButton, Menu, MenuItem } from "@material-ui/core"
 import MoreVertIcon from '@material-ui/icons/MoreVert'
@@ -11,10 +12,16 @@ import useSongFunctions from '../hooks/useSongFunctions';
 function Song({ data }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [snackBar, setSnackBar] = useState(null)
+    const [isModalOpen, SetIsModalOpen] = useState(false)
     const { playSong, playNext, addToQueue, addToFavourites } = useSongFunctions(data, setAnchorEl, setSnackBar)
 
     const openOptions = (event) => {
         setAnchorEl(event.currentTarget)
+    }
+
+    const openAddSongPlaylistModal = () => {
+        SetIsModalOpen(true)
+        setAnchorEl(false)
     }
 
     return (
@@ -44,11 +51,16 @@ function Song({ data }) {
                     <MenuItem className="song__optionItem" onClick={playNext}>Play Next</MenuItem>
                     <MenuItem className="song__optionItem" onClick={addToQueue}>Add to Queue</MenuItem>
                     <MenuItem className="song__optionItem" onClick={addToFavourites}>Add To Favourites</MenuItem>
+                    <MenuItem className="song__optionItem" onClick={openAddSongPlaylistModal}>Add To Playlist</MenuItem>
                 </Menu>
             </div>
 
             { snackBar &&
                 <SnackBar snackBar={snackBar} setSnackBar={setSnackBar} />}     {/* To Show Pop Up messages */}
+
+            { isModalOpen &&
+                <AddPlayListSongModal song={data} SetIsModalOpen={SetIsModalOpen} setSnackBar={setSnackBar} />
+            }
 
         </div >
     )

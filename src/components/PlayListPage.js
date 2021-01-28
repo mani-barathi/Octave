@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react'
 import "../css/PlayList.css"
 import PlayListSong from "./PlayListSong"
 import { useParams, useHistory } from "react-router-dom"
-import { useStateValue } from "../context/StateProvider"
 
+import { IconButton } from "@material-ui/core"
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import { useStateValue } from "../context/StateProvider"
 import usePlayListFunctions from "../hooks/usePlayListFunctions"
 
 function PlayListPage() {
@@ -11,7 +14,7 @@ function PlayListPage() {
     const { id } = useParams()
     const history = useHistory()
     const [{ artist }] = useStateValue()
-    const { getFavouriteSongs, getPlaylistSongs } = usePlayListFunctions()
+    const { getFavouriteSongs, getPlaylistSongs, deleteSongFromPlaylist, deletePlaylist } = usePlayListFunctions()
 
     useEffect(() => {
         if (!artist) history.replace('/')
@@ -32,17 +35,37 @@ function PlayListPage() {
         // eslint-disable-next-line
     }, [id])
 
+    const handleDeletePlayList = () => {
+        let confirmDelete = window.confirm('Do You Want to delete this Playlist ?')
+        if (!confirmDelete) return
+
+        for (let song of songs) {
+            console.log(song)
+            deleteSongFromPlaylist(song.id)
+                .then(() => console.log('deleted a song from the playlist'))
+                .catch((error) => alert(error.message))
+        }
+        deletePlaylist(id)
+            .then(() => history.push('/library'))
+            .catch((error) => alert(error.message))
+        // eslint-disable-next-line
+    }
 
     return (
         <div className="playlist">
             <div className="playlist__header">
                 <img src={artist?.imageUrl} alt="" className="playlist__image" />
                 <h1 className="playlist__titleText"> {artist?.name} </h1>
+                {id !== 'favorites' &&
+                    <IconButton className="playlist__deleteBtn" onClick={handleDeletePlayList}>
+                        <DeleteIcon />
+                    </IconButton>}
             </div>
             <div className="playlist__container">
                 {songs.length > 0 ? (
                     songs.map((song) => <PlayListSong key={song.id} id={song.id} data={song.data}
-                        isPlaylistSong collectionName={id} />
+                        isPlaylistSong collectionName={(id === 'favorites') ? 'favorites' : 'playlistsongs'}
+                    />
                     )
                 ) : (
                         <p style={{ marginLeft: "1rem" }}>

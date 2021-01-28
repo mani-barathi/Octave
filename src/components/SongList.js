@@ -47,9 +47,9 @@ function SongList() {
                         {
                             songs.map(song =>
                                 <PlayListSong
-                                    key={song.name}
+                                    key={song?.name}
                                     data={song}
-                                    isPlayingSong={song?.name === playingSong.name ? true : false}
+                                    isPlayingSong={(song?.name) === (playingSong?.name) ? true : false}
                                     removeFromSongList={removeFromSongList}
                                 />)
                         }
