@@ -89,6 +89,6 @@ export function playNewSong(index, newSong) {
         songList = songList.slice(index)
         songList = [newSong, ...songList]
     }
-    console.log('SongList:', songList)
+    console.log('songIndex(inside utils):', index)
     sessionStorage.setItem('SONG_LIST', JSON.stringify(songList))
 }

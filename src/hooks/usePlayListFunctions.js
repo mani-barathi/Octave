@@ -5,7 +5,7 @@ import { db } from "../firebase"
 import firebase from "firebase"
 
 function usePlayListFunctions() {
-    const [{ user }] = useStateValue()
+    const [{ user }, dispatch] = useStateValue()
 
     const createNewPlaylist = (playlistName) => {
         return db.collection('playlists').add({
@@ -53,11 +53,26 @@ function usePlayListFunctions() {
             .orderBy('addedAt', 'desc')
     }
 
+    const playSelectedPlaylist = (songs) => {
+        const [firstSong, ...remainingSongs] = songs
+        // set the remainingSongs to sessionStorage
+        sessionStorage.setItem('SONG_LIST', JSON.stringify(remainingSongs))
+        // to reset the songIndex as a new Plyslist is being played
+        dispatch({ type: 'SET_SONG_INDEX', songIndex: 0 })
+        // dispathcing a newsong will add firstSong to the begining of the songlist
+        dispatch({
+            type: 'SET_NEW_SONG',
+            newSong: firstSong
+        })
+
+    }
+
     return {
         createNewPlaylist, deletePlaylist,
         getAllPlaylists,
         getFavouriteSongs, getPlaylistSongs,
-        addSongToPlaylist, deleteSongFromPlaylist
+        addSongToPlaylist, deleteSongFromPlaylist,
+        playSelectedPlaylist
     }
 }
 

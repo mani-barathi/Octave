@@ -3,8 +3,9 @@ import "../css/PlayList.css"
 import PlayListSong from "./PlayListSong"
 import { useParams, useHistory } from "react-router-dom"
 
-import { IconButton } from "@material-ui/core"
-import DeleteIcon from '@material-ui/icons/Delete';
+import { IconButton, Button } from "@material-ui/core"
+import DeleteIcon from '@material-ui/icons/Delete'
+import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 
 import { useStateValue } from "../context/StateProvider"
 import usePlayListFunctions from "../hooks/usePlayListFunctions"
@@ -14,7 +15,7 @@ function PlayListPage() {
     const { id } = useParams()
     const history = useHistory()
     const [{ artist }] = useStateValue()
-    const { getFavouriteSongs, getPlaylistSongs, deleteSongFromPlaylist, deletePlaylist } = usePlayListFunctions()
+    const { getFavouriteSongs, getPlaylistSongs, deleteSongFromPlaylist, deletePlaylist, playSelectedPlaylist } = usePlayListFunctions()
 
     useEffect(() => {
         if (!artist) history.replace('/')
@@ -34,6 +35,12 @@ function PlayListPage() {
         return unsubscribe
         // eslint-disable-next-line
     }, [id])
+
+
+    const playPlayList = () => {
+        const playlistSongs = songs.map(song => song.data)
+        playSelectedPlaylist(playlistSongs)
+    }
 
     const handleDeletePlayList = () => {
         let confirmDelete = window.confirm('Do You Want to delete this Playlist ?')
@@ -60,6 +67,15 @@ function PlayListPage() {
                     <IconButton className="playlist__deleteBtn" onClick={handleDeletePlayList}>
                         <DeleteIcon />
                     </IconButton>}
+            </div>
+            <div className="playlist__header">
+                {songs.length > 0 &&
+                    <Button variant="text" size="large" color="inherit"
+                        startIcon={<PlayArrowIcon />}
+                        onClick={playPlayList}
+                    >
+                        Play
+                </Button>}
             </div>
             <div className="playlist__container">
                 {songs.length > 0 ? (

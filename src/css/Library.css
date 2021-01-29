@@ -39,6 +39,7 @@
     transition: all 0.2s ease;
     cursor: pointer;
     margin-bottom:2rem;
+    position: relative;
 }
 .library__playlist:hover{
     transform:scale(0.98)
@@ -52,8 +53,20 @@
     box-shadow: 0 15px 30px 5px rgba(0,0,0,0.1);
 }
 
-.library__playlistCreate{
-    border: 2px solid var(--songHoverBgColor);
+.library__playlistPlayIcon{
+    padding: 0 !important;
+    transform: scale(2);
+    position: absolute;
+    bottom: 7%;
+    right:12%;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.library__playlistPlayIcon:hover{
+    transform:scale(2.3);
+}
+.library__playlistPlayIcon:active{
+    transform:scale(1.8) !important; 
 }
 
 .library__playlistName{
@@ -64,6 +77,10 @@
     text-align:center;
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+.library__playlistCreate{
+    border: 2px solid var(--songHoverBgColor);
 }
 
 .library__addPlaylistInput{
