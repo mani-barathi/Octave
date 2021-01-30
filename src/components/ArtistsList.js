@@ -8,6 +8,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import useMoveLeftRight from '../hooks/useMoveLeftRight'
 import { db } from "../firebase"
 
+// A Row of Artist present inside Home Page
 function ArtistsList() {
     const [isLeftBtn, setIsLeftBtn] = useState(false)
     const [isRightBtn, setIsRightBtn] = useState(false)

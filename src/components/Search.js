@@ -8,6 +8,7 @@ import SearchIcon from "@material-ui/icons/Search"
 import { capitalize, capitalizeAllWords } from "../utils/utils"
 import { db } from "../firebase"
 
+// Search Page
 function Search() {
     const [input, setInput] = useState('')
     const [infoText, setInfoText] = useState('')

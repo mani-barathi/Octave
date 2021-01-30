@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
-// import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
-// import AddIcon from '@material-ui/icons/Add';
 
 import usePlayListFunctions from "../hooks/usePlayListFunctions"
 
+// add a song to playlist modal, used inside Song and PlaylistSong
 function AddPlayListSongModal({ song, SetIsModalOpen, setSnackBar }) {
     const [playlists, setPlaylists] = useState([])
     const { getAllPlaylists, addSongToPlaylist } = usePlayListFunctions()

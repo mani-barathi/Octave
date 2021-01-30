@@ -8,6 +8,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import useMoveLeftRight from '../hooks/useMoveLeftRight'
 import { db } from "../firebase"
 
+// A row of latest  songs  displayed in Home Page
 function NewReleases() {
     const [isLeftBtn, setIsLeftBtn] = useState(false)
     const [isRightBtn, setIsRightBtn] = useState(false)

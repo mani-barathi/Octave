@@ -1,4 +1,4 @@
-
+// left and Right Buttons present inside NewReleases, ArtistPage,RecentlyPlayed
 function useMoveLeftRight(rowRef, setIsLeftBtn, setIsRightBtn) {
 
     const scrollLeft = () => {

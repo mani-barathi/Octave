@@ -9,6 +9,7 @@ import { calculateDurationTime, calculateCurrentTime } from "../utils/player-uti
 import { setRecentSongsLocalStorage, getNextSong, playNewSong, getPreviousSong } from "../utils/song-utils"
 import { useStateValue } from "../context/StateProvider"
 
+// The Entire Bottom part where all the song controls are available
 function Player() {
     const [playing, setPlaying] = useState(0)
     const [continuousTime, setContinuousTime] = useState(0)

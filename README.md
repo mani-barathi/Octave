@@ -4,10 +4,9 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
 **Click [Here](https://music-streaming-app-4a392.web.app/) to view the Live Website**
 
 ### Currenly Working on 👇 
-- [x] Creating and Editing custom Playlists
+- [x] ~Creating and Editing custom Playlists~
 - [x] ~Admin Page, where users can add New Songs to DB~
 - [x] ~Search based on Song and Artist~
-- [x] ~Listing Songs based on Artist~
 
 ### Design Preview
 <img src="https://github.com/mani-barathi/Music-Streaming-App/blob/master/public/preview.JPG" />
@@ -16,14 +15,14 @@ Developing a Web based Music Streaming App using ReactJs and Firebase
 * **React** (FrontEnd)
     * **Material-UI** - For Icons and prebuilt Components (**package**)
     * **react-router-dom** - To manage routing between different pages(Home, Library, Search). (**package**)
-    * **Context-Api** - To manage Global states across all Components (**Hook present in React**)
+    * **Context-Api** - To manage Global states across all Components (**Hook**)
 * **Firebase** - Baas (Backend as a Service)
     * **Firestore** - NoSQL database
     * **Authentication** 
         * SignIn & SignUp functionality using Email and Password verification
         * Sign In With Google Account
     * **Storage** - Cloud Storage for uploading and serving Songs
-    * **Hosting** - To Host the Web Page
+    * **Hosting** - To Host the Website
 
 ## Functionalities
 ### SongList (Current Playlist)
@@ -45,6 +44,7 @@ This Project has a quite a lot of Components.
     * **Login** - Login Page where Login, Sign Up and Sign In with Google Account functionalities are implemented
     * **Home** - Home Page where User can view all Snaps. (**Route - '/'**)
     * **Library** - Library Page which displays the Recently Played Songs and Favourite Songs of the User. (**Route - '/library'**)
+    * **PlayListPage** - This one displays the Songs of that particular Playlist
     * **Search** - Search Page where user can search for Songs and Artists. (**Route - '/search'**)
     * **AritstPage** -This Page Describes about an Artist and lists all of his/her Songs. (**Route -'/artist/artistID'**)
     * **Admin** - Admin Page where new Songs and Artists can be added. (**Route -'/admin'**)
@@ -54,7 +54,6 @@ This Project has a quite a lot of Components.
     * **NewReleases** - NewReleases displays all the latest Songs. (Inside Home Component)
     * **AritstList** - AritstList displays all the latest Songs. (Inside Home Component)
     * **RecentlyListened** - This one holds the Recently Listened Songs of the user. (Inside Library Component)
-    * **Favourites** - This one displays the Favourite Songs of the user. (Inside Library Component)
     * **SongList** - This shows the Current Playlist. (Inside App Component)
     * **Player** - Player Component placed to the bottom of the page. (Inside App Component)
 
@@ -65,6 +64,7 @@ This Project has a quite a lot of Components.
     * **PlayerControls** - This holds the Control Buttons of the Player (play, pause, next, previous). (Inside Player Component)
     * **ForgotPassword** - Forgot Password Dialog Box. (Inside Login Component)
     * **SnackBar** - Notification Popup which appears on bottom of the page. (Used Inside Song and PlaylistSong Component)
+    * **CreatePlayListModal** - Modal where User can create new Playlist. (Used inside Library Page)
 
 </details>
 
@@ -72,6 +72,7 @@ This Project has a quite a lot of Components.
 Created a few Custom Hooks to keep the Complex functionality outside the Components. (check `src/hooks/` folder)
 * **useAuth** - This provides all the Functions related to Authentication (SignUp, Login, SignOut ,Update Profile, Reset Password, Sign in with Google).
 * **useSongFunctions** - This provides all the Functions related to Songs (Playing a Song, Play a Particular Song as the Next song, Adding a Song to Queue, Adding a Song to Favourites, Removing a Song from Favourities).
+* **userPlaylistFunction** - This holds function which creates, deletes playlists, also add and remove songs ,get all songs from a playlist.
 
 ## Helper Functions 
 Files which has Helper Functions are kept in `src/utils/`. 
@@ -87,4 +88,4 @@ These files include
 * Run app by typing `npm start`in command line
 
 ### Note
-You will have to create an **Index** in firestore, as **Favourites** Component uses Nested Queries to fetch data from Firestore. While Developing the Favourites Component there will be an error in console stating you to create an Index in Firestore. That Error will provide a link to create an Index in Firestore , you can click on the link and create an Index. (This Error will be solved after that particular Index is created)
+You will have to create an **Index** in firestore, as **PlayListPage**, **Library** Component uses Nested Queries to fetch data from Firestore. While Developing the Favourites Component there will be an error in console stating you to create an Index in Firestore. That Error will provide a link to create an Index in Firestore , you can click on the link and create an Index. (This Error will be solved after that particular Index is created)

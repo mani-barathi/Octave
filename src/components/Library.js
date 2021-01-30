@@ -94,7 +94,8 @@ function Library() {
 
                 {/*  Remaining Playlists Cards */}
                 {playlists.map(playlist =>
-                    <div key={playlist.id} onClick={() => goToPlaylistPage(playlist.id, playlist.data)} className="library__playlist">
+                    <div key={playlist.id} onClick={() => goToPlaylistPage(playlist.id, playlist.data)}
+                        className="library__playlist">
                         <img src={playlist.data.imageUrl} alt="" className="library__playlistFavouritesImg" />
                         <p className="library__playlistName">{playlist.data.name}</p>
                         <div className="library__playlistPlayIcon">

@@ -8,6 +8,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import useMoveLeftRight from '../hooks/useMoveLeftRight'
 import { getRecentSongsLocalStorage } from "../utils/song-utils"
 
+// Row of songs present inside Library
 function RecentlyListened() {
     const [isLeftBtn, setIsLeftBtn] = useState(false)
     const [isRightBtn, setIsRightBtn] = useState(false)

@@ -5,7 +5,7 @@ import {
 } from "@material-ui/core"
 import usePlayListFunctions from '../hooks/usePlayListFunctions'
 
-
+// Popup Modal where user can enter a new playlist name and create that, used in LIbrary Page
 function CreatePlaylistModal({ isOpen, setIsOpen }) {
     const inputRef = useRef()
     const { createNewPlaylist } = usePlayListFunctions()

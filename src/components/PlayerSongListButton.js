@@ -5,6 +5,7 @@ import QueueMusicIcon from '@material-ui/icons/QueueMusic';
 
 import { useStateValue } from "../context/StateProvider"
 
+// Toggle SongLIst Button, present inside Player
 function ToggleSongListBtn() {
     const [, dispatch] = useStateValue()
 

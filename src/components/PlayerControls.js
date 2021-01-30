@@ -6,6 +6,7 @@ import SkipPreviousRoundedIcon from '@material-ui/icons/SkipPreviousRounded';
 import SkipNextRoundedIcon from '@material-ui/icons/SkipNextRounded';
 import { IconButton, CircularProgress } from '@material-ui/core';
 
+// Play/Pause, previous , next Buttons
 function PlayerControls({ playPreviousSong, playPauseSong, playing, playNextSong }) {
     return (
         <div className="playercontrols">

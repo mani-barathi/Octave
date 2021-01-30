@@ -7,6 +7,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import { getSongSessionStorage, removeSongAndReturnSessionStorage } from "../utils/song-utils"
 import { useStateValue } from "../context/StateProvider"
 
+// This is the current Playlist of songs which will be showed when user Toggles it.
 function SongList() {
     const songListContainerRef = useRef()
     const [{ playingSong, songIndex }, dispatch] = useStateValue()

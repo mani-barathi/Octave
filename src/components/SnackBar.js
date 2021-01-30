@@ -2,7 +2,7 @@ import React from 'react'
 import { Snackbar, IconButton } from "@material-ui/core"
 import CloseIcon from '@material-ui/icons/Close'
 
-// This is the small Notification popup that appear whenever a song is added to the queue
+// This is the small Notification popup that appear on the Bottom of the page
 function SnackBar({ setSnackBar, snackBar }) {
 
     const closeSnackBar = () => {

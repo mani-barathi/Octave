@@ -8,6 +8,7 @@ import { Typography } from "@material-ui/core"
 import { db } from "../firebase"
 import { useStateValue } from '../context/StateProvider'
 
+// Artist Page when user clicks on a Artist card presernt inside Home or Search Page
 function ArtistPage() {
     const history = useHistory()
     const [{ artist }] = useStateValue()

@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom"
 
 import { useStateValue } from "../context/StateProvider"
 
+// Aritist card present inside Home Page
 function Artist({ id, data }) {
     const history = useHistory()
     const [, dispatch] = useStateValue()

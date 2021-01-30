@@ -10,6 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import useSongFunctions from '../hooks/useSongFunctions'
 
+// Rectangular Song component , used in ArtistPage, SearchPage, PlaylistPage, SongList
 function PlayListSong({ id, data,
     isPlaylistSong,        // is it created from Favourites Component ?
     collectionName,       // what collection is this song from (favourites or playlistsong)

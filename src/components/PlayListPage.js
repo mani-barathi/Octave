@@ -10,6 +10,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 import { useStateValue } from "../context/StateProvider"
 import usePlayListFunctions from "../hooks/usePlayListFunctions"
 
+// PlayListPage, which displays all the songs of the playlist, this includes the Favorites Page also
 function PlayListPage() {
     const [songs, setSongs] = useState([])
     const { id } = useParams()
