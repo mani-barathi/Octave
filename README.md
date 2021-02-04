@@ -1,15 +1,10 @@
 # Music Streaming App
-Developing a Web based Music Streaming App using ReactJs and Firebase
+A Web based Music Streaming App developed using ReactJs and Firebase
 
 **Click [Here](https://music-streaming-app-4a392.web.app/) to view the Live Website**
 
-### Currenly Working on 👇 
-- [x] ~Creating and Editing custom Playlists~
-- [x] ~Admin Page, where users can add New Songs to DB~
-- [x] ~Search based on Song and Artist~
-
 ### Design Preview
-<img src="https://github.com/mani-barathi/Music-Streaming-App/blob/master/public/preview.JPG" />
+<img src="./public/preview.gif" />
 
 ## Technology Used
 * **React** (FrontEnd)
