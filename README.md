@@ -29,40 +29,6 @@ The Recently Played Songs are stored in Local Storage.
 ### Media Session API
 Media Session allows the user to Control the playing song using Keyboard buttons. Essentially allowing user to know what song is playing and to control it, without needing to open the Webpage. Check `src/Player.js` Component for the code Implementation. (Click [Here](https://developer.mozilla.org/en-US/docs/Web/API/Media_Session_API) to see the Docs)
 
-## Components
-This Project has a quite a lot of Components.
-<details>
-  <summary>:zap: Click to see full List of Components along with short Summary</summary>
-
-* **App** - Main component which Hold all the other Components, this is where all the **Routing** has been done.
-* **Page/Layout Components (Holds other Components)**
-    * **Login** - Login Page where Login, Sign Up and Sign In with Google Account functionalities are implemented
-    * **Home** - Home Page where User can view all Snaps. (**Route - '/'**)
-    * **Library** - Library Page which displays the Recently Played Songs and Favourite Songs of the User. (**Route - '/library'**)
-    * **PlayListPage** - This one displays the Songs of that particular Playlist
-    * **Search** - Search Page where user can search for Songs and Artists. (**Route - '/search'**)
-    * **AritstPage** -This Page Describes about an Artist and lists all of his/her Songs. (**Route -'/artist/artistID'**)
-    * **Admin** - Admin Page where new Songs and Artists can be added. (**Route -'/admin'**)
-
-* **Holder/Container Components**
-    * **Navbar** - (Inside App Component)
-    * **NewReleases** - NewReleases displays all the latest Songs. (Inside Home Component)
-    * **AritstList** - AritstList displays all the latest Songs. (Inside Home Component)
-    * **RecentlyListened** - This one holds the Recently Listened Songs of the user. (Inside Library Component)
-    * **SongList** - This shows the Current Playlist. (Inside App Component)
-    * **Player** - Player Component placed to the bottom of the page. (Inside App Component)
-
-* **Functionality Specific Components (Present inside Container/Layout Components)**
-    * **Artist** - Artist. (Used Inside AritstList, Search Components)
-    * **Song** - Song. (This is the Square One used Inside Home Component)
-    * **PlayListSong** - This is the Song (Rectangular One) used Inside Library,Favourites,SongList Components. (Reusing single Component for Multiple Things)
-    * **PlayerControls** - This holds the Control Buttons of the Player (play, pause, next, previous). (Inside Player Component)
-    * **ForgotPassword** - Forgot Password Dialog Box. (Inside Login Component)
-    * **SnackBar** - Notification Popup which appears on bottom of the page. (Used Inside Song and PlaylistSong Component)
-    * **CreatePlayListModal** - Modal where User can create new Playlist. (Used inside Library Page)
-
-</details>
-
 ## Custom Hooks 
 Created a few Custom Hooks to keep the Complex functionality outside the Components. (check `src/hooks/` folder)
 * **useAuth** - This provides all the Functions related to Authentication (SignUp, Login, SignOut ,Update Profile, Reset Password, Sign in with Google).
