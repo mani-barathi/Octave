@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../css/row.css";
 import Song from "./Song";
 
@@ -7,12 +8,14 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import useMoveLeftRight from "../hooks/useMoveLeftRight";
 import { db } from "../firebase";
+import { setNewReleases } from "../actions/newReleasesActions";
 
 // A row of latest  songs  displayed in Home Page
 function NewReleases() {
+  const newReleases = useSelector((state) => state.newReleases);
+  const dispatch = useDispatch();
   const [isLeftBtn, setIsLeftBtn] = useState(false);
   const [isRightBtn, setIsRightBtn] = useState(false);
-  const [newReleases, setNewReleases] = useState([]);
   const rowRef = useRef();
   const [scrollLeft, scrollRight] = useMoveLeftRight(
     rowRef,
@@ -32,14 +35,13 @@ function NewReleases() {
       .limit(10)
       .get()
       .then((snapshot) => {
-        setNewReleases(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          })) // end of map()
-        ); // end of setNewReleases()
+        const songs = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        dispatch(setNewReleases(songs));
       });
-  }, []);
+  }, [dispatch]);
 
   const toggleButtonOnWindowResize = () => {
     if (!rowRef.current) return;
