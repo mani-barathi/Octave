@@ -26,9 +26,8 @@ function Home() {
       </div>
 
       <NewReleases />
-      {/* <RecentlyListened /> */}
+
       <ArtistsList />
-      {/* Randomiszed Suggestion  */}
     </div>
   );
 }
