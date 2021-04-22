@@ -1,11 +1,13 @@
-// import  from 'react'
+import firebase from "firebase";
+import { useSelector } from "react-redux";
+
 import { useStateValue } from "../context/StateProvider";
 import { getRandomPlaylistImage } from "../utils/utils";
 import { db } from "../firebase";
-import firebase from "firebase";
 
 function usePlayListFunctions() {
-  const [{ user }, dispatch] = useStateValue();
+  const user = useSelector((state) => state.user);
+  const [, dispatch] = useStateValue();
 
   const createNewPlaylist = (playlistName) => {
     return db.collection("playlists").add({

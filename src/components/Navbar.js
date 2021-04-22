@@ -8,15 +8,18 @@ import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 
-import { useStateValue } from "../context/StateProvider";
+import { useDispatch, useSelector } from "react-redux";
+
+import { logoutUser } from "../actions/authActions";
 import useAuth from "../hooks/useAuth";
 
 function Navbar() {
+  const dispatch = useDispatch();
   const histroy = useHistory();
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentLocation, setCurrentLocation] = useState("/");
-  const [{ user }, dispatch] = useStateValue();
+  const user = useSelector((state) => state.user);
   const { signOut } = useAuth();
 
   useEffect(() => {
@@ -37,7 +40,7 @@ function Navbar() {
   const logout = async () => {
     try {
       await signOut();
-      await dispatch({ type: "SET_USER", user: null });
+      dispatch(logoutUser());
     } catch (error) {
       alert(error.message);
     }

@@ -1,10 +1,12 @@
 import firebase from "firebase";
+import { useSelector } from "react-redux";
 import { useStateValue } from "../context/StateProvider";
 import { removeSongAndReturnSessionStorage } from "../utils/song-utils";
 import { db } from "../firebase";
 
 function useSongFunctions(data, setAnchorEl, setSnackBar) {
-  const [{ user, playingSong, songIndex }, dispatch] = useStateValue();
+  const user = useSelector((state) => state.user);
+  const [{ playingSong, songIndex }, dispatch] = useStateValue();
 
   const playSong = () => {
     if (playingSong && data.name === playingSong.name)

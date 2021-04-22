@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./css/App.css";
 // Pages
 import Login from "./pages/LoginPage";
@@ -17,7 +18,8 @@ import SongList from "./components/SongList";
 import { useStateValue } from "./context/StateProvider";
 
 function App() {
-  const [{ user, isSongListOpen }] = useStateValue();
+  const [{ isSongListOpen }] = useStateValue();
+  const user = useSelector((state) => state.user);
 
   return (
     <Router>

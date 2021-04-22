@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import "../css/Login.css";
 import ForgotPassword from "../components/ForgotPassword";
 import { Typography, Button, Link, CircularProgress } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 
-import { useStateValue } from "../context/StateProvider";
 import { auth } from "../firebase";
+import { loginUser } from "../actions/authActions";
 import useAuth from "../hooks/useAuth";
 
 function Login() {
@@ -13,21 +14,21 @@ function Login() {
   const [isLoading, setIsLoading] = useState(true);
   const [err, setErr] = useState(null);
   const formRef = useRef();
-  const [, dispatch] = useStateValue();
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false); // To handle ForgotPassword Component
 
   // Setting Up a Listener, that will keep listening for AuthChange events
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      // If the authChange gives the logged in user,
       if (authUser) {
-        // If the authChange gives the logged in user,
         const user = {
           uid: authUser.uid,
           email: authUser.email,
           displayName: authUser.displayName,
           photoURL: authUser.photoURL,
         };
-        dispatch({ type: "SET_USER", user: user }); // then dispatch the User to DataLayer
+        dispatch(loginUser(user)); // then dispatch the LOGIN_USER
       } else {
         setIsLoading(false);
       }

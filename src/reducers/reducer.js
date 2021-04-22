@@ -1,5 +1,4 @@
 export const intialState = {
-  user: null,
   playingSong: null,
   newSong: null,
   songIndex: -1,
@@ -11,12 +10,6 @@ export const reducer = (state, action) => {
   // console.log('Reducer state', state)
   console.log("Reducer action", action);
   switch (action.type) {
-    case "SET_USER":
-      return {
-        ...state,
-        user: action.user,
-      };
-
     case "SET_PLAYING_SONG":
       return {
         ...state,
