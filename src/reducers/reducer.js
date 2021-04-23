@@ -3,7 +3,6 @@ export const intialState = {
   newSong: null,
   songIndex: -1,
   isSongListOpen: false,
-  artist: null,
 };
 
 export const reducer = (state, action) => {
@@ -37,12 +36,6 @@ export const reducer = (state, action) => {
       return {
         ...state,
         songIndex: state.songIndex - 1,
-      };
-
-    case "SET_ARTIST":
-      return {
-        ...state,
-        artist: action.artist,
       };
 
     case "TOGGLE_IS_SONGLIST_OPEN":

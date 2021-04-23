@@ -2,18 +2,11 @@ import React from "react";
 import "../css/Artist.css";
 import { useHistory } from "react-router-dom";
 
-import { useStateValue } from "../context/StateProvider";
-
 // Aritist card present inside Home Page
 function Artist({ id, data }) {
   const history = useHistory();
-  const [, dispatch] = useStateValue();
 
   const goToArtistPage = () => {
-    dispatch({
-      type: "SET_ARTIST",
-      artist: data,
-    });
     history.push(`/artist/${id}`);
   };
 
