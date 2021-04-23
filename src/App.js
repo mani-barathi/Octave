@@ -15,11 +15,9 @@ import Navbar from "./components/Navbar";
 import Player from "./components/Player";
 import SongList from "./components/SongList";
 
-import { useStateValue } from "./context/StateProvider";
-
 function App() {
-  const [{ isSongListOpen }] = useStateValue();
   const user = useSelector((state) => state.user);
+  const { isSongListOpen } = useSelector((state) => state.currentSession);
 
   return (
     <Router>

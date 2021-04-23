@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import "../css/SongList.css";
 import PlayListSong from "./PlayListSong";
 
@@ -9,9 +10,11 @@ import {
   removeSongAndReturnSessionStorage,
 } from "../utils/song-utils";
 import { useStateValue } from "../context/StateProvider";
+import { toggleIsSongListOpen } from "../actions/currentSessionActions";
 
 // This is the current Playlist of songs which will be showed when user Toggles it.
 function SongList() {
+  const reduxDispatch = useDispatch();
   const songListContainerRef = useRef();
   const [{ playingSong, songIndex }, dispatch] = useStateValue();
   const [songs, setSongs] = useState([]);
@@ -32,7 +35,7 @@ function SongList() {
 
   const closeSongList = (event) => {
     if (event.target === songListContainerRef.current)
-      dispatch({ type: "TOGGLE_IS_SONGLIST_OPEN" });
+      reduxDispatch(toggleIsSongListOpen());
   };
 
   return (
@@ -46,7 +49,7 @@ function SongList() {
           <h3>SongList</h3>
           <IconButton
             className="songlist__headerCloseBtn"
-            onClick={() => dispatch({ type: "TOGGLE_IS_SONGLIST_OPEN" })}
+            onClick={() => reduxDispatch(toggleIsSongListOpen())}
           >
             <CloseIcon />
           </IconButton>
