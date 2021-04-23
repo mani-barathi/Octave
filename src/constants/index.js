@@ -4,3 +4,6 @@ export const LOGOUT_USER = "LOGOUT_USER";
 
 // newReleases action types
 export const SET_NEW_RELEASES = "SET_NEW_RELEASES";
+
+// artists action types
+export const SET_ARTISTS = "SET_ARTIST";

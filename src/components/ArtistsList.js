@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../css/row.css";
 import Artist from "./Artist";
 
@@ -7,12 +8,14 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import useMoveLeftRight from "../hooks/useMoveLeftRight";
 import { db } from "../firebase";
+import { setArtists } from "../actions/artistsActions";
 
 // A Row of Artist present inside Home Page
 function ArtistsList() {
+  const artists = useSelector((state) => state.artists);
+  const dispatch = useDispatch();
   const [isLeftBtn, setIsLeftBtn] = useState(false);
   const [isRightBtn, setIsRightBtn] = useState(false);
-  const [artists, setArtists] = useState([]);
   const rowRef = useRef();
   const [scrollLeft, scrollRight] = useMoveLeftRight(
     rowRef,
@@ -27,19 +30,21 @@ function ArtistsList() {
   }, []);
 
   useEffect(() => {
+    if (artists.length !== 0) return;
+
     db.collection("artists")
       .orderBy("createdAt", "desc")
-      .limit(10)
+      .limit(6)
       .get()
       .then((snapshot) => {
-        setArtists(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          })) // end of map()
-        ); // end of setArtists()
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        dispatch(setArtists(data));
       });
-  }, []);
+    // eslint-disable-next-line
+  }, [dispatch]);
 
   const toggleButtonOnWindowResize = () => {
     if (!rowRef.current) return;
