@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { decSongIndex } from "../actions/currentSessionActions";
+import { decSongIndex, setNewSong } from "../actions/currentSessionActions";
 import { useStateValue } from "../context/StateProvider";
 import { removeSongAndReturnSessionStorage } from "../utils/song-utils";
 import { db } from "../firebase";
@@ -8,8 +8,8 @@ import { db } from "../firebase";
 function useSongFunctions(data, setAnchorEl, setSnackBar) {
   const user = useSelector((state) => state.user);
   const { songIndex } = useSelector((state) => state.currentSession);
-  const reduxDispatch = useDispatch();
-  const [{ playingSong }, dispatch] = useStateValue();
+  const dispatch = useDispatch();
+  const [{ playingSong }] = useStateValue();
 
   const playSong = () => {
     if (playingSong && data.name === playingSong.name)
@@ -17,11 +17,7 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
 
     const [songs] = removeSongAndReturnSessionStorage(data);
     sessionStorage.setItem("SONG_LIST", JSON.stringify(songs));
-
-    dispatch({
-      type: "SET_NEW_SONG",
-      newSong: data,
-    });
+    dispatch(setNewSong(data));
   };
 
   const playNext = () => {
@@ -33,7 +29,7 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
     const [songs, removedSongIndex] = removeSongAndReturnSessionStorage(data);
     console.log(`removeSongIndex:`, removedSongIndex);
     if (typeof removedSongIndex === "number" && removedSongIndex < songIndex)
-      reduxDispatch(decSongIndex());
+      dispatch(decSongIndex());
 
     let newSongList;
     if (songs.length === 0) {
@@ -57,7 +53,7 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
     const [songs, removedSongIndex] = removeSongAndReturnSessionStorage(data);
     console.log(`removeSongIndex:`, removedSongIndex);
     if (typeof removedSongIndex === "number" && removedSongIndex < songIndex)
-      reduxDispatch(decSongIndex());
+      dispatch(decSongIndex());
 
     songs.push(data);
     sessionStorage.setItem("SONG_LIST", JSON.stringify(songs));

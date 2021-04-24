@@ -1,6 +1,5 @@
 export const intialState = {
   playingSong: null,
-  newSong: null,
 };
 
 export const reducer = (state, action) => {
@@ -10,12 +9,6 @@ export const reducer = (state, action) => {
       return {
         ...state,
         playingSong: action.playingSong,
-      };
-
-    case "SET_NEW_SONG":
-      return {
-        ...state,
-        newSong: action.newSong,
       };
 
     default:

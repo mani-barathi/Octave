@@ -1,5 +1,6 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
 import {
+  setNewSong,
   setSongIndex,
   incSongIndex,
   decSongIndex,
@@ -31,8 +32,8 @@ function Player() {
   const [displayDurationTime, setDisplayDurationTime] = useState("0:00");
   const [currentSong, setCurrentSong] = useState(null);
   const audioRef = useRef(null);
-  const [{ newSong }, dispatch] = useStateValue();
-  const { songIndex } = useSelector((state) => state.currentSession);
+  const [, dispatch] = useStateValue();
+  const { newSong, songIndex } = useSelector((state) => state.currentSession);
   const reduxDispatch = useDispatch();
 
   useEffect(() => {
@@ -51,10 +52,7 @@ function Player() {
       playNewSong(songIndex, newSong);
       reduxDispatch(setSongIndex(0));
       setCurrentSong(newSong);
-      dispatch({
-        type: "SET_NEW_SONG",
-        newSong: null,
-      });
+      reduxDispatch(setNewSong(null));
     }
     // eslint-disable-next-line
   }, [reduxDispatch, newSong]);
