@@ -1,12 +1,15 @@
 import firebase from "firebase";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { decSongIndex } from "../actions/currentSessionActions";
 import { useStateValue } from "../context/StateProvider";
 import { removeSongAndReturnSessionStorage } from "../utils/song-utils";
 import { db } from "../firebase";
 
 function useSongFunctions(data, setAnchorEl, setSnackBar) {
   const user = useSelector((state) => state.user);
-  const [{ playingSong, songIndex }, dispatch] = useStateValue();
+  const { songIndex } = useSelector((state) => state.currentSession);
+  const reduxDispatch = useDispatch();
+  const [{ playingSong }, dispatch] = useStateValue();
 
   const playSong = () => {
     if (playingSong && data.name === playingSong.name)
@@ -30,7 +33,7 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
     const [songs, removedSongIndex] = removeSongAndReturnSessionStorage(data);
     console.log(`removeSongIndex:`, removedSongIndex);
     if (typeof removedSongIndex === "number" && removedSongIndex < songIndex)
-      dispatch({ type: "DEC_SONG_INDEX" });
+      reduxDispatch(decSongIndex());
 
     let newSongList;
     if (songs.length === 0) {
@@ -54,7 +57,7 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
     const [songs, removedSongIndex] = removeSongAndReturnSessionStorage(data);
     console.log(`removeSongIndex:`, removedSongIndex);
     if (typeof removedSongIndex === "number" && removedSongIndex < songIndex)
-      dispatch({ type: "DEC_SONG_INDEX" });
+      reduxDispatch(decSongIndex());
 
     songs.push(data);
     sessionStorage.setItem("SONG_LIST", JSON.stringify(songs));

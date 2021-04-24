@@ -7,14 +7,12 @@ import SnackBar from "../components/SnackBar";
 import { useHistory } from "react-router-dom";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 
-import { useStateValue } from "../context/StateProvider";
 import usePlayListFunctions from "../hooks/usePlayListFunctions";
 
 function Library() {
   const [isOpen, setIsOpen] = useState(false);
   const [playlists, setPlaylists] = useState([]);
   const [snackBar, setSnackBar] = useState(null);
-  const [, dispatch] = useStateValue();
   const { getAllPlaylists } = usePlayListFunctions();
   const {
     getFavouriteSongs,
@@ -37,17 +35,10 @@ function Library() {
   }, []);
 
   const goToFavourities = () => {
-    const fav = {
-      name: "favorites",
-      imageUrl: "https://prexoo.com/images/no-music-cover.png",
-    };
-    dispatch({ type: "SET_ARTIST", artist: fav });
     history.push("/playlists/favorites");
   };
 
-  const goToPlaylistPage = (id, { name, imageUrl }) => {
-    const playlistData = { name, imageUrl };
-    dispatch({ type: "SET_ARTIST", artist: playlistData });
+  const goToPlaylistPage = (id) => {
     history.push(`/playlists/${id}`);
   };
 
@@ -114,7 +105,7 @@ function Library() {
         {playlists.map((playlist) => (
           <div
             key={playlist.id}
-            onClick={() => goToPlaylistPage(playlist.id, playlist.data)}
+            onClick={() => goToPlaylistPage(playlist.id)}
             className="library__playlist"
           >
             <img

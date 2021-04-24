@@ -1,4 +1,9 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
+import {
+  setSongIndex,
+  incSongIndex,
+  decSongIndex,
+} from "../actions/currentSessionActions";
 import "../css/Player.css";
 import PlayerControls from "./PlayerControls";
 import PlayerSongListButton from "./PlayerSongListButton";
@@ -16,6 +21,7 @@ import {
   getPreviousSong,
 } from "../utils/song-utils";
 import { useStateValue } from "../context/StateProvider";
+import { useDispatch, useSelector } from "react-redux";
 
 // The Entire Bottom part where all the song controls are available
 function Player() {
@@ -25,7 +31,9 @@ function Player() {
   const [displayDurationTime, setDisplayDurationTime] = useState("0:00");
   const [currentSong, setCurrentSong] = useState(null);
   const audioRef = useRef(null);
-  const [{ newSong, songIndex }, dispatch] = useStateValue();
+  const [{ newSong }, dispatch] = useStateValue();
+  const { songIndex } = useSelector((state) => state.currentSession);
+  const reduxDispatch = useDispatch();
 
   useEffect(() => {
     if (currentSong) {
@@ -41,7 +49,7 @@ function Player() {
   useEffect(() => {
     if (newSong) {
       playNewSong(songIndex, newSong);
-      dispatch({ type: "SET_SONG_INDEX", songIndex: 0 });
+      reduxDispatch(setSongIndex(0));
       setCurrentSong(newSong);
       dispatch({
         type: "SET_NEW_SONG",
@@ -49,7 +57,7 @@ function Player() {
       });
     }
     // eslint-disable-next-line
-  }, [newSong]);
+  }, [reduxDispatch, newSong]);
 
   useEffect(() => console.log("songIndex: ", songIndex), [songIndex]);
 
@@ -76,21 +84,21 @@ function Player() {
     const nextSong = getNextSong(songIndex);
     if (nextSong) {
       setCurrentSong(nextSong);
-      dispatch({ type: "INC_SONG_INDEX" });
+      reduxDispatch(incSongIndex());
       console.log("There is a next Song", nextSong.name);
     } else {
       console.log("No next song");
     }
-  }, [songIndex, dispatch]);
+  }, [songIndex, reduxDispatch]);
 
   const playPreviousSong = useCallback(() => {
     console.log("This is playPreviousSong()");
     const prevSong = getPreviousSong(songIndex);
     if (prevSong) {
       setCurrentSong(prevSong);
-      dispatch({ type: "DEC_SONG_INDEX" });
+      reduxDispatch(decSongIndex());
     } else console.log("No prev song!");
-  }, [songIndex, dispatch]);
+  }, [songIndex, reduxDispatch]);
 
   const playSongByMediaSession = useCallback(async () => {
     await audioRef.current.play();

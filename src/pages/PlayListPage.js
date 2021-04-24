@@ -7,26 +7,42 @@ import { IconButton, Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
-import { useStateValue } from "../context/StateProvider";
 import usePlayListFunctions from "../hooks/usePlayListFunctions";
 
 // PlayListPage, which displays all the songs of the playlist, this includes the Favorites Page also
 function PlayListPage() {
-  const [songs, setSongs] = useState([]);
   const { id } = useParams();
+  const [playlist, setPlaylist] = useState(() => {
+    if (id === "favorites")
+      return {
+        name: "favorites",
+        imageUrl: "https://prexoo.com/images/no-music-cover.png",
+      };
+    return { name: "", imageUrl: "" };
+  });
+  const [songs, setSongs] = useState([]);
   const history = useHistory();
-  const [{ artist }] = useStateValue();
   const {
     getFavouriteSongs,
     getPlaylistSongs,
     deleteSongFromPlaylist,
     deletePlaylist,
     playSelectedPlaylist,
+    getPlaylist,
   } = usePlayListFunctions();
 
   useEffect(() => {
-    if (!artist) history.replace("/");
+    if (id === "favorites") return;
+    getPlaylist(id)
+      .get()
+      .then((snapshot) => {
+        const result = snapshot.data();
+        if (!result) return history.push("/library");
+        setPlaylist(snapshot.data());
+      });
+  }, [getPlaylist, history, id]);
 
+  useEffect(() => {
     const getSongs = id === "favorites" ? getFavouriteSongs : getPlaylistSongs;
 
     let unsubscribe = getSongs(id).onSnapshot((snapshot) => {
@@ -66,8 +82,8 @@ function PlayListPage() {
   return (
     <div className="playlist">
       <div className="playlist__header">
-        <img src={artist?.imageUrl} alt="" className="playlist__image" />
-        <h1 className="playlist__titleText"> {artist?.name} </h1>
+        <img src={playlist?.imageUrl} alt="" className="playlist__image" />
+        <h1 className="playlist__titleText"> {playlist?.name} </h1>
         {id !== "favorites" && (
           <IconButton
             className="playlist__deleteBtn"

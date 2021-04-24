@@ -1,5 +1,6 @@
 import firebase from "firebase";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSongIndex } from "../actions/currentSessionActions";
 
 import { useStateValue } from "../context/StateProvider";
 import { getRandomPlaylistImage } from "../utils/utils";
@@ -7,6 +8,7 @@ import { db } from "../firebase";
 
 function usePlayListFunctions() {
   const user = useSelector((state) => state.user);
+  const reduxDispatch = useDispatch();
   const [, dispatch] = useStateValue();
 
   const createNewPlaylist = (playlistName) => {
@@ -20,6 +22,10 @@ function usePlayListFunctions() {
 
   const deletePlaylist = (playlistId) => {
     return db.collection("playlists").doc(playlistId).delete();
+  };
+
+  const getPlaylist = (id) => {
+    return db.collection("playlists").doc(id);
   };
 
   const getAllPlaylists = () => {
@@ -66,7 +72,7 @@ function usePlayListFunctions() {
     // set the remainingSongs to sessionStorage
     sessionStorage.setItem("SONG_LIST", JSON.stringify(remainingSongs));
     // to reset the songIndex as a new Plyslist is being played
-    dispatch({ type: "SET_SONG_INDEX", songIndex: 0 });
+    reduxDispatch(setSongIndex(0));
     // dispathcing a newsong will add firstSong to the begining of the songlist
     dispatch({
       type: "SET_NEW_SONG",
@@ -77,6 +83,7 @@ function usePlayListFunctions() {
   return {
     createNewPlaylist,
     deletePlaylist,
+    getPlaylist,
     getAllPlaylists,
     getFavouriteSongs,
     getPlaylistSongs,

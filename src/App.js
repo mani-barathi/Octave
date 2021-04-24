@@ -28,15 +28,11 @@ function App() {
               <Navbar />
               <div className="app__window">
                 <Switch>
-                  <Route path="/" exact>
-                    <Home />
-                  </Route>
-
                   <Route path="/library">
                     <Library />
                   </Route>
 
-                  <Route path="/playlists/:id">
+                  <Route exact path="/playlists/:id">
                     <PlayListPage />
                   </Route>
 
@@ -44,12 +40,16 @@ function App() {
                     <Search />
                   </Route>
 
-                  <Route path="/artist/:id">
+                  <Route exact path="/artist/:id">
                     <ArtistPage />
                   </Route>
 
                   <Route path="/admin" exact>
                     <Admin />
+                  </Route>
+
+                  <Route exact path="/">
+                    <Home />
                   </Route>
                 </Switch>
               </div>

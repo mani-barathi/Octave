@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../css/SongList.css";
 import PlayListSong from "./PlayListSong";
 
@@ -9,14 +9,18 @@ import {
   getSongSessionStorage,
   removeSongAndReturnSessionStorage,
 } from "../utils/song-utils";
+import {
+  toggleIsSongListOpen,
+  decSongIndex,
+} from "../actions/currentSessionActions";
 import { useStateValue } from "../context/StateProvider";
-import { toggleIsSongListOpen } from "../actions/currentSessionActions";
 
 // This is the current Playlist of songs which will be showed when user Toggles it.
 function SongList() {
-  const reduxDispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { songIndex } = useSelector((state) => state.currentSession);
   const songListContainerRef = useRef();
-  const [{ playingSong, songIndex }, dispatch] = useStateValue();
+  const [{ playingSong }] = useStateValue();
   const [songs, setSongs] = useState([]);
 
   useEffect(() => {
@@ -27,7 +31,7 @@ function SongList() {
     const [songs, removedSongIndex] = removeSongAndReturnSessionStorage(data);
     console.log(`removeSongIndex:`, removedSongIndex);
     if (typeof removedSongIndex === "number" && removedSongIndex < songIndex)
-      dispatch({ type: "DEC_SONG_INDEX" });
+      dispatch(decSongIndex());
 
     sessionStorage.setItem("SONG_LIST", JSON.stringify(songs));
     setSongs(getSongSessionStorage);
@@ -35,7 +39,7 @@ function SongList() {
 
   const closeSongList = (event) => {
     if (event.target === songListContainerRef.current)
-      reduxDispatch(toggleIsSongListOpen());
+      dispatch(toggleIsSongListOpen());
   };
 
   return (
@@ -49,7 +53,7 @@ function SongList() {
           <h3>SongList</h3>
           <IconButton
             className="songlist__headerCloseBtn"
-            onClick={() => reduxDispatch(toggleIsSongListOpen())}
+            onClick={() => dispatch(toggleIsSongListOpen())}
           >
             <CloseIcon />
           </IconButton>
