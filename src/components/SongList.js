@@ -13,14 +13,14 @@ import {
   toggleIsSongListOpen,
   decSongIndex,
 } from "../actions/currentSessionActions";
-import { useStateValue } from "../context/StateProvider";
 
 // This is the current Playlist of songs which will be showed when user Toggles it.
 function SongList() {
   const dispatch = useDispatch();
-  const { songIndex } = useSelector((state) => state.currentSession);
+  const { playingSong, songIndex } = useSelector(
+    (state) => state.currentSession
+  );
   const songListContainerRef = useRef();
-  const [{ playingSong }] = useStateValue();
   const [songs, setSongs] = useState([]);
 
   useEffect(() => {
