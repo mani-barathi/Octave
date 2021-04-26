@@ -3,6 +3,7 @@ import "../css/Home.css";
 import { useSelector } from "react-redux";
 import NewReleases from "../components/NewReleases";
 import ArtistsList from "../components/ArtistsList";
+import AllSongs from "../components/AllSongs";
 
 import { Typography } from "@material-ui/core";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
@@ -28,6 +29,8 @@ function Home() {
       <NewReleases />
 
       <ArtistsList />
+
+      <AllSongs />
     </div>
   );
 }
