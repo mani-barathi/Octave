@@ -32,7 +32,7 @@ function NewReleases() {
   useEffect(() => {
     db.collection("songs")
       .orderBy("createdAt", "desc")
-      .limit(10)
+      .limit(8)
       .get()
       .then((snapshot) => {
         const songs = snapshot.docs.map((doc) => ({
