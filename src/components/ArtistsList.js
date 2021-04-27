@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "../css/row.css";
 import Artist from "./Artist";
 
+import { CircularProgress } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
@@ -67,10 +68,20 @@ function ArtistsList() {
 
   return (
     <div className="row user-select-none">
-      {artists.length > 0 && (
+      {artists.length > 0 ? (
         <div className="row__headerText">
           <h2>Artist </h2>
           <p>Popular Artists </p>
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "8rem 0",
+          }}
+        >
+          <CircularProgress color="secondary" />
         </div>
       )}
 

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "../css/row.css";
 import Song from "./Song";
 
+import { CircularProgress } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
@@ -30,6 +31,7 @@ function NewReleases() {
   }, []);
 
   useEffect(() => {
+    if (newReleases.length > 0) return;
     db.collection("songs")
       .orderBy("createdAt", "desc")
       .limit(8)
@@ -41,7 +43,7 @@ function NewReleases() {
         }));
         dispatch(setNewReleases(songs));
       });
-  }, [dispatch]);
+  }, [dispatch, newReleases.length]);
 
   const toggleButtonOnWindowResize = () => {
     if (!rowRef.current) return;
@@ -64,10 +66,20 @@ function NewReleases() {
 
   return (
     <div className="row user-select-none">
-      {newReleases.length > 0 && (
+      {newReleases.length > 0 ? (
         <div className="row__headerText">
           <h2>New Releases </h2>
           <p>Try Out These New Tracks </p>
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "8rem 0",
+          }}
+        >
+          <CircularProgress color="secondary" />
         </div>
       )}
 

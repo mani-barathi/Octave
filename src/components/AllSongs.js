@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Button, CircularProgress } from "@material-ui/core";
 
 import PlayListSong from "./PlayListSong";
 import { db } from "../firebase";
 
-const LIMIT = 5;
+const LIMIT = 10;
 
 const AllSongs = () => {
-  const [songs, setSongs] = useState([]);
   const newReleases = useSelector((state) => state.newReleases);
+  const [songs, setSongs] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  //   const dispatch = useDispatch();
 
   useEffect(() => {
     if (newReleases.length === 0) return;
@@ -26,6 +25,7 @@ const AllSongs = () => {
           id: doc.id,
           data: doc.data(),
         }));
+        if (resSongs.length < LIMIT) setHasMore(false);
         setSongs(resSongs);
       });
   }, [newReleases]);
@@ -60,7 +60,7 @@ const AllSongs = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            margin: "2rem 0",
+            margin: "8rem 0",
           }}
         >
           <CircularProgress color="secondary" />

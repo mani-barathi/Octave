@@ -6,7 +6,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+// import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -45,10 +45,10 @@ function Navbar() {
       alert(error.message);
     }
   };
-  const goToAdmin = () => {
-    histroy.push("/admin");
-    setAnchorEl(false);
-  };
+  // const goToAdmin = () => {
+  //   setAnchorEl(false);
+  //   histroy.push("/admin");
+  // };
 
   return (
     <div className="navbar">
@@ -128,10 +128,10 @@ function Navbar() {
           open={Boolean(anchorEl)}
           onClose={() => setAnchorEl(false)}
         >
-          <MenuItem onClick={goToAdmin}>
+          {/* <MenuItem onClick={goToAdmin}>
             <SupervisorAccountIcon fontSize="small" />
             <span className="navbar__rightMenuItem">Admin</span>
-          </MenuItem>
+          </MenuItem> */}
 
           <MenuItem onClick={logout}>
             <ExitToAppIcon fontSize="small" />
