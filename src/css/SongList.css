@@ -1,4 +1,4 @@
-.songlist__overlay{
+.songlist__overlay {
   top: 0;
   left: 0;
   right: 0;
@@ -10,7 +10,7 @@
   align-items: flex-end;
 }
 
-.songlist{
+.songlist {
   color: var(--textColor);
   background-color: var(--songBgColor);
   border-top-left-radius: 5px;
@@ -25,54 +25,54 @@
   flex-direction: column;
 }
 
-.songlist > h4{
+.songlist > h4 {
   margin-left: 1rem;
 }
 
-.songlist__header{
+.songlist__header {
   padding: 0 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
-.songlist__header > h3{
+.songlist__header > h3 {
   margin-left: 0.5rem;
 }
 
-.songlist__headerCloseBtn{
+.songlist__headerCloseBtn {
   color: whitesmoke !important;
 }
 
-.songlist__playingSong{
+.songlist__playingSong {
   height: max-content;
 }
 
-.songlist__songs{
+.songlist__songs {
   display: flex;
   align-items: center;
   flex-direction: column;
   overflow-y: scroll;
+  padding: 0 0.5rem;
 }
 
-.songlist__songs{            /* Custom Scroll Bar for firefox */
-  scrollbar-width:thin;
-  scrollbar-color:  rgba(146, 145, 145, 0.705) #292929;
+.songlist__songs {
+  /* Custom Scroll Bar for firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(146, 145, 145, 0.705) #292929;
 }
 
-.songlist__songs::-webkit-scrollbar{
+.songlist__songs::-webkit-scrollbar {
   width: 4px;
   background-color: #292929;
 }
 
-.songlist__songs::-webkit-scrollbar-thumb{
+.songlist__songs::-webkit-scrollbar-thumb {
   background-color: rgba(146, 145, 145, 0.705);
-} 
+}
 
-
-
-@media screen and (max-width:500px){
-  .songlist{
+@media screen and (max-width: 500px) {
+  .songlist {
     max-width: 100%;
   }
 }

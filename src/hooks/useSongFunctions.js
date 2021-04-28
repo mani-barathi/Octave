@@ -27,18 +27,25 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
 
     // removes the song and returns the songList without saving to sessionStorage
     const [songs, removedSongIndex] = removeSongAndReturnSessionStorage(data);
-    console.log(`removeSongIndex:`, removedSongIndex);
-    if (typeof removedSongIndex === "number" && removedSongIndex < songIndex)
+    const isRemovedSongIndexSmallerThanSongIndex =
+      typeof removedSongIndex === "number" && removedSongIndex < songIndex;
+    const currentSongIndex = songIndex;
+    if (isRemovedSongIndexSmallerThanSongIndex) {
       dispatch(decSongIndex());
+    }
 
-    let newSongList;
     if (songs.length === 0) {
       // songlist is Empty
       sessionStorage.setItem("SONG_LIST", JSON.stringify([data]));
     } else if (songs.length >= 1) {
       // songlist is not Empty
-      newSongList = [songs[0], data, ...songs.slice(1)];
-      sessionStorage.setItem("SONG_LIST", JSON.stringify(newSongList));
+      if (isRemovedSongIndexSmallerThanSongIndex) {
+        songs.splice(currentSongIndex, 0, data);
+      } else {
+        songs.splice(currentSongIndex + 1, 0, data);
+      }
+      // newSongList = [songs[0], data, ...songs.slice(1)];
+      sessionStorage.setItem("SONG_LIST", JSON.stringify(songs));
     }
     setAnchorEl(false);
     setSnackBar("Song will Play Next ");
