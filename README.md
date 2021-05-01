@@ -66,4 +66,4 @@ These files include
 
 ### Note
 
-You will have to create an **Index** in firestore, as **PlayListPage**, **Library** Component uses Nested Queries to fetch data from Firestore. While Developing the Favourites Component there will be an error in console stating you to create an Index in Firestore. That Error will provide a link to create an Index in Firestore , you can click on the link and create an Index. (This Error will be solved after that particular Index is created)
+You will have to create an **Index** in firestore, as **PlayListPage**, **LibraryPage** uses Nested Queries to fetch data from Firestore. While Developing in localhost there will be an error in Browser console stating you to create an Index in Firestore. That Error will provide a link to create an Index in Firestore , you can click on the link and create an Index. (This Error will be solved after that particular Index is created)

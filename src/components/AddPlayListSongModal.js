@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -8,24 +8,29 @@ import Dialog from "@material-ui/core/Dialog";
 import Typography from "@material-ui/core/Typography";
 
 import usePlayListFunctions from "../hooks/usePlayListFunctions";
+import { setPlaylists } from "../actions/playlistActions";
+import { useSelector, useDispatch } from "react-redux";
+import { CircularProgress } from "@material-ui/core";
 
 // add a song to playlist modal, used inside Song and PlaylistSong
 function AddPlayListSongModal({ song, SetIsModalOpen, setSnackBar }) {
-  const [playlists, setPlaylists] = useState([]);
+  const dispatch = useDispatch();
+  const playlists = useSelector((state) => state.playlists);
   const { getAllPlaylists, addSongToPlaylist } = usePlayListFunctions();
 
   useEffect(() => {
-    const unsubscribe = getAllPlaylists().onSnapshot((snapshot) => {
-      setPlaylists(
-        snapshot.docs.map((doc) => ({
+    if (playlists) return;
+    getAllPlaylists()
+      .get()
+      .then((snapshot) => {
+        console.log(snapshot);
+        const data = snapshot.docs.map((doc) => ({
           id: doc.id,
           data: doc.data(),
-        }))
-      );
-    });
-    return unsubscribe;
-    // eslint-disable-next-line
-  }, []);
+        }));
+        dispatch(setPlaylists(data));
+      });
+  }, [getAllPlaylists, playlists, dispatch]);
 
   const addSong = (playlistId) => {
     addSongToPlaylist(playlistId, song)
@@ -44,7 +49,7 @@ function AddPlayListSongModal({ song, SetIsModalOpen, setSnackBar }) {
     >
       <DialogTitle id="simple-dialog-title">Add song to playlist</DialogTitle>
       <List>
-        {playlists.map((playlist) => (
+        {playlists?.map((playlist) => (
           <ListItem
             key={playlist.id}
             button
@@ -54,13 +59,14 @@ function AddPlayListSongModal({ song, SetIsModalOpen, setSnackBar }) {
           </ListItem>
         ))}
 
-        {playlists.length === 0 && (
+        {playlists?.length === 0 && (
           <ListItem>
             <Typography variant="subtitle1" align="center">
               No Playlist... Create a Playlist in Library Page
             </Typography>
           </ListItem>
         )}
+        <center>{!playlists && <CircularProgress color="secondary" />}</center>
       </List>
     </Dialog>
   );

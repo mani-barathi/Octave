@@ -5,13 +5,16 @@ import CreatePlaylistModal from "../components/CreatePlaylistModal";
 import SnackBar from "../components/SnackBar";
 
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 
 import usePlayListFunctions from "../hooks/usePlayListFunctions";
+import { setPlaylists as setPlaylistsToStore } from "../actions/playlistActions";
 
 function Library() {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const [playlists, setPlaylists] = useState([]);
+  const playlists = useSelector((state) => state.playlists);
   const [snackBar, setSnackBar] = useState(null);
   const { getAllPlaylists } = usePlayListFunctions();
   const {
@@ -23,12 +26,11 @@ function Library() {
 
   useEffect(() => {
     const unsubscribe = getAllPlaylists().onSnapshot((snapshot) => {
-      setPlaylists(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }))
-      );
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      dispatch(setPlaylistsToStore(data));
     });
     return unsubscribe;
     //eslint-disable-next-line
@@ -102,7 +104,7 @@ function Library() {
         </div>
 
         {/*  Remaining Playlists Cards */}
-        {playlists.map((playlist) => (
+        {playlists?.map((playlist) => (
           <div
             key={playlist.id}
             onClick={() => goToPlaylistPage(playlist.id)}

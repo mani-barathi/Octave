@@ -16,3 +16,5 @@ export const INC_SONG_INDEX = "INC_SONG_INDEX";
 export const DEC_SONG_INDEX = "DEC_SONG_INDEX";
 export const SET_ARTIST = "SET_ARTIST";
 export const TOGGLE_IS_SONGLIST_OPEN = "TOGGLE_IS_SONGLIST_OPEN";
+
+export const SET_PLAYLISTS = "SET_PLAYLISTS";
