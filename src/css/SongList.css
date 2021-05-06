@@ -54,6 +54,7 @@
   flex-direction: column;
   overflow-y: scroll;
   padding: 0 0.5rem;
+  gap: 0.5rem;
 }
 
 .songlist__songs {

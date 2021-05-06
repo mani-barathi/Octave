@@ -1,39 +1,43 @@
-.artistpage{
-    padding: 1rem;
-    color: var(--textColor);
+.artistpage {
+  padding: 1rem;
+  color: var(--textColor);
 }
 
-.artistpage__header{
-    margin-left: 1rem;
+.artistpage__header {
+  margin-left: 1rem;
 }
-.artistpage__headerInfo{
-    display: flex;
-    align-items: center;
-}
-
-.artistpage__headerInfoText{
-    max-width: 500px;
-    margin-left:0.5rem ;
+.artistpage__headerInfo {
+  display: flex;
+  align-items: center;
 }
 
-.artistpage__image{
-    max-width: 150px;
-    max-height: 150px;
-    object-fit: cover;
-    border-radius: 5px;
+.artistpage__headerInfoText {
+  max-width: 500px;
+  margin-left: 0.5rem;
 }
 
-.artistpage__songlist{
-    display: flex;
-    flex-wrap: wrap;
+.artistpage__image {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
-@media screen and (max-width:500px){
-    .artistpage__headerInfo{
-        flex-direction: column;
-        align-items: flex-start ;
-    }
-    .artistpage__headerInfoText{
-        margin: 0;
-    }
+.artistpage__songlist {
+  margin-top: 1rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 1rem;
+  padding-left: 1rem;
+}
+
+@media screen and (max-width: 500px) {
+  .artistpage__headerInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .artistpage__headerInfoText {
+    margin: 0;
+  }
 }

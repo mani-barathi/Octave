@@ -102,7 +102,7 @@ function Search() {
       {/* Songs Results ------------------------*/}
       <Typography variant="h6">{songs?.length > 0 && `Songs`}</Typography>
 
-      <div className="search__results">
+      <div className="search__grid">
         {songs?.length > 0 &&
           songs.map((song) => (
             <PlayListSong key={song.id} data={song.data} isSearchSong />
