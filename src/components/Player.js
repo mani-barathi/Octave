@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import {
   setNewSong,
   setPlayingSong,
@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // The Entire Bottom part where all the song controls are available
 function Player() {
+  // playing  0 -> paused  | 1 -> playing  | -1 -> loading
   const [playing, setPlaying] = useState(0);
   const [continuousTime, setContinuousTime] = useState(0);
   const [displayCurrentTime, setDisplayCurrentTime] = useState("0:00");
@@ -34,6 +35,22 @@ function Player() {
   const audioRef = useRef(null);
   const { newSong, songIndex } = useSelector((state) => state.currentSession);
   const dispatch = useDispatch();
+  const isPlayingRef = useRef(false);
+  const onTabCloseRef = useRef((e) => {
+    console.log(isPlayingRef.current);
+    if (isPlayingRef.current) {
+      e.preventDefault();
+      e.returnValue = "You have unfinished changes!";
+    }
+  });
+
+  useEffect(() => {
+    const fn = onTabCloseRef.current;
+    window.addEventListener("beforeunload", fn);
+    return () => {
+      window.removeEventListener("beforeunload", fn);
+    };
+  }, []);
 
   useEffect(() => {
     if (currentSong) {
@@ -50,10 +67,7 @@ function Player() {
       setCurrentSong(newSong);
       dispatch(setNewSong(null));
     }
-    // eslint-disable-next-line
-  }, [dispatch, newSong]);
-
-  useEffect(() => console.log("songIndex: ", songIndex), [songIndex]);
+  }, [dispatch, newSong, songIndex]);
 
   // playing  0 -> paused  | 1 -> playing  | -1 -> loading
   const playPauseSong = () => {
@@ -65,39 +79,37 @@ function Player() {
     if (playing === 1) {
       audioRef.current.pause();
       setPlaying(0);
+      isPlayingRef.current = false;
       document.title = `Octave`;
     } else {
       audioRef.current.play();
       setPlaying(1);
+      isPlayingRef.current = true;
       document.title = `${currentSong?.name} (${currentSong?.artist}) | Octave`;
     }
   };
 
   const playNextSong = useCallback(() => {
-    console.log("This is playNextSong()");
     const nextSong = getNextSong(songIndex);
     if (nextSong) {
       setCurrentSong(nextSong);
       dispatch(incSongIndex());
-      console.log("There is a next Song", nextSong.name);
-    } else {
-      console.log("No next song");
     }
   }, [songIndex, dispatch]);
 
   const playPreviousSong = useCallback(() => {
-    console.log("This is playPreviousSong()");
     const prevSong = getPreviousSong(songIndex);
     if (prevSong) {
       setCurrentSong(prevSong);
       dispatch(decSongIndex());
-    } else console.log("No prev song!");
+    }
   }, [songIndex, dispatch]);
 
   const playSongByMediaSession = useCallback(async () => {
     await audioRef.current.play();
     navigator.mediaSession.playbackState = "playing";
     setPlaying(1);
+    isPlayingRef.current = true;
     document.title = `${currentSong?.name} (${currentSong?.artist}) | Octave`;
   }, [currentSong]);
 
@@ -105,6 +117,7 @@ function Player() {
     await audioRef.current.pause();
     navigator.mediaSession.playbackState = "paused";
     setPlaying(0);
+    isPlayingRef.current = false;
     document.title = `Octave`;
   };
 
@@ -146,15 +159,16 @@ function Player() {
 
       audioRef.current.onended = () => {
         setPlaying(0);
+        isPlayingRef.current = false;
         document.title = `Octave`;
         playNextSong();
-        // setPlaying(1)
       };
 
       // can also use oncanplay
       audioRef.current.onloadeddata = async () => {
         await audioRef.current.play();
         setPlaying(1);
+        isPlayingRef.current = true;
         setupMediaSession();
         const durationTime = calculateDurationTime(audioRef.current.duration);
         setDisplayDurationTime(durationTime);
