@@ -1,4 +1,4 @@
-# Music Streaming App
+# Octave
 
 A Web based Music Streaming App developed using ReactJs and Firebase
 

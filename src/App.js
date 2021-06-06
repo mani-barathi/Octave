@@ -1,23 +1,23 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
-import "./css/App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { useSelector } from "react-redux"
+import "./css/App.css"
 // Pages
-import Login from "./pages/LoginPage";
-import Home from "./pages/HomePage";
-import Library from "./pages/LibraryPage";
-import Search from "./pages/SearchPage";
-import Admin from "./pages/AdminPage";
-import ArtistPage from "./pages/ArtistPage";
-import PlayListPage from "./pages/PlayListPage";
+import LoginPage from "./pages/LoginPage"
+import HomePage from "./pages/HomePage"
+import LibraryPage from "./pages/LibraryPage"
+import SearchPage from "./pages/SearchPage"
+import AdminPage from "./pages/AdminPage"
+import ArtistPage from "./pages/ArtistPage"
+import PlayListPage from "./pages/PlayListPage"
 
 // Components
-import Navbar from "./components/Navbar";
-import Player from "./components/Player";
-import SongList from "./components/SongList";
+import Navbar from "./components/Navbar"
+import Player from "./components/Player"
+import SongList from "./components/SongList"
 
 function App() {
-  const user = useSelector((state) => state.user);
-  const { isSongListOpen } = useSelector((state) => state.currentSession);
+  const user = useSelector((state) => state.user)
+  const { isSongListOpen } = useSelector((state) => state.currentSession)
 
   return (
     <Router>
@@ -28,41 +28,24 @@ function App() {
               <Navbar />
               <div className="app__window">
                 <Switch>
-                  <Route path="/library">
-                    <Library />
-                  </Route>
-
-                  <Route exact path="/playlists/:id">
-                    <PlayListPage />
-                  </Route>
-
-                  <Route path="/search">
-                    <Search />
-                  </Route>
-
-                  <Route exact path="/artist/:id">
-                    <ArtistPage />
-                  </Route>
-
-                  <Route path="/admin" exact>
-                    <Admin />
-                  </Route>
-
-                  <Route exact path="/">
-                    <Home />
-                  </Route>
+                  <Route exact path="/library" component={LibraryPage} />
+                  <Route exact path="/playlists/:id" component={PlayListPage} />
+                  <Route exact path="/search" component={SearchPage} />
+                  <Route exact path="/artist/:id" component={ArtistPage} />
+                  <Route exact path="/admin" component={AdminPage} />
+                  <Route exact path="/" component={HomePage} />
                 </Switch>
               </div>
               {isSongListOpen && <SongList />} {/* current Playing Song List */}
               <Player />
             </>
           ) : (
-            <Login />
+            <LoginPage />
           )}
         </div>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
