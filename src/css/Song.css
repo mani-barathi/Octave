@@ -1,71 +1,81 @@
-.song{
-    padding: 1rem;
-    margin: 1rem 1.2rem;
-    margin-left: 0;
-    min-width: 200px;
-    max-width: 200px;
-    box-shadow: 0 15px 30px 5px rgba(0,0,0,0.1);
-    background-color: var(--songBgColor);
-    border-radius: 10px;
-    transition: 0.3s ease;
-    position: relative;
-    user-select: none;
+.song {
+  padding: 1rem;
+  margin: 1rem 1.2rem;
+  margin-left: 0;
+  min-width: 200px;
+  max-width: 200px;
+  box-shadow: 0 15px 30px 5px rgba(0, 0, 0, 0.1);
+  background-color: var(--songBgColor);
+  border-radius: 10px;
+  transition: 0.3s ease;
+  position: relative;
+  user-select: none;
 }
-.song:hover{
-    background-color: var(--songHoverBgColor);
-}
-
-.song__image{
-    object-fit: cover;
-    width: 100%;
-    height: 150px;
-    border-radius: 5px;
+.song:hover {
+  background-color: var(--songHoverBgColor);
 }
 
-.song__name{
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
+.song__image {
+  object-fit: cover;
+  width: 100%;
+  height: 150px;
+  border-radius: 5px;
 }
 
-.song__artist{
-    text-overflow: ellipsis;
-    font-size: 0.8rem;
+.song__name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.song__playButton{
-    position: absolute;
-    bottom:70px;
-    right: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0px 5px 17px 0px rgba(50, 50, 50, 0.63);
-    transition: 0.2s ease;
-}
-.song__playButton:hover{
-    transform:scale(1.1);
+.song__artist {
+  text-overflow: ellipsis;
+  font-size: 0.8rem;
 }
 
-.song__playIcon{
-    transform: scale(2);
-    padding: 0 !important;
-    font-size: 2rem ;
+.song__playButton {
+  position: absolute;
+  bottom: 70px;
+  right: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0px 5px 17px 0px rgba(50, 50, 50, 0.63);
+  transition: 0.2s ease;
+}
+.song__playButton:hover {
+  transform: scale(1.1);
 }
 
-.song__option{
-    position: absolute;
-    bottom: 0px;
-    right: 0;
+.song__playIcon {
+  transform: scale(2);
+  padding: 0 !important;
+  font-size: 2rem;
 }
 
-.song__optionIcon{
-    color: rgb(158, 158, 158) !important;
+.song__option {
+  position: absolute;
+  bottom: 0px;
+  right: 0;
 }
 
-.song__optionIcon:hover{
-    color: white !important;
+.song__optionIcon {
+  color: rgb(158, 158, 158) !important;
 }
 
-.song__optionItem{
-    font-size: 0.8rem !important;
+.song__optionIcon:hover {
+  color: white !important;
+}
+
+.song__optionItem {
+  font-size: 0.8rem !important;
+}
+
+@media screen and (max-width: 600px) {
+  .song {
+    min-width: 175px;
+    max-width: 175px;
+  }
+  .song__image {
+    max-height: 135px;
+  }
 }
