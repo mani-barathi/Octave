@@ -5,13 +5,12 @@ import { Typography, Button, Link, CircularProgress } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 
 import { auth } from "../firebase";
+import { signUp, signIn, updateProfile, signInWithGoogle } from "../api/auth";
 import { loginUser } from "../actions/authActions";
-import useAuth from "../hooks/useAuth";
 
 function Login() {
-  const { signUp, signIn, updateProfile, signInWithGoogle } = useAuth();
   const [isLogin, setIsLogin] = useState(true); // to keep track of whether the user is trying to login or Signup
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
   const formRef = useRef();
   const dispatch = useDispatch();
@@ -30,27 +29,20 @@ function Login() {
         };
         dispatch(loginUser(user)); // then dispatch the LOGIN_USER
       } else {
-        setIsLoading(false);
+        setLoading(false);
       }
     });
 
-    const timeOut = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-
-    return () => {
-      clearTimeout(timeOut); // clears the setTimeout
-      unsubscribe(); // unsubscribe from listening to Auth Changes when the componenet Closes
-    };
+    return () => unsubscribe();
   }, [dispatch]);
 
   // EveryTime User switches between Login and Sign Up reset all the InputFields
   useEffect(() => {
-    if (isLoading) return;
+    if (loading) return;
     formRef.current.email.value = "";
     formRef.current.password.value = "";
     setErr(null); // reset the error State
-  }, [isLogin, isLoading]);
+  }, [isLogin, loading]);
 
   // Everytime an Error Occur Reset the passwordField
   useEffect(() => {
@@ -81,156 +73,162 @@ function Login() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="login user-select-none">
+        <Typography variant="h1" color="secondary" align="center">
+          Octave
+        </Typography>
+        <CircularProgress color="secondary" />
+      </div>
+    );
+  }
+
   return (
     <div className="login user-select-none">
       <Typography variant="h1" color="secondary" align="center">
-        Octave{" "}
+        Octave
       </Typography>
-      {isLoading ? (
-        <CircularProgress color="secondary" />
-      ) : (
-        <div className="login__wrapper user-select-none">
-          <Typography align="center" variant="h5">
-            {isLogin ? "SIGN IN" : "SIGN UP"}
-          </Typography>
+      <div className="login__wrapper user-select-none">
+        <Typography align="center" variant="h5">
+          {isLogin ? "SIGN IN" : "SIGN UP"}
+        </Typography>
 
-          <form
-            className="login__form"
-            onSubmit={handleFormSubmit}
-            autoComplete="off"
-            ref={formRef}
-          >
-            {!isLogin && (
-              <div className="login__formGroup">
-                <input
-                  type="text"
-                  name="name"
-                  className="login__formInput"
-                  required
-                  placeholder="Enter your Name"
-                  minLength="3"
-                />
-              </div>
-            )}
-
+        <form
+          className="login__form"
+          onSubmit={handleFormSubmit}
+          autoComplete="off"
+          ref={formRef}
+        >
+          {!isLogin && (
             <div className="login__formGroup">
               <input
-                type="email"
-                name="email"
+                type="text"
+                name="name"
                 className="login__formInput"
                 required
-                placeholder="Enter your email"
+                placeholder="Enter your Name"
+                minLength="3"
               />
             </div>
+          )}
 
+          <div className="login__formGroup">
+            <input
+              type="email"
+              name="email"
+              className="login__formInput"
+              required
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <div className="login__formGroup">
+            <input
+              type="password"
+              name="password"
+              className="login__formInput"
+              required
+              placeholder="Enter your password"
+              minLength="8"
+            />
+          </div>
+
+          {!isLogin && (
             <div className="login__formGroup">
               <input
-                type="password"
-                name="password"
+                type="text"
+                name="photoURL"
                 className="login__formInput"
-                required
-                placeholder="Enter your password"
-                minLength="8"
+                placeholder="Profile Pic URL (optional)"
+                minLength="3"
               />
             </div>
+          )}
 
-            {!isLogin && (
-              <div className="login__formGroup">
-                <input
-                  type="text"
-                  name="photoURL"
-                  className="login__formInput"
-                  placeholder="Profile Pic URL (optional)"
-                  minLength="3"
-                />
-              </div>
-            )}
+          <div className="login__formGroup">
+            {err && <Typography color="error"> {err.message} </Typography>}
+          </div>
 
-            <div className="login__formGroup">
-              {err && <Typography color="error"> {err.message} </Typography>}
-            </div>
-
-            <div className="login__formGroup">
-              <Button
-                type="submit"
-                variant="contained"
-                color="secondary"
-                disabled={isLoading}
-              >
-                <Typography align="center" variant="subtitle1">
-                  {isLogin ? "Sign In" : "Sign Up"}
-                </Typography>
-              </Button>
-            </div>
-
-            {isLogin && (
-              <Typography align="center" variant="body2">
-                OR
+          <div className="login__formGroup">
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              disabled={loading}
+            >
+              <Typography align="center" variant="subtitle1">
+                {isLogin ? "Sign In" : "Sign Up"}
               </Typography>
-            )}
+            </Button>
+          </div>
 
-            {/* Sign In With Google  */}
-            <div className="login__formGroup">
-              {isLogin && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  onClick={signInWithGoogle}
-                >
-                  <Typography align="center" variant="subtitle1">
-                    Sign In With Google
-                  </Typography>
-                </Button>
-              )}
-            </div>
-          </form>
-
-          {/* Forgot Password Link  */}
           {isLogin && (
             <Typography align="center" variant="body2">
-              <Link
-                color="secondary"
-                component="button"
-                variant="subtitle2"
-                onClick={() => setOpen(true)}
-              >
-                Forgot Password
-              </Link>
+              OR
             </Typography>
           )}
 
-          {/* Already Have an Account  OR  New? Create an Account*/}
-          {!isLogin ? (
-            <Typography align="center" variant="body2">
-              {" "}
-              Already Have an Account &nbsp;
-              <Link
-                component="button"
-                color="secondary"
-                variant="subtitle2"
-                onClick={() => setIsLogin(true)}
+          {/* Sign In With Google  */}
+          <div className="login__formGroup">
+            {isLogin && (
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={signInWithGoogle}
               >
-                Login
-              </Link>
-            </Typography>
-          ) : (
-            <Typography align="center" variant="body2">
-              {" "}
-              New? Create an Account &nbsp;
-              <Link
-                component="button"
-                color="secondary"
-                variant="subtitle2"
-                onClick={() => setIsLogin(false)}
-              >
-                Here
-              </Link>
-            </Typography>
-          )}
-        </div>
-      )}{" "}
-      {/*  End of isLoading  */}
+                <Typography align="center" variant="subtitle1">
+                  Sign In With Google
+                </Typography>
+              </Button>
+            )}
+          </div>
+        </form>
+
+        {/* Forgot Password Link  */}
+        {isLogin && (
+          <Typography align="center" variant="body2">
+            <Link
+              color="secondary"
+              component="button"
+              variant="subtitle2"
+              onClick={() => setOpen(true)}
+            >
+              Forgot Password
+            </Link>
+          </Typography>
+        )}
+
+        {/* Already Have an Account  OR  New? Create an Account*/}
+        {!isLogin ? (
+          <Typography align="center" variant="body2">
+            {" "}
+            Already Have an Account &nbsp;
+            <Link
+              component="button"
+              color="secondary"
+              variant="subtitle2"
+              onClick={() => setIsLogin(true)}
+            >
+              Login
+            </Link>
+          </Typography>
+        ) : (
+          <Typography align="center" variant="body2">
+            {" "}
+            New? Create an Account &nbsp;
+            <Link
+              component="button"
+              color="secondary"
+              variant="subtitle2"
+              onClick={() => setIsLogin(false)}
+            >
+              Here
+            </Link>
+          </Typography>
+        )}
+      </div>
       {/* ForgotPassword Component (Dialog Box modal) */}
       <ForgotPassword open={open} setOpen={setOpen} />
     </div>

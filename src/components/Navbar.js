@@ -11,7 +11,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useDispatch, useSelector } from "react-redux";
 
 import { logoutUser } from "../actions/authActions";
-import useAuth from "../hooks/useAuth";
+import { signOut } from "../api/auth";
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -20,7 +20,6 @@ function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentLocation, setCurrentLocation] = useState("/");
   const user = useSelector((state) => state.user);
-  const { signOut } = useAuth();
 
   useEffect(() => {
     setCurrentLocation(location.pathname);
@@ -41,14 +40,11 @@ function Navbar() {
     try {
       await signOut();
       dispatch(logoutUser());
+      histroy.replace("/");
     } catch (error) {
       alert(error.message);
     }
   };
-  // const goToAdmin = () => {
-  //   setAnchorEl(false);
-  //   histroy.push("/admin");
-  // };
 
   return (
     <div className="navbar">
@@ -128,11 +124,6 @@ function Navbar() {
           open={Boolean(anchorEl)}
           onClose={() => setAnchorEl(false)}
         >
-          {/* <MenuItem onClick={goToAdmin}>
-            <SupervisorAccountIcon fontSize="small" />
-            <span className="navbar__rightMenuItem">Admin</span>
-          </MenuItem> */}
-
           <MenuItem onClick={logout}>
             <ExitToAppIcon fontSize="small" />
             <span className="navbar__rightMenuItem">Logout</span>

@@ -7,7 +7,7 @@ import {
   DialogContent,
   Typography,
 } from "@material-ui/core";
-import useAuth from "../hooks/useAuth";
+import { resetPassword } from "../api/auth";
 
 function ForgotPassword({ open, setOpen }) {
   const inputRef = useRef();
@@ -16,7 +16,6 @@ function ForgotPassword({ open, setOpen }) {
   );
   const [error, setError] = useState("");
   const [isDone, setIsDone] = useState(false);
-  const { resetPassword } = useAuth();
 
   useEffect(() => {
     setError("");
