@@ -140,13 +140,13 @@ function PlayListSong({
       {/* If this song is from Playlist or Favourites or ArtistPage then show SnackBar Notifications */}
       {(isSearchSong || isPlaylistSong || isArtistPage) && snackBar && (
         <SnackBar snackBar={snackBar} setSnackBar={setSnackBar} />
-      )}{" "}
+      )}
       {/* To Show Pop Up messages */}
       {/* If this song is from Playlist or ArtistPage then show SnackBar Notifications */}
       {isModalOpen && (
         <AddPlayListSongModal
           song={data}
-          SetIsModalOpen={SetIsModalOpen}
+          closeModal={() => SetIsModalOpen(false)}
           setSnackBar={setSnackBar}
         />
       )}

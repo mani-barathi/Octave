@@ -6,31 +6,29 @@ import {
   DialogActions,
   DialogTitle,
 } from "@material-ui/core";
-import usePlayListFunctions from "../hooks/usePlayListFunctions";
+import { createNewPlaylist } from "../api/playlist";
 
 // Popup Modal where user can enter a new playlist name and create that, used in LIbrary Page
-function CreatePlaylistModal({ isOpen, setIsOpen }) {
+function CreatePlaylistModal({ isOpen, closeModal, uid }) {
   const inputRef = useRef();
-  const { createNewPlaylist } = usePlayListFunctions();
 
   const createPlaylist = (e) => {
     e.preventDefault();
     if (!inputRef.current.value) return;
 
-    createNewPlaylist(inputRef.current.value)
+    createNewPlaylist(inputRef.current.value, uid)
       .then(() => {
         console.log("Playlist Created!");
         inputRef.current.value = "";
-        handleClose();
+        closeModal();
       })
       .catch((error) => alert(error.message));
   };
 
-  const handleClose = () => setIsOpen(false);
   return (
     <Dialog
       open={isOpen}
-      onClose={handleClose}
+      onClose={closeModal}
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Create New Playlist</DialogTitle>
@@ -46,7 +44,7 @@ function CreatePlaylistModal({ isOpen, setIsOpen }) {
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="default">
+        <Button onClick={closeModal} variant="contained" color="default">
           Cancel
         </Button>
         <Button

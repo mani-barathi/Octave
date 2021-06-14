@@ -2,15 +2,24 @@ import React, { useEffect, useState } from "react";
 import "../css/PlayList.css";
 import PlayListSong from "../components/PlayListSong";
 import { useParams, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { IconButton, Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
-import usePlayListFunctions from "../hooks/usePlayListFunctions";
+import {
+  deletePlaylist,
+  deleteSongFromPlaylist,
+  getFavouriteSongs,
+  getPlaylist,
+  getPlaylistSongs,
+} from "../api/playlist";
+import { setNewSong, setSongIndex } from "../actions/currentSessionActions";
 
-// PlayListPage, which displays all the songs of the playlist, this includes the Favorites Page also
 function PlayListPage() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const { id } = useParams();
   const [playlist, setPlaylist] = useState(() => {
     if (id === "favorites")
@@ -18,34 +27,30 @@ function PlayListPage() {
         name: "favorites",
         imageUrl: "https://prexoo.com/images/no-music-cover.png",
       };
-    return { name: "", imageUrl: "" };
+    return { name: null, imageUrl: null };
   });
   const [songs, setSongs] = useState([]);
   const history = useHistory();
-  const {
-    getFavouriteSongs,
-    getPlaylistSongs,
-    deleteSongFromPlaylist,
-    deletePlaylist,
-    playSelectedPlaylist,
-    getPlaylist,
-  } = usePlayListFunctions();
 
+  // 1. check whether there is playlist exist with the id ,if not return to library page
   useEffect(() => {
     if (id === "favorites") return;
     getPlaylist(id)
       .get()
       .then((snapshot) => {
         const result = snapshot.data();
-        if (!result) return history.push("/library");
-        setPlaylist(snapshot.data());
+        if (!result) return history.replace("/library");
+        setPlaylist(result);
       });
-  }, [getPlaylist, history, id]);
+  }, [history, id]);
 
+  // 2. if playlist exists then grab all the songs from it
   useEffect(() => {
-    const getSongs = id === "favorites" ? getFavouriteSongs : getPlaylistSongs;
-
-    let unsubscribe = getSongs(id).onSnapshot((snapshot) => {
+    if (!playlist.name) return;
+    const isFavorites = id === "favorites";
+    const payloadId = isFavorites ? user.uid : id;
+    const getSongs = isFavorites ? getFavouriteSongs : getPlaylistSongs;
+    const unsubscribe = getSongs(payloadId).onSnapshot((snapshot) => {
       setSongs(
         snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -55,12 +60,16 @@ function PlayListPage() {
     });
 
     return unsubscribe;
-    // eslint-disable-next-line
-  }, [id]);
+  }, [id, playlist, user.uid]);
 
   const playPlayList = () => {
-    const playlistSongs = songs.map((song) => song.data);
-    playSelectedPlaylist(playlistSongs);
+    const songsData = songs.map((song) => song.data);
+    const [firstSong, ...remainingSongs] = songsData;
+    // set the remainingSongs to sessionStorage
+    sessionStorage.setItem("SONG_LIST", JSON.stringify(remainingSongs));
+    // reset the songIndex and dispatch the first song as the new song
+    dispatch(setSongIndex(0));
+    dispatch(setNewSong(firstSong));
   };
 
   const handleDeletePlayList = () => {
@@ -76,7 +85,6 @@ function PlayListPage() {
     deletePlaylist(id)
       .then(() => history.push("/library"))
       .catch((error) => alert(error.message));
-    // eslint-disable-next-line
   };
 
   return (

@@ -78,7 +78,7 @@ function Song({ data }) {
       {isModalOpen && (
         <AddPlayListSongModal
           song={data}
-          SetIsModalOpen={SetIsModalOpen}
+          closeModal={() => SetIsModalOpen(false)}
           setSnackBar={setSnackBar}
         />
       )}

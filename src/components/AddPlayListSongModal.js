@@ -7,20 +7,20 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import Typography from "@material-ui/core/Typography";
 
-import usePlayListFunctions from "../hooks/usePlayListFunctions";
+import { getAllPlaylists, addSongToPlaylist } from "../api/playlist";
 import { setPlaylists } from "../actions/playlistActions";
 import { useSelector, useDispatch } from "react-redux";
 import { CircularProgress } from "@material-ui/core";
 
 // add a song to playlist modal, used inside Song and PlaylistSong
-function AddPlayListSongModal({ song, SetIsModalOpen, setSnackBar }) {
+function AddPlayListSongModal({ song, closeModal, setSnackBar }) {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const playlists = useSelector((state) => state.playlists);
-  const { getAllPlaylists, addSongToPlaylist } = usePlayListFunctions();
 
   useEffect(() => {
     if (playlists) return;
-    getAllPlaylists()
+    getAllPlaylists(user.uid)
       .get()
       .then((snapshot) => {
         console.log(snapshot);
@@ -30,20 +30,18 @@ function AddPlayListSongModal({ song, SetIsModalOpen, setSnackBar }) {
         }));
         dispatch(setPlaylists(data));
       });
-  }, [getAllPlaylists, playlists, dispatch]);
+  }, [dispatch, playlists, user.uid]);
 
   const addSong = (playlistId) => {
     addSongToPlaylist(playlistId, song)
       .then(() => setSnackBar("Song added to Playlist"))
-      .then(() => handleClose())
+      .then(() => closeModal())
       .catch((error) => alert(error.message));
   };
 
-  const handleClose = () => SetIsModalOpen(false);
-
   return (
     <Dialog
-      onClose={handleClose}
+      onClose={closeModal}
       aria-labelledby="simple-dialog-title"
       open={true}
     >

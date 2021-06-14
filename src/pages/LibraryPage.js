@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import "../css/Library.css";
 import RecentlyListened from "../components/RecentlyListened";
 import CreatePlaylistModal from "../components/CreatePlaylistModal";
 import SnackBar from "../components/SnackBar";
 
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 
-import usePlayListFunctions from "../hooks/usePlayListFunctions";
 import { setPlaylists as setPlaylistsToStore } from "../actions/playlistActions";
+import {
+  getFavouriteSongs,
+  getPlaylistSongs,
+  getAllPlaylists,
+} from "../api/playlist";
+import { setNewSong, setSongIndex } from "../actions/currentSessionActions";
 
 function Library() {
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
-  const playlists = useSelector((state) => state.playlists);
-  const [snackBar, setSnackBar] = useState(null);
-  const { getAllPlaylists } = usePlayListFunctions();
-  const {
-    getFavouriteSongs,
-    getPlaylistSongs,
-    playSelectedPlaylist,
-  } = usePlayListFunctions();
   const history = useHistory();
+  const playlists = useSelector((state) => state.playlists);
+  const [isOpen, setIsOpen] = useState(false);
+  const [snackBar, setSnackBar] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = getAllPlaylists().onSnapshot((snapshot) => {
+    const unsubscribe = getAllPlaylists(user.uid).onSnapshot((snapshot) => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         data: doc.data(),
@@ -36,24 +36,23 @@ function Library() {
     //eslint-disable-next-line
   }, []);
 
-  const goToFavourities = () => {
-    history.push("/playlists/favorites");
-  };
-
-  const goToPlaylistPage = (id) => {
-    history.push(`/playlists/${id}`);
-  };
-
   const playThisPlaylist = (e, id) => {
     e.stopPropagation();
 
-    const getSongs = id === "favorites" ? getFavouriteSongs : getPlaylistSongs;
-    getSongs(id)
+    const isFavorites = id === "favorites";
+    const payloadId = isFavorites ? user.uid : id;
+    const getSongs = isFavorites ? getFavouriteSongs : getPlaylistSongs;
+    getSongs(payloadId)
       .get()
       .then((snapshot) => {
         const songs = snapshot.docs.map((doc) => doc.data());
         if (songs.length > 0) {
-          playSelectedPlaylist(songs);
+          const [firstSong, ...remainingSongs] = songs;
+          // set the remainingSongs to sessionStorage
+          sessionStorage.setItem("SONG_LIST", JSON.stringify(remainingSongs));
+          // reset the songIndex and dispatch the first song as the new song
+          dispatch(setSongIndex(0));
+          dispatch(setNewSong(firstSong));
           setSnackBar("Playlist is playing!");
         } else {
           setSnackBar("Playlist Empty!");
@@ -61,6 +60,9 @@ function Library() {
       })
       .catch((error) => alert(error.message));
   };
+
+  const goToFavourities = () => history.push("/playlists/favorites");
+  const goToPlaylistPage = (id) => history.push(`/playlists/${id}`);
 
   return (
     <div className="library">
@@ -125,9 +127,13 @@ function Library() {
           </div>
         ))}
       </div>
-      {snackBar && <SnackBar snackBar={snackBar} setSnackBar={setSnackBar} />}{" "}
+      {snackBar && <SnackBar snackBar={snackBar} setSnackBar={setSnackBar} />}
       {/* To Show Pop Up messages */}
-      <CreatePlaylistModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <CreatePlaylistModal
+        isOpen={isOpen}
+        closeModal={() => setIsOpen(false)}
+        uid={user.uid}
+      />
     </div>
   );
 }
