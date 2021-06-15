@@ -8,7 +8,7 @@ import AllSongs from "../components/AllSongs";
 import { Typography } from "@material-ui/core";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
-import { getRandomWelcomeText } from "../utils/utils";
+import { getRandomWelcomeText } from "../utils/common";
 
 function Home() {
   const user = useSelector((state) => state.user);

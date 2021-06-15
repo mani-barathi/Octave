@@ -8,7 +8,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import useMoveLeftRight from "../hooks/useMoveLeftRight";
-import { db } from "../firebase";
+import { getRecentArtists } from "../api/artist";
 import { setArtists } from "../actions/artistsActions";
 
 // A Row of Artist present inside Home Page
@@ -33,17 +33,13 @@ function ArtistsList() {
   useEffect(() => {
     if (artists.length !== 0) return;
 
-    db.collection("artists")
-      .orderBy("createdAt", "desc")
-      .limit(6)
-      .get()
-      .then((snapshot) => {
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }));
-        dispatch(setArtists(data));
-      });
+    getRecentArtists().then((snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      dispatch(setArtists(data));
+    });
     // eslint-disable-next-line
   }, [dispatch]);
 

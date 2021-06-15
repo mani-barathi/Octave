@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import { db } from "../firebase";
-import { getRandomPlaylistImage } from "../utils/utils";
+import { getRandomPlaylistImage } from "../utils/common";
 
 export const createNewPlaylist = (name, uid) => {
   return db.collection("playlists").add({

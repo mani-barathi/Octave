@@ -10,8 +10,9 @@ import {
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
-import { capitalize, capitalizeAllWords } from "../utils/utils";
-import { db } from "../firebase";
+import { capitalize, capitalizeAllWords } from "../utils/common";
+import { searchArtist } from "../api/artist";
+import { searchSong } from "../api/song";
 
 // Search Page
 function Search() {
@@ -29,33 +30,26 @@ function Search() {
     if (!input) return;
 
     let searchText = capitalize(input);
-    setInfoText(`Search Result for ${input}`);
-    await db
-      .collection("songs")
-      .where("names", "array-contains", searchText)
-      .get()
-      .then((snapshot) => {
-        setSongs(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          }))
-        );
-      });
+    await searchSong(searchText).then((snapshot) => {
+      setSongs(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+    });
 
     searchText = capitalizeAllWords(input);
-    await db
-      .collection("artists")
-      .where("names", "array-contains", searchText)
-      .get()
-      .then((snapshot) => {
-        setArtists(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          }))
-        );
-      });
+    await searchArtist(searchText).then((snapshot) => {
+      setArtists(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+    });
+
+    setInfoText(`Search Result for ${input}`);
   };
 
   return (

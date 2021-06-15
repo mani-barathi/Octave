@@ -17,3 +17,15 @@ export const uploadArtistToStorage = (file) => {
 export const getArtistImageURL = (fileName) => {
   return storage.ref("artists-images").child(fileName).getDownloadURL();
 };
+
+export const searchArtist = (name) => {
+  return db.collection("artists").where("names", "array-contains", name).get();
+};
+
+export const getRecentArtists = (limit = 8) => {
+  return db
+    .collection("artists")
+    .orderBy("createdAt", "desc")
+    .limit(limit)
+    .get();
+};

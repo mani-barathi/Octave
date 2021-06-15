@@ -4,6 +4,7 @@ import { Button, CircularProgress } from "@material-ui/core";
 
 import PlayListSong from "./PlayListSong";
 import { db } from "../firebase";
+import { getPaginatedSongs } from "../api/song";
 
 const LIMIT = 10;
 
@@ -15,38 +16,28 @@ const AllSongs = () => {
   useEffect(() => {
     if (newReleases.length === 0) return;
     const lastSongCreateAt = newReleases[newReleases.length - 1].data.createdAt;
-    db.collection("songs")
-      .orderBy("createdAt", "desc")
-      .startAfter(lastSongCreateAt)
-      .limit(LIMIT)
-      .get()
-      .then((snapshot) => {
-        const resSongs = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }));
-        if (resSongs.length < LIMIT) setHasMore(false);
-        setSongs(resSongs);
-      });
+    getPaginatedSongs(lastSongCreateAt).then((snapshot) => {
+      const resSongs = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      if (resSongs.length < LIMIT) setHasMore(false);
+      setSongs(resSongs);
+    });
   }, [newReleases]);
 
   const handleLoadMore = () => {
     const lastSongCreateAt = songs[songs.length - 1].data.createdAt;
-    db.collection("songs")
-      .orderBy("createdAt", "desc")
-      .startAfter(lastSongCreateAt)
-      .limit(LIMIT)
-      .get()
-      .then((snapshot) => {
-        const resSongs = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }));
-        if (resSongs.length < LIMIT) setHasMore(false);
-        if (resSongs.length > 0) {
-          setSongs((prev) => [...prev, ...resSongs]);
-        }
-      });
+    getPaginatedSongs(lastSongCreateAt).then((snapshot) => {
+      const resSongs = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      if (resSongs.length < LIMIT) setHasMore(false);
+      if (resSongs.length > 0) {
+        setSongs((prev) => [...prev, ...resSongs]);
+      }
+    });
   };
 
   return (

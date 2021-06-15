@@ -8,8 +8,8 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import useMoveLeftRight from "../hooks/useMoveLeftRight";
-import { db } from "../firebase";
 import { setNewReleases } from "../actions/newReleasesActions";
+import { getNewReleases } from "../api/song";
 
 // A row of latest  songs  displayed in Home Page
 function NewReleases() {
@@ -32,17 +32,13 @@ function NewReleases() {
 
   useEffect(() => {
     if (newReleases.length > 0) return;
-    db.collection("songs")
-      .orderBy("createdAt", "desc")
-      .limit(8)
-      .get()
-      .then((snapshot) => {
-        const songs = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }));
-        dispatch(setNewReleases(songs));
-      });
+    getNewReleases().then((snapshot) => {
+      const songs = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      dispatch(setNewReleases(songs));
+    });
   }, [dispatch, newReleases.length]);
 
   const toggleButtonOnWindowResize = () => {

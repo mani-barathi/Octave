@@ -12,11 +12,12 @@ import {
   uploadArtistToStorage,
 } from "../api/artist";
 import useForm from "../hooks/useForm";
-import { handleError, isValidURL } from "../utils/common";
 import {
   capitalizeAllWords,
   createNamesArrayWithCaptitalizedWords,
-} from "../utils/utils";
+  handleError,
+  isValidURL,
+} from "../utils/common";
 
 function ArtistForm({ artists }) {
   const [loading, setLoading] = useState(false);

@@ -11,8 +11,12 @@ import {
 } from "@material-ui/core";
 import { addSong, getSongURL, uploadSongToStorage } from "../api/song";
 import useForm from "../hooks/useForm";
-import { capitalize, createNamesArray } from "../utils/utils";
-import { handleError, isValidURL } from "../utils/common";
+import {
+  handleError,
+  isValidURL,
+  capitalize,
+  createNamesArray,
+} from "../utils/common";
 
 function SongForm({ artists }) {
   const [loading, setLoading] = useState(false);
