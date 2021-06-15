@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { Button, CircularProgress } from "@material-ui/core";
 
 import PlayListSong from "./PlayListSong";
-import { db } from "../firebase";
 import { getPaginatedSongs } from "../api/song";
 
 const LIMIT = 10;

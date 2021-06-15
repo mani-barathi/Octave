@@ -1,10 +1,22 @@
+import { useState, useEffect, useRef, useCallback } from "react";
+
 // left and Right Buttons present inside NewReleases, ArtistPage,RecentlyPlayed
-function useMoveLeftRight(rowRef, setIsLeftBtn, setIsRightBtn) {
+function useMoveLeftRight() {
+  const [leftBtn, setLeftBtn] = useState(false);
+  const [rightBtn, setRightBtn] = useState(false);
+  const rowRef = useRef();
+
+  useEffect(() => {
+    window.addEventListener("resize", toggleButtonOnWindowResize);
+    return () =>
+      window.removeEventListener("resize", toggleButtonOnWindowResize);
+  }, []);
+
   const scrollLeft = () => {
     rowRef.current.scrollLeft -= 400;
     const hasMoreLeft = rowRef.current.scrollLeft > 400;
-    setIsLeftBtn(hasMoreLeft);
-    setIsRightBtn(true);
+    setLeftBtn(hasMoreLeft);
+    setRightBtn(true);
   };
 
   const scrollRight = () => {
@@ -13,11 +25,30 @@ function useMoveLeftRight(rowRef, setIsLeftBtn, setIsRightBtn) {
     const hasMoreRight =
       rowRef.current.scrollWidth - (offsetWidth + rowRef.current.scrollLeft) >
       400;
-    setIsRightBtn(hasMoreRight);
-    setIsLeftBtn(true);
+    setRightBtn(hasMoreRight);
+    setLeftBtn(true);
   };
 
-  return [scrollLeft, scrollRight];
+  const toggleButtonOnWindowResize = () => {
+    if (!rowRef.current) return;
+    if (rowRef.current.scrollWidth - rowRef.current.offsetWidth > 0) {
+      setRightBtn(true);
+    } else {
+      setRightBtn(false);
+    }
+
+    if (rowRef.current.scrollLeft > 300) {
+      setLeftBtn(true);
+    } else {
+      setLeftBtn(false);
+    }
+  };
+
+  const lastNodeRef = useCallback(() => {
+    toggleButtonOnWindowResize();
+  }, []);
+
+  return { leftBtn, rightBtn, scrollLeft, scrollRight, lastNodeRef, rowRef };
 }
 
 export default useMoveLeftRight;

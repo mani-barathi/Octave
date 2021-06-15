@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../css/row.css";
 import Artist from "./Artist";
@@ -15,20 +15,8 @@ import { setArtists } from "../actions/artistsActions";
 function ArtistsList() {
   const artists = useSelector((state) => state.artists);
   const dispatch = useDispatch();
-  const [isLeftBtn, setIsLeftBtn] = useState(false);
-  const [isRightBtn, setIsRightBtn] = useState(false);
-  const rowRef = useRef();
-  const [scrollLeft, scrollRight] = useMoveLeftRight(
-    rowRef,
-    setIsLeftBtn,
-    setIsRightBtn
-  );
-
-  useEffect(() => {
-    window.addEventListener("resize", toggleButtonOnWindowResize);
-    return () =>
-      window.removeEventListener("resize", toggleButtonOnWindowResize);
-  }, []);
+  const { leftBtn, rightBtn, scrollLeft, scrollRight, lastNodeRef, rowRef } =
+    useMoveLeftRight();
 
   useEffect(() => {
     if (artists.length !== 0) return;
@@ -42,25 +30,6 @@ function ArtistsList() {
     });
     // eslint-disable-next-line
   }, [dispatch]);
-
-  const toggleButtonOnWindowResize = () => {
-    if (!rowRef.current) return;
-    if (rowRef.current.scrollWidth - rowRef.current.offsetWidth > 0) {
-      setIsRightBtn(true);
-    } else {
-      setIsRightBtn(false);
-    }
-
-    if (rowRef.current.scrollLeft > 300) {
-      setIsLeftBtn(true);
-    } else {
-      setIsLeftBtn(false);
-    }
-  };
-
-  const lastArtistRef = useCallback(() => {
-    toggleButtonOnWindowResize();
-  }, []);
 
   return (
     <div className="row user-select-none">
@@ -83,7 +52,7 @@ function ArtistsList() {
 
       <div className="row__songsContainer">
         <div className="row__leftButtonDiv" onClick={scrollLeft}>
-          {isLeftBtn && (
+          {leftBtn && (
             <ChevronLeftIcon fontSize="large" className="row__icon" />
           )}
         </div>
@@ -91,7 +60,7 @@ function ArtistsList() {
         <div ref={rowRef} className="row__songs">
           {artists.map((artist, index) =>
             artists.length === index + 1 ? (
-              <div key={artist.id} ref={lastArtistRef}>
+              <div key={artist.id} ref={lastNodeRef}>
                 <Artist key={artist.id} id={artist.id} data={artist.data} />
               </div>
             ) : (
@@ -101,7 +70,7 @@ function ArtistsList() {
         </div>
 
         <div className="row__rightButtonDiv" onClick={scrollRight}>
-          {isRightBtn && (
+          {rightBtn && (
             <ChevronRightIcon fontSize="large" className="row__icon" />
           )}
         </div>

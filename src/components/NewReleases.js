@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../css/row.css";
 import Song from "./Song";
@@ -13,22 +13,10 @@ import { getNewReleases } from "../api/song";
 
 // A row of latest  songs  displayed in Home Page
 function NewReleases() {
-  const newReleases = useSelector((state) => state.newReleases);
   const dispatch = useDispatch();
-  const [isLeftBtn, setIsLeftBtn] = useState(false);
-  const [isRightBtn, setIsRightBtn] = useState(false);
-  const rowRef = useRef();
-  const [scrollLeft, scrollRight] = useMoveLeftRight(
-    rowRef,
-    setIsLeftBtn,
-    setIsRightBtn
-  );
-
-  useEffect(() => {
-    window.addEventListener("resize", toggleButtonOnWindowResize);
-    return () =>
-      window.removeEventListener("resize", toggleButtonOnWindowResize);
-  }, []);
+  const newReleases = useSelector((state) => state.newReleases);
+  const { leftBtn, rightBtn, scrollLeft, scrollRight, lastNodeRef, rowRef } =
+    useMoveLeftRight();
 
   useEffect(() => {
     if (newReleases.length > 0) return;
@@ -40,25 +28,6 @@ function NewReleases() {
       dispatch(setNewReleases(songs));
     });
   }, [dispatch, newReleases.length]);
-
-  const toggleButtonOnWindowResize = () => {
-    if (!rowRef.current) return;
-    if (rowRef.current.scrollWidth - rowRef.current.offsetWidth > 0) {
-      setIsRightBtn(true);
-    } else {
-      setIsRightBtn(false);
-    }
-
-    if (rowRef.current.scrollLeft > 300) {
-      setIsLeftBtn(true);
-    } else {
-      setIsLeftBtn(false);
-    }
-  };
-
-  const lastSongRef = useCallback(() => {
-    toggleButtonOnWindowResize();
-  }, []);
 
   return (
     <div className="row user-select-none">
@@ -81,7 +50,7 @@ function NewReleases() {
 
       <div className="row__songsContainer">
         <div className="row__leftButtonDiv" onClick={scrollLeft}>
-          {isLeftBtn && (
+          {leftBtn && (
             <ChevronLeftIcon fontSize="large" className="row__icon" />
           )}
         </div>
@@ -89,7 +58,7 @@ function NewReleases() {
         <div ref={rowRef} className="row__songs">
           {newReleases.map((song, index) =>
             newReleases.length === index + 1 ? (
-              <div key={song.id} ref={lastSongRef}>
+              <div key={song.id} ref={lastNodeRef}>
                 {" "}
                 <Song key={song.id} data={song.data} />{" "}
               </div>
@@ -100,7 +69,7 @@ function NewReleases() {
         </div>
 
         <div className="row__rightButtonDiv" onClick={scrollRight}>
-          {isRightBtn && (
+          {rightBtn && (
             <ChevronRightIcon fontSize="large" className="row__icon" />
           )}
         </div>

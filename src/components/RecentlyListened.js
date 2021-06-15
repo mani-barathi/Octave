@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/row.css";
 import Song from "./Song";
 
@@ -10,41 +10,14 @@ import { getRecentSongsLocalStorage } from "../utils/song-utils";
 
 // Row of songs present inside Library
 function RecentlyListened() {
-  const [isLeftBtn, setIsLeftBtn] = useState(false);
-  const [isRightBtn, setIsRightBtn] = useState(false);
   const [recentPlayedSongs, setRecentPlayedSongs] = useState([]);
-  const rowRef = useRef();
-  const [scrollLeft, scrollRight] = useMoveLeftRight(
-    rowRef,
-    setIsLeftBtn,
-    setIsRightBtn
-  );
+  const { leftBtn, rightBtn, scrollLeft, scrollRight, lastNodeRef, rowRef } =
+    useMoveLeftRight();
 
   useEffect(() => {
     const recentSongs = getRecentSongsLocalStorage();
     setRecentPlayedSongs(recentSongs);
   }, []);
-
-  useEffect(() => {
-    window.addEventListener("resize", toggleButtonOnWindowResize);
-    return () =>
-      window.removeEventListener("resize", toggleButtonOnWindowResize);
-    // eslint-disable-next-line
-  }, []);
-
-  const toggleButtonOnWindowResize = useCallback(() => {
-    if (!rowRef.current) return;
-    if (rowRef.current.scrollWidth - rowRef.current.offsetWidth > 0)
-      setIsRightBtn(true);
-    else setIsRightBtn(false);
-
-    if (rowRef.current.scrollLeft > 300) setIsLeftBtn(true);
-    else setIsLeftBtn(false);
-  }, []);
-
-  const lastSongRef = useCallback(() => {
-    toggleButtonOnWindowResize();
-  }, [toggleButtonOnWindowResize]);
 
   if (recentPlayedSongs.length > 0) {
     return (
@@ -56,7 +29,7 @@ function RecentlyListened() {
 
         <div className="row__songsContainer">
           <div className="row__leftButtonDiv" onClick={scrollLeft}>
-            {isLeftBtn && (
+            {leftBtn && (
               <ChevronLeftIcon fontSize="large" className="row__icon" />
             )}
           </div>
@@ -64,7 +37,7 @@ function RecentlyListened() {
           <div ref={rowRef} className="row__songs">
             {recentPlayedSongs.map((song, index) =>
               recentPlayedSongs.length === index + 1 ? (
-                <div key={index} ref={lastSongRef}>
+                <div key={index} ref={lastNodeRef}>
                   {" "}
                   <Song key={index} data={song} />{" "}
                 </div>
@@ -75,7 +48,7 @@ function RecentlyListened() {
           </div>
 
           <div className="row__rightButtonDiv" onClick={scrollRight}>
-            {isRightBtn && (
+            {rightBtn && (
               <ChevronRightIcon fontSize="large" className="row__icon" />
             )}
           </div>
