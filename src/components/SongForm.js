@@ -12,11 +12,7 @@ import {
 import { addSong, getSongURL, uploadSongToStorage } from "../api/song";
 import useForm from "../hooks/useForm";
 import { capitalize, createNamesArray } from "../utils/utils";
-
-const handleError = (e) => {
-  console.log(e);
-  alert(e);
-};
+import { handleError, isValidURL } from "../utils/common";
 
 function SongForm({ artists }) {
   const [loading, setLoading] = useState(false);
@@ -31,9 +27,8 @@ function SongForm({ artists }) {
   });
 
   const handleAddSongForm = async (event) => {
-    setLoading(true);
-    setMessage({ type: "intial", text: "" });
     event.preventDefault();
+    setMessage({ type: "intial", text: "" });
     const name = capitalize(formData.name);
     const names = createNamesArray(formData.name);
     const { imageUrl, url, artist } = formData;
@@ -45,14 +40,36 @@ function SongForm({ artists }) {
       names,
     };
 
+    // validations
+    if (!data.url && !formData.file) {
+      return setMessage({
+        type: "error",
+        text: "Either song URL should be provided or song should be uploaded",
+      });
+    } else if (data.imageUrl && !isValidURL(data.imageUrl)) {
+      return setMessage({
+        type: "error",
+        text: "Invliad image URL",
+      });
+    } else if (data.url && !isValidURL(data.url)) {
+      return setMessage({
+        type: "error",
+        text: "Invliad audio URL",
+      });
+    } else if (!formData.file.type.startsWith("audio")) {
+      return setMessage({
+        type: "error",
+        text: "File must be of type audio",
+      });
+    }
+
+    setLoading(true);
     if (formData.file) {
       const uploadTask = uploadSongToStorage(formData.file);
 
       uploadTask.on(
         "state_change",
-        (snapshot) => {
-          // Progress function
-          const { bytesTransferred, totalBytes } = snapshot;
+        ({ bytesTransferred, totalBytes }) => {
           setProgress(Math.round((bytesTransferred / totalBytes) * 100));
         },
         handleError,
@@ -78,12 +95,7 @@ function SongForm({ artists }) {
         text: "Song added",
       });
       clearForm();
-    } else
-      setMessage({
-        type: "error",
-        text: "Either Audio URL should be provided or ",
-      });
-
+    }
     setLoading(false);
     setProgress(0);
   };

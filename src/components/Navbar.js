@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "../css/Navbar.css";
 import { Link, useHistory, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import { Menu, MenuItem, IconButton, Avatar } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-// import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-
-import { useDispatch, useSelector } from "react-redux";
 
 import { logoutUser } from "../actions/authActions";
 import { signOut } from "../api/auth";
 
 function Navbar() {
   const dispatch = useDispatch();
-  const histroy = useHistory();
+  const router = useHistory();
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentLocation, setCurrentLocation] = useState("/");
@@ -26,11 +25,11 @@ function Navbar() {
   }, [location.pathname]);
 
   useEffect(() => {
-    let unlisten = histroy.listen((location, action) => {
+    let unlisten = router.listen((location, action) => {
       setCurrentLocation(location.pathname);
     });
     return unlisten;
-  }, [histroy]);
+  }, [router]);
 
   const openOptions = (event) => {
     setAnchorEl(event.currentTarget);
@@ -40,7 +39,7 @@ function Navbar() {
     try {
       await signOut();
       dispatch(logoutUser());
-      histroy.replace("/");
+      router.replace("/");
     } catch (error) {
       alert(error.message);
     }
@@ -52,6 +51,7 @@ function Navbar() {
         className="navbar__logo"
         src="https://raw.githubusercontent.com/mani-barathi/mani-barathi.github.io/master/assets/favicon.ico"
         alt=""
+        onDoubleClick={() => router.push("/admin")}
       />
 
       <div className="navbar__center">

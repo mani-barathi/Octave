@@ -34,8 +34,10 @@ function Admin() {
 
         {tab === 0 ? (
           <SongForm artists={artists} />
-        ) : (
+        ) : tab === 1 ? (
           <ArtistForm artists={artists} />
+        ) : (
+          <div></div>
         )}
       </div>
     </div>

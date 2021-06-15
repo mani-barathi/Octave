@@ -1,7 +1,18 @@
-import { Button, Typography, TextField } from "@material-ui/core";
+import { Input } from "@material-ui/core";
+import {
+  Button,
+  Typography,
+  TextField,
+  LinearProgress,
+} from "@material-ui/core";
 import { useState } from "react";
-import { addArtist } from "../api/artist";
+import {
+  addArtist,
+  getArtistImageURL,
+  uploadArtistToStorage,
+} from "../api/artist";
 import useForm from "../hooks/useForm";
+import { handleError, isValidURL } from "../utils/common";
 import {
   capitalizeAllWords,
   createNamesArrayWithCaptitalizedWords,
@@ -9,33 +20,84 @@ import {
 
 function ArtistForm({ artists }) {
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [formData, handleChange, formRef, clearForm] = useForm({
     name: "",
     description: "",
     imageUrl: "",
+    image: null,
   });
 
   const handleAddArtistForm = async (e) => {
-    setLoading(true);
     e.preventDefault();
+    setMessage({ type: "", message: "" });
     const name = capitalizeAllWords(formData.name);
     const names = createNamesArrayWithCaptitalizedWords(formData.name);
-    const data = { ...formData, name, names };
+    const { description, imageUrl } = formData;
+    const data = { description, name, names, imageUrl };
 
+    // validations
     if (artists.includes(name)) {
-      setMessage({
+      return setMessage({
         type: "error",
         text: `${name} already exists in DB`,
       });
-    } else {
-      await addArtist(data);
+    } else if (!data.imageUrl && !formData.image) {
+      return setMessage({
+        type: "error",
+        text: "Either image URL should be provided or Image should be uploaded",
+      });
+    } else if (data.imageUrl && !isValidURL(data.imageUrl)) {
+      return setMessage({
+        type: "error",
+        text: "Invliad image URL",
+      });
+    } else if (formData.image && !formData.image?.type.startsWith("image")) {
+      return setMessage({
+        type: "error",
+        text: "File must be of type image",
+      });
+    }
+
+    setLoading(true);
+    if (formData.image) {
+      const uploadTask = uploadArtistToStorage(formData.image);
+
+      uploadTask.on(
+        "state_change",
+        ({ bytesTransferred, totalBytes }) => {
+          setProgress(Math.round((bytesTransferred / totalBytes) * 100));
+        },
+        handleError,
+        () => {
+          getArtistImageURL(formData.image.name)
+            .then(async (url) => {
+              console.log(url);
+              data.imageUrl = url; // adding the recived Url
+              await addArtist(data).catch(handleError);
+              setMessage({
+                type: "textPrimary",
+                text: "Artist added",
+              });
+              clearForm();
+            })
+            .catch(handleError);
+        }
+      ); // end of UploadTask
+    } else if (data.imageUrl) {
+      await addArtist(data).catch(handleError);
       setMessage({
         type: "textPrimary",
         text: "Artist added",
       });
       clearForm();
-    }
+    } else
+      setMessage({
+        type: "error",
+        text: "Either image URL should be provided or Image should be uploaded",
+      });
+
     setLoading(false);
   };
 
@@ -76,9 +138,24 @@ function ArtistForm({ artists }) {
           name="imageUrl"
           value={formData.imageUrl}
           onChange={handleChange}
-          label="Image Url"
-          required
+          label="Image Url (Not needed if uploading image)"
           fullWidth
+          color="secondary"
+        />
+      </div>
+      <div className="admin__formGroup">
+        <Input
+          name="image"
+          type="file"
+          accept="image/*"
+          color="secondary"
+          onChange={handleChange}
+        />
+      </div>
+      <div className="admin__formGroup">
+        <LinearProgress
+          value={progress}
+          variant="determinate"
           color="secondary"
         />
       </div>

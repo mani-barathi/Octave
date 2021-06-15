@@ -1,23 +1,23 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import { useSelector } from "react-redux"
-import "./css/App.css"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+import "./css/App.css";
 // Pages
-import LoginPage from "./pages/LoginPage"
-import HomePage from "./pages/HomePage"
-import LibraryPage from "./pages/LibraryPage"
-import SearchPage from "./pages/SearchPage"
-import AdminPage from "./pages/AdminPage"
-import ArtistPage from "./pages/ArtistPage"
-import PlayListPage from "./pages/PlayListPage"
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+import LibraryPage from "./pages/LibraryPage";
+import SearchPage from "./pages/SearchPage";
+import AdminPage from "./pages/AdminPage";
+import ArtistPage from "./pages/ArtistPage";
+import PlayListPage from "./pages/PlayListPage";
 
 // Components
-import Navbar from "./components/Navbar"
-import Player from "./components/Player"
-import SongList from "./components/SongList"
+import Navbar from "./components/Navbar";
+import Player from "./components/Player";
+import SongList from "./components/SongList";
 
 function App() {
-  const user = useSelector((state) => state.user)
-  const { isSongListOpen } = useSelector((state) => state.currentSession)
+  const user = useSelector((state) => state.user);
+  const { isSongListOpen } = useSelector((state) => state.currentSession);
 
   return (
     <Router>
@@ -37,7 +37,7 @@ function App() {
                 </Switch>
               </div>
               {isSongListOpen && <SongList />} {/* current Playing Song List */}
-              <Player />
+              {window.location.pathname !== "/admin" && <Player />}
             </>
           ) : (
             <LoginPage />
@@ -45,7 +45,7 @@ function App() {
         </div>
       </div>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
