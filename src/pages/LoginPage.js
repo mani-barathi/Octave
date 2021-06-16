@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../css/Login.css";
 import ForgotPassword from "../components/ForgotPassword";
-import { Typography, Button, Link, CircularProgress } from "@material-ui/core";
+import Spinner from "../components/Spinner";
+import { Typography, Button, Link } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 
 import { auth } from "../firebase";
@@ -74,14 +75,7 @@ function Login() {
   };
 
   if (loading) {
-    return (
-      <div className="login user-select-none">
-        <Typography variant="h1" color="secondary" align="center">
-          Octave
-        </Typography>
-        <CircularProgress color="secondary" />
-      </div>
-    );
+    return <Spinner showText={true} />;
   }
 
   return (

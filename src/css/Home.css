@@ -1,8 +1,17 @@
-.home{
-    padding: 1rem;
-    color: whitesmoke;
+.home {
+  padding: 1rem;
+  color: whitesmoke;
 }
 
-.home__welcomeTextIcon{
-    transform: scale(1.5);
+.home__welcomeTextIcon {
+  transform: scale(1.5);
+}
+
+.allsongs__container {
+  margin-top: 1rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 1rem;
+  padding-left: 1rem;
 }

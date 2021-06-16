@@ -4,7 +4,7 @@ import PlayListSong from "../components/PlayListSong";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { IconButton, Button } from "@material-ui/core";
+import { IconButton, Button, CircularProgress } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
@@ -21,6 +21,7 @@ function PlayListPage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const [playlist, setPlaylist] = useState(() => {
     if (id === "favorites")
       return {
@@ -57,6 +58,7 @@ function PlayListPage() {
           data: doc.data(),
         }))
       );
+      setLoading(false);
     });
 
     return unsubscribe;
@@ -64,9 +66,9 @@ function PlayListPage() {
 
   const playPlayList = () => {
     const songsData = songs.map((song) => song.data);
-    const [firstSong, ...remainingSongs] = songsData;
+    const [firstSong] = songsData;
     // set the remainingSongs to sessionStorage
-    sessionStorage.setItem("SONG_LIST", JSON.stringify(remainingSongs));
+    sessionStorage.setItem("SONG_LIST", JSON.stringify(songsData));
     // reset the songIndex and dispatch the first song as the new song
     dispatch(setSongIndex(0));
     dispatch(setNewSong(firstSong));
@@ -115,7 +117,9 @@ function PlayListPage() {
         )}
       </div>
       <div className="playlist__container">
-        {songs.length > 0 ? (
+        {loading ? (
+          <CircularProgress color="secondary" />
+        ) : songs.length > 0 ? (
           songs.map((song) => (
             <PlayListSong
               key={song.id}

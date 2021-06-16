@@ -47,9 +47,9 @@ function Library() {
       .then((snapshot) => {
         const songs = snapshot.docs.map((doc) => doc.data());
         if (songs.length > 0) {
-          const [firstSong, ...remainingSongs] = songs;
+          const [firstSong] = songs;
           // set the remainingSongs to sessionStorage
-          sessionStorage.setItem("SONG_LIST", JSON.stringify(remainingSongs));
+          sessionStorage.setItem("SONG_LIST", JSON.stringify(songs));
           // reset the songIndex and dispatch the first song as the new song
           dispatch(setSongIndex(0));
           dispatch(setNewSong(firstSong));

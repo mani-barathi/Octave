@@ -56,7 +56,7 @@ const AllSongs = () => {
           <CircularProgress color="secondary" />
         </div>
       )}
-      <div className="playlist__container">
+      <div className="allsongs__container">
         {songs.length > 0 &&
           songs.map((song) => (
             <PlayListSong
