@@ -23,7 +23,9 @@ function PlayerControls({
       </IconButton>
 
       <IconButton
-        onClick={playPauseSong}
+        onClick={() => {
+          if (playing !== -1) playPauseSong();
+        }}
         className="player__iconButton player__mainBtn"
       >
         {playing === 1 ? (
@@ -31,7 +33,7 @@ function PlayerControls({
         ) : playing === 0 ? (
           <PlayCircleFilledWhiteOutlinedIcon />
         ) : (
-          <CircularProgress size={20} color="secondary" />
+          <CircularProgress size={20} color="inherit" />
         )}
       </IconButton>
 

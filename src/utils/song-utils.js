@@ -8,16 +8,14 @@ export const songList = [
   {
     name: "Bujji",
     artist: "Anirudh",
-    url:
-      "https://dslink.xyz/Masstamilan.In/Jagame%20Thanthiram/Bujji-Masstamilan.In.mp3",
+    url: "https://dslink.xyz/Masstamilan.In/Jagame%20Thanthiram/Bujji-Masstamilan.In.mp3",
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcgqVN3Iy5Y4XJeXK10n0o4_GZ_YfGE35JtQ&usqp=CAU",
   },
   {
     name: "This Feeling",
     artist: "Chainsmokers",
-    url:
-      "https://data.mymp3app.com/320/the-chainsmokers-this-feeling-ft.-kelsea-ballerini-lyric.mp3",
+    url: "https://data.mymp3app.com/320/the-chainsmokers-this-feeling-ft.-kelsea-ballerini-lyric.mp3",
     imageUrl: "https://i1.sndcdn.com/artworks-000241607187-d5elh4-t500x500.jpg",
   },
 ];
@@ -82,12 +80,12 @@ export function getPreviousSong(index) {
 }
 
 export function playNewSong(index, newSong) {
-  let songList = getSongSessionStorage();
+  let [songList, removedSongIndex] = removeSongAndReturnSessionStorage(newSong);
   if (songList.length === 0 || index === -1) songList.push(newSong);
   else {
-    songList = songList.slice(index);
-    songList = [newSong, ...songList];
+    const newIndex = removedSongIndex < index ? index - 1 : index;
+    songList = songList.slice(newIndex);
+    songList[0] = newSong;
   }
-  console.log("songIndex(inside utils):", index);
   sessionStorage.setItem("SONG_LIST", JSON.stringify(songList));
 }

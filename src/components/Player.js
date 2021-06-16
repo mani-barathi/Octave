@@ -19,7 +19,6 @@ import {
 import {
   setRecentSongsLocalStorage,
   getNextSong,
-  playNewSong,
   getPreviousSong,
 } from "../utils/song-utils";
 import { useDispatch, useSelector } from "react-redux";
@@ -62,9 +61,9 @@ function Player() {
 
   useEffect(() => {
     if (newSong) {
-      playNewSong(songIndex, newSong);
       dispatch(setSongIndex(0));
       setCurrentSong(newSong);
+      setPlaying(-1);
       dispatch(setNewSong(null));
     }
   }, [dispatch, newSong, songIndex]);
@@ -93,6 +92,7 @@ function Player() {
     const nextSong = getNextSong(songIndex);
     if (nextSong) {
       setCurrentSong(nextSong);
+      setPlaying(-1);
       dispatch(incSongIndex());
     }
   }, [songIndex, dispatch]);

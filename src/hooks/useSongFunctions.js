@@ -1,22 +1,24 @@
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { decSongIndex, setNewSong } from "../actions/currentSessionActions";
-import { removeSongAndReturnSessionStorage } from "../utils/song-utils";
+import {
+  playNewSong,
+  removeSongAndReturnSessionStorage,
+} from "../utils/song-utils";
 import { db } from "../firebase";
 
 function useSongFunctions(data, setAnchorEl, setSnackBar) {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const { playingSong, songIndex } = useSelector(
     (state) => state.currentSession
   );
-  const dispatch = useDispatch();
 
   const playSong = () => {
     if (playingSong && data.name === playingSong.name)
       return setAnchorEl(false);
 
-    const [songs] = removeSongAndReturnSessionStorage(data);
-    sessionStorage.setItem("SONG_LIST", JSON.stringify(songs));
+    playNewSong(songIndex, data);
     dispatch(setNewSong(data));
   };
 
