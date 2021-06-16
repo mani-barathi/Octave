@@ -17,7 +17,12 @@ import SongList from "./components/SongList";
 
 function App() {
   const user = useSelector((state) => state.user);
-  const { isSongListOpen } = useSelector((state) => state.currentSession);
+  const { isSongListOpen, playingSong, songIndex } = useSelector(
+    (state) => state.currentSession
+  );
+
+  const showPlayer =
+    window.location.pathname !== "/admin" && playingSong && songIndex !== -1;
 
   return (
     <Router>
@@ -37,7 +42,7 @@ function App() {
                 </Switch>
               </div>
               {isSongListOpen && <SongList />} {/* current Playing Song List */}
-              {window.location.pathname !== "/admin" && <Player />}
+              <Player show={showPlayer} />
             </>
           ) : (
             <LoginPage />

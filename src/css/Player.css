@@ -8,6 +8,16 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  animation: slide-in ease-in 0.3s;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translatey(100vh);
+  }
+  to {
+    transform: translatey(0);
+  }
 }
 
 .player__songlist {

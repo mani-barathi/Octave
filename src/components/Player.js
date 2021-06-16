@@ -24,7 +24,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 // The Entire Bottom part where all the song controls are available
-function Player() {
+function Player({ show }) {
   // playing  0 -> paused  | 1 -> playing  | -1 -> loading
   const [playing, setPlaying] = useState(0);
   const [continuousTime, setContinuousTime] = useState(0);
@@ -36,7 +36,6 @@ function Player() {
   const dispatch = useDispatch();
   const isPlayingRef = useRef(false);
   const onTabCloseRef = useRef((e) => {
-    console.log(isPlayingRef.current);
     if (isPlayingRef.current) {
       e.preventDefault();
       e.returnValue = "You have unfinished changes!";
@@ -186,6 +185,8 @@ function Player() {
     },
     [audioRef, currentSong]
   );
+
+  if (!show) return null;
 
   return (
     <div className="player">
