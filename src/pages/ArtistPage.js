@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../css/ArtistPage.css";
+import "../styles/ArtistPage.css";
 import PlaylistSong from "../components/PlayListSong";
 
 import { useHistory, useParams } from "react-router-dom";

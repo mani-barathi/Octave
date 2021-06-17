@@ -1,7 +1,7 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "./css/App.css";
+import "./styles/App.css";
 
 // Components
 import Navbar from "./components/Navbar";

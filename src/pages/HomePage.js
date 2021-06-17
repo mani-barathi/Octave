@@ -1,5 +1,5 @@
 import React from "react";
-import "../css/Home.css";
+import "../styles/Home.css";
 import { useSelector } from "react-redux";
 import NewReleases from "../components/NewReleases";
 import ArtistsList from "../components/ArtistsList";

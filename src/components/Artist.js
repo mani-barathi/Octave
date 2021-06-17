@@ -1,5 +1,5 @@
 import React from "react";
-import "../css/Artist.css";
+import "../styles/Artist.css";
 import { useHistory } from "react-router-dom";
 
 // Aritist card present inside Home Page

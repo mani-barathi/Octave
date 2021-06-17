@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getArtists } from "../api/artist";
 import ArtistForm from "../components/ArtistForm";
 import SongForm from "../components/SongForm";
-import "../css/Admin.css";
+import "../styles/Admin.css";
 
 function Admin() {
   const [tab, setTab] = React.useState(0);

@@ -1,6 +1,6 @@
 # Octave
 
-A Web based Music Streaming App developed using ReactJs and Firebase
+A Music Streaming Web App developed with ReactJs and Firebase
 
 **Click [Here](https://octave-music.web.app/) to view the Live Website**
 
@@ -24,37 +24,17 @@ A Web based Music Streaming App developed using ReactJs and Firebase
 
 ## Functionalities
 
-### SongList (Current Playlist)
+- **SongList (Current Playlist)** <br/>
+  User can add and remove Songs to the SongList. SongList is Implemented using Browser's **Session Storage** for saving the Songlist temporarily for the Current Session.
 
-User can add and remove Songs to the SongList. SongList is Implemented using Browser's **Session Storage** for saving the Songlist temporarily for the Current Session.
+- **Favourites and Playlist** <br/>
+  User can add songs to their Favourites List or can create their own Playlist.
 
-### Favourites and Playlist
+- **Recently Played Songs** <br/>
+  The Recently Played Songs are stored in Local Storage.
 
-User can add songs to their Favourites List or can create their own Playlist.
-
-### Recently Played Songs
-
-The Recently Played Songs are stored in Local Storage.
-
-### Media Session API
-
-Media Session allows the user to Control the playing song using Keyboard buttons. Essentially allowing user to know what song is playing and to control it, without needing to open the Webpage. Check `src/Player.js` Component for the code Implementation. (Click [Here](https://developer.mozilla.org/en-US/docs/Web/API/Media_Session_API) to see the Docs)
-
-### Custom Hooks
-
-Created a few Custom Hooks to keep the Complex functionality outside the Components. (check `src/hooks/` folder)
-
-- **useAuth** - This provides all the Functions related to Authentication (SignUp, Login, SignOut ,Update Profile, Reset Password, Sign in with Google).
-- **useSongFunctions** - This provides all the Functions related to Songs (Playing a Song, Play a Particular Song as the Next song, Adding a Song to Queue, Adding a Song to Favourites, Removing a Song from Favourities).
-- **userPlaylistFunction** - This holds function which creates, deletes playlists, also add and remove songs ,get all songs from a playlist.
-
-### Helper Functions
-
-Files which has Helper Functions are kept in `src/utils/`.
-These files include
-
-- functions which calculates current Time, durations.
-- functions to fetch and save data to Local Storage and Session Storage.
+- **Media Session API** <br/>
+  Media Session allows the user to Control the playing song using Keyboard buttons. Essentially allowing user to know what song is playing and to control it, without needing to open the Webpage. Check `src/Player.js` Component for the code Implementation. (Click [Here](https://developer.mozilla.org/en-US/docs/Web/API/Media_Session_API) to see the Docs)
 
 ## Setup (deveopment)
 

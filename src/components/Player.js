@@ -6,7 +6,7 @@ import {
   incSongIndex,
   decSongIndex,
 } from "../actions/currentSessionActions";
-import "../css/Player.css";
+import "../styles/Player.css";
 import PlayerControls from "./PlayerControls";
 import PlayerSongListButton from "./PlayerSongListButton";
 

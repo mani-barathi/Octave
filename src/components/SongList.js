@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "../css/SongList.css";
+import "../styles/SongList.css";
 import PlayListSong from "./PlayListSong";
 
 import { IconButton } from "@material-ui/core";

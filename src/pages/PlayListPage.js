@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/PlayList.css";
+import "../styles/PlayList.css";
 import PlayListSong from "../components/PlayListSong";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

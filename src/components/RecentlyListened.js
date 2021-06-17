@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/row.css";
+import "../styles/row.css";
 import Song from "./Song";
 
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";

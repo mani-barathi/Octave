@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../css/Search.css";
+import "../styles/Search.css";
 import PlayListSong from "../components/PlayListSong";
 import Artist from "../components/Artist";
 import {

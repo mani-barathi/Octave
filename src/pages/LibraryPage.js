@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import "../css/Library.css";
+import "../styles/Library.css";
 import RecentlyListened from "../components/RecentlyListened";
 import CreatePlaylistModal from "../components/CreatePlaylistModal";
 import SnackBar from "../components/SnackBar";

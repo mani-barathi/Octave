@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "../css/row.css";
+import "../styles/row.css";
 import Song from "./Song";
 
 import { CircularProgress } from "@material-ui/core";

@@ -1,12 +1,11 @@
-import firebase from "firebase";
-import { db } from "../firebase";
+import { db, getServerTimeStamp } from "../firebase";
 import { getRandomPlaylistImage } from "../utils/common";
 
 export const createNewPlaylist = (name, uid) => {
   return db.collection("playlists").add({
     uid,
     name,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    createdAt: getServerTimeStamp(),
     imageUrl: getRandomPlaylistImage(),
   });
 };
@@ -34,7 +33,7 @@ export const addSongToPlaylist = (playlistId, song) => {
     url,
     imageUrl,
     artist,
-    addedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    addedAt: getServerTimeStamp(),
   };
   return db.collection("playlistsongs").add(data);
 };

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/Song.css";
+import "../styles/Song.css";
 import SnackBar from "./SnackBar";
 import AddPlayListSongModal from "./AddPlayListSongModal";
 
