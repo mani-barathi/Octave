@@ -1,0 +1,34 @@
+.errorpage {
+  color: var(--textColor);
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  margin-top: 7vh;
+}
+
+.errorpage h1,
+h2 {
+  font-weight: 500;
+  transition: all 0.2s ease-in;
+}
+
+.errorpage__mainText {
+  font-size: 10rem;
+}
+
+@media screen and (max-width: 400px) {
+  .errorpage__mainText {
+    font-size: 7rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1rem;
+  }
+}

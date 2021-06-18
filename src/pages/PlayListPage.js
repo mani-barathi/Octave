@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../styles/PlayList.css";
 import PlayListSong from "../components/PlayListSong";
+import Error404 from "../components/Error404";
+import Spinner from "../components/Spinner";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,6 +21,7 @@ import { setNewSong, setSongIndex } from "../actions/currentSessionActions";
 
 function PlayListPage() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector((state) => state.user);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -31,7 +34,6 @@ function PlayListPage() {
     return { name: null, imageUrl: null };
   });
   const [songs, setSongs] = useState([]);
-  const history = useHistory();
 
   // 1. check whether there is playlist exist with the id ,if not return to library page
   useEffect(() => {
@@ -40,10 +42,12 @@ function PlayListPage() {
       .get()
       .then((snapshot) => {
         const result = snapshot.data();
-        if (!result) return history.replace("/library");
+        if (!result) {
+          return setLoading(false);
+        }
         setPlaylist(result);
       });
-  }, [history, id]);
+  }, [id]);
 
   // 2. if playlist exists then grab all the songs from it
   useEffect(() => {
@@ -79,7 +83,6 @@ function PlayListPage() {
     if (!confirmDelete) return;
 
     for (let song of songs) {
-      console.log(song);
       deleteSongFromPlaylist(song.id)
         .then(() => console.log("deleted a song from the playlist"))
         .catch((error) => alert(error.message));
@@ -88,6 +91,9 @@ function PlayListPage() {
       .then(() => history.push("/library"))
       .catch((error) => alert(error.message));
   };
+
+  if (loading) return <Spinner />;
+  if (!playlist.name) return <Error404 />;
 
   return (
     <div className="playlist">

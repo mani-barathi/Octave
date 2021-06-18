@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./styles/App.css";
 
@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import Player from "./components/Player";
 import SongList from "./components/SongList";
 import Spinner from "./components/Spinner";
+import Error404Page from "./components/Error404";
 
 // Pages
 import LoginPage from "./pages/LoginPage";
@@ -28,37 +29,32 @@ function App() {
     window.location.pathname !== "/admin" && playingSong && songIndex !== -1;
 
   return (
-    <Router>
-      <div className="app">
-        <div className="app__body">
-          {user ? (
-            <>
-              <Navbar />
-              <div className="app__window">
-                <Suspense fallback={<Spinner />}>
-                  <Switch>
-                    <Route exact path="/library" component={LibraryPage} />
-                    <Route
-                      exact
-                      path="/playlists/:id"
-                      component={PlayListPage}
-                    />
-                    <Route exact path="/search" component={SearchPage} />
-                    <Route exact path="/artist/:id" component={ArtistPage} />
-                    <Route exact path="/admin" component={AdminPage} />
-                    <Route exact path="/" component={HomePage} />
-                  </Switch>
-                </Suspense>
-              </div>
-              {isSongListOpen && <SongList />} {/* current Playing Song List */}
-              <Player show={showPlayer} />
-            </>
-          ) : (
-            <LoginPage />
-          )}
-        </div>
+    <div className="app">
+      <div className="app__body">
+        {user ? (
+          <>
+            <Navbar />
+            <div className="app__window">
+              <Suspense fallback={<Spinner />}>
+                <Switch>
+                  <Route exact path="/library" component={LibraryPage} />
+                  <Route exact path="/playlists/:id" component={PlayListPage} />
+                  <Route exact path="/search" component={SearchPage} />
+                  <Route exact path="/artist/:id" component={ArtistPage} />
+                  <Route exact path="/admin" component={AdminPage} />
+                  <Route exact path="/" component={HomePage} />
+                  <Route path="*" component={Error404Page} />
+                </Switch>
+              </Suspense>
+            </div>
+            {isSongListOpen && <SongList />} {/* current Playing Song List */}
+            <Player show={showPlayer} />
+          </>
+        ) : (
+          <LoginPage />
+        )}
       </div>
-    </Router>
+    </div>
   );
 }
 

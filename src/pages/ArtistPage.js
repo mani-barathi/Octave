@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "../styles/ArtistPage.css";
 import PlaylistSong from "../components/PlayListSong";
+import Error404 from "../components/Error404";
+import Spinner from "../components/Spinner";
 
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 
 import { db } from "../firebase";
 
 // Artist Page when user clicks on a Artist card presernt inside Home or Search Page
 function ArtistPage() {
-  const history = useHistory();
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const [artist, setArtist] = useState(null);
   const [songs, setSongs] = useState([]);
 
@@ -21,7 +23,7 @@ function ArtistPage() {
       .then((snapshot) => {
         const fetchedArtist = snapshot.data();
         if (!fetchedArtist) {
-          return history.replace("/");
+          return setLoading(false);
         }
         setArtist(fetchedArtist);
         db.collection("songs")
@@ -35,9 +37,13 @@ function ArtistPage() {
                 data: doc.data(),
               }))
             );
+            setLoading(false);
           });
       });
-  }, [history, id]);
+  }, [id]);
+
+  if (loading) return <Spinner />;
+  if (!artist) return <Error404 />;
 
   return (
     <div className="artistpage">
@@ -54,11 +60,7 @@ function ArtistPage() {
 
         <br />
         <Typography variant="h6">
-          {songs.length > 0
-            ? "Songs"
-            : !artist && songs.length === 0
-            ? "Loading..."
-            : "No Songs"}
+          {songs.length > 0 ? "Songs" : "No Songs"}
         </Typography>
       </div>
 

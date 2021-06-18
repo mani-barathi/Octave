@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "../styles/Home.css";
 import { useSelector } from "react-redux";
 import NewReleases from "../components/NewReleases";
@@ -12,16 +12,20 @@ import { getRandomWelcomeText } from "../utils/common";
 
 function Home() {
   const user = useSelector((state) => state.user);
-  const welcomeText = user.displayName
-    ? getRandomWelcomeText(user.displayName)
-    : `Hey there, thanks for Choosing Octave`;
+  const welcomeText = useMemo(
+    () =>
+      user.displayName
+        ? getRandomWelcomeText(user.displayName)
+        : `Hey there, thanks for Choosing Octave`,
+    [user.displayName]
+  );
+
   return (
     <div className="home">
       <div className="user-select-none">
         <Typography variant="h4" display="inline">
-          {" "}
-          {welcomeText}
-        </Typography>{" "}
+          {welcomeText}{" "}
+        </Typography>
         &nbsp;
         <FavoriteBorderIcon className="home__welcomeTextIcon" />
       </div>
