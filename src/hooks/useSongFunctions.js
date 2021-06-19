@@ -1,11 +1,11 @@
-import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { decSongIndex, setNewSong } from "../actions/currentSessionActions";
 import {
   playNewSong,
   removeSongAndReturnSessionStorage,
 } from "../utils/song-utils";
-import { db } from "../firebase";
+import { addSongTofavorites, deleteSongFromPlaylist } from "../api/playlist";
+import { handleError } from "../utils/common";
 
 function useSongFunctions(data, setAnchorEl, setSnackBar) {
   const dispatch = useDispatch();
@@ -23,6 +23,13 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
   };
 
   const playNext = () => {
+    // If the songlist is empty and user tries to add a song as a next song, then play the song immediately
+    if (!playingSong || songIndex === -1) {
+      playNewSong(songIndex, data);
+      dispatch(setNewSong(data));
+      return setAnchorEl(false);
+    }
+
     // If user is trying to add the current playing song again to the songlist.. simply return
     if (playingSong && data.name === playingSong.name)
       return setAnchorEl(false);
@@ -36,31 +43,30 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
       dispatch(decSongIndex());
     }
 
-    if (songs.length === 0) {
-      // songlist is Empty
-      sessionStorage.setItem("SONG_LIST", JSON.stringify([data]));
-    } else if (songs.length >= 1) {
-      // songlist is not Empty
-      if (isRemovedSongIndexSmallerThanSongIndex) {
-        songs.splice(currentSongIndex, 0, data);
-      } else {
-        songs.splice(currentSongIndex + 1, 0, data);
-      }
-      // newSongList = [songs[0], data, ...songs.slice(1)];
-      sessionStorage.setItem("SONG_LIST", JSON.stringify(songs));
+    if (isRemovedSongIndexSmallerThanSongIndex) {
+      songs.splice(currentSongIndex, 0, data);
+    } else {
+      songs.splice(currentSongIndex + 1, 0, data);
     }
+    sessionStorage.setItem("SONG_LIST", JSON.stringify(songs));
     setAnchorEl(false);
     setSnackBar("Song will Play Next ");
   };
 
   const addToQueue = () => {
+    // If the songlist is empty and user tries to add a song to the queue, then play the song immediately
+    if (!playingSong || songIndex === -1) {
+      playNewSong(songIndex, data);
+      dispatch(setNewSong(data));
+      return setAnchorEl(false);
+    }
+
     // If user is trying to add the current playing song again to the songlist.. simply return
     if (playingSong && data.name === playingSong.name)
       return setAnchorEl(false);
 
     // removes the song and returns the songList without saving to sessionStorage
     const [songs, removedSongIndex] = removeSongAndReturnSessionStorage(data);
-    console.log(`removeSongIndex:`, removedSongIndex);
     if (typeof removedSongIndex === "number" && removedSongIndex < songIndex)
       dispatch(decSongIndex());
 
@@ -70,24 +76,20 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
     setSnackBar("Song added to Queue");
   };
 
-  const addToFavourites = () => {
+  const addToFavourites = async () => {
     setAnchorEl(false);
-    const { name, url, imageUrl, artist } = data; // destructuring to exclude the createdAt Timestamp from Song obj
-    db.collection("favorites").add({
-      uid: user.uid,
-      addedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      name,
-      url,
-      imageUrl,
-      artist,
-    });
-    setSnackBar("Song added to Favorites");
+    await addSongTofavorites(data, user.uid)
+      .then(() => {
+        setSnackBar("Song added to Favorites");
+      })
+      .catch(handleError);
   };
 
-  const removeFromPlaylist = (collectionName, id) => {
+  const removeFromPlaylist = (collectionName, songId) => {
     setAnchorEl(false);
-    db.collection(collectionName).doc(id).delete();
-    console.log(`deleted ${id} from ${collectionName}`);
+    deleteSongFromPlaylist(collectionName, songId)
+      .then(() => console.log(`deleted ${songId} from ${collectionName}`))
+      .catch(handleError);
   };
 
   return {

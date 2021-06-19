@@ -38,8 +38,21 @@ export const addSongToPlaylist = (playlistId, song) => {
   return db.collection("playlistsongs").add(data);
 };
 
-export const deleteSongFromPlaylist = (playlistSongId) => {
-  return db.collection("playlistsongs").doc(playlistSongId).delete();
+export const addSongTofavorites = (song, uid) => {
+  const { name, url, imageUrl, artist } = song;
+  const data = {
+    uid,
+    name,
+    url,
+    imageUrl,
+    artist,
+    addedAt: getServerTimeStamp(),
+  };
+  return db.collection("favorites").add(data);
+};
+
+export const deleteSongFromPlaylist = (collectionName, songId) => {
+  return db.collection(collectionName).doc(songId).delete();
 };
 
 export const getFavouriteSongs = (uid) => {

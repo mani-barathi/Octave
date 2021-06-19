@@ -18,6 +18,7 @@ import {
   getPlaylistSongs,
 } from "../api/playlist";
 import { setNewSong, setSongIndex } from "../actions/currentSessionActions";
+import { handleError } from "../utils/common";
 
 function PlayListPage() {
   const dispatch = useDispatch();
@@ -83,13 +84,13 @@ function PlayListPage() {
     if (!confirmDelete) return;
 
     for (let song of songs) {
-      deleteSongFromPlaylist(song.id)
-        .then(() => console.log("deleted a song from the playlist"))
-        .catch((error) => alert(error.message));
+      deleteSongFromPlaylist("playlistsongs", song.id).catch((error) =>
+        console.log(error)
+      );
     }
     deletePlaylist(id)
       .then(() => history.push("/library"))
-      .catch((error) => alert(error.message));
+      .catch(handleError);
   };
 
   if (loading) return <Spinner />;
@@ -98,8 +99,8 @@ function PlayListPage() {
   return (
     <div className="playlist">
       <div className="playlist__header">
-        <img src={playlist?.imageUrl} alt="" className="playlist__image" />
-        <h1 className="playlist__titleText"> {playlist?.name} </h1>
+        <img src={playlist.imageUrl} alt="" className="playlist__image" />
+        <h1 className="playlist__titleText"> {playlist.name} </h1>
         {id !== "favorites" && (
           <IconButton
             className="playlist__deleteBtn"

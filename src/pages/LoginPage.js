@@ -19,6 +19,8 @@ function Login() {
 
   // Setting Up a Listener, that will keep listening for AuthChange events
   useEffect(() => {
+    // clear the sessionStorage, (to make sure everything is clean even if the user tries to refrest the page)
+    sessionStorage.removeItem("SONG_LIST");
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       // If the authChange gives the logged in user,
       if (authUser) {
@@ -28,7 +30,7 @@ function Login() {
           displayName: authUser.displayName,
           photoURL: authUser.photoURL,
         };
-        dispatch(loginUser(user)); // then dispatch the LOGIN_USER
+        dispatch(loginUser(user));
       } else {
         setLoading(false);
       }
@@ -44,11 +46,6 @@ function Login() {
     formRef.current.password.value = "";
     setErr(null); // reset the error State
   }, [isLogin, loading]);
-
-  // Everytime an Error Occur Reset the passwordField
-  useEffect(() => {
-    if (err) formRef.current.password.value = "";
-  }, [err]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -71,6 +68,7 @@ function Login() {
       }
     } catch (error) {
       setErr(error);
+      formRef.current.password.value = "";
     }
   };
 

@@ -21,12 +21,11 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 function App() {
   const user = useSelector((state) => state.user);
-  const { isSongListOpen, playingSong, songIndex } = useSelector(
+  const { isSongListOpen, playingSong } = useSelector(
     (state) => state.currentSession
   );
 
-  const showPlayer =
-    window.location.pathname !== "/admin" && playingSong && songIndex !== -1;
+  const showPlayer = window.location.pathname !== "/admin" && playingSong;
 
   return (
     <div className="app">
