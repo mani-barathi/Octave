@@ -36,7 +36,7 @@ A Music Streaming Web App developed with ReactJs and Firebase
 - **Media Session API** <br/>
   Media Session allows the user to Control the playing song using Keyboard buttons. Essentially allowing user to know what song is playing and to control it, without needing to open the Webpage. Check `src/Player.js` Component for the code Implementation. (Click [Here](https://developer.mozilla.org/en-US/docs/Web/API/Media_Session_API) to see the Docs)
 
-## Setup (deveopment)
+## Setup (development)
 
 - Clone the repo, and cd into it
 - Install all the dependcies from package.json
