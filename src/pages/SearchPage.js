@@ -99,7 +99,7 @@ function Search() {
       <div className="search__grid">
         {songs?.length > 0 &&
           songs.map((song) => (
-            <PlayListSong key={song.id} data={song.data} isSearchSong />
+            <PlayListSong key={song.id} data={song.data} fromSearchPage />
           ))}
       </div>
 

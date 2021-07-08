@@ -87,9 +87,7 @@ function useSongFunctions(data, setAnchorEl, setSnackBar) {
 
   const removeFromPlaylist = (collectionName, songId) => {
     setAnchorEl(false);
-    deleteSongFromPlaylist(collectionName, songId)
-      .then(() => console.log(`deleted ${songId} from ${collectionName}`))
-      .catch(handleError);
+    deleteSongFromPlaylist(collectionName, songId).catch(handleError);
   };
 
   return {

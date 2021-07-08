@@ -84,9 +84,7 @@ function PlayListPage() {
     if (!confirmDelete) return;
 
     for (let song of songs) {
-      deleteSongFromPlaylist("playlistsongs", song.id).catch((error) =>
-        console.log(error)
-      );
+      deleteSongFromPlaylist("playlistsongs", song.id).catch(handleError);
     }
     deletePlaylist(id)
       .then(() => history.push("/library"))
@@ -132,7 +130,7 @@ function PlayListPage() {
               key={song.id}
               id={song.id}
               data={song.data}
-              isPlaylistSong
+              fromPlaylistPage
               collectionName={
                 id === "favorites" ? "favorites" : "playlistsongs"
               }

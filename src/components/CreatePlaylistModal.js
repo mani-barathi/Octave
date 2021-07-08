@@ -18,7 +18,6 @@ function CreatePlaylistModal({ isOpen, closeModal, uid }) {
 
     createNewPlaylist(inputRef.current.value, uid)
       .then(() => {
-        console.log("Playlist Created!");
         inputRef.current.value = "";
         closeModal();
       })

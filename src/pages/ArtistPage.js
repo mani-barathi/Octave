@@ -70,7 +70,7 @@ function ArtistPage() {
             key={song.id}
             id={song.id}
             data={song.data}
-            isArtistPage
+            fromArtistPage
           />
         ))}
       </div>

@@ -1,6 +1,6 @@
 export const handleError = (error) => {
   console.log(error);
-  alert(error);
+  // alert(error);
 };
 
 export function isValidURL(string) {

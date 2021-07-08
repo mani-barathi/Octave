@@ -23,7 +23,6 @@ function AddPlayListSongModal({ song, closeModal, setSnackBar }) {
     getAllPlaylists(user.uid)
       .get()
       .then((snapshot) => {
-        console.log(snapshot);
         const data = snapshot.docs.map((doc) => ({
           id: doc.id,
           data: doc.data(),

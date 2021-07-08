@@ -63,7 +63,7 @@ const AllSongs = () => {
               key={song.id}
               id={song.id}
               data={song.data}
-              isSearchSong
+              fromSearchPage
             />
           ))}
       </div>

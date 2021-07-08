@@ -29,7 +29,6 @@ function SongList() {
 
   const removeFromSongList = (data) => {
     const [songs, removedSongIndex] = removeSongAndReturnSessionStorage(data);
-    console.log(`removeSongIndex:`, removedSongIndex);
     if (typeof removedSongIndex === "number" && removedSongIndex < songIndex)
       dispatch(decSongIndex());
 
@@ -67,6 +66,7 @@ function SongList() {
                 data={song}
                 isPlayingSong={song?.name === playingSong?.name ? true : false}
                 removeFromSongList={removeFromSongList}
+                fromSongList
               />
             ))}
           </div>

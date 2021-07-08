@@ -10,19 +10,18 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 import useSongFunctions from "../hooks/useSongFunctions";
 
-// Rectangular Song component , used in ArtistPage, SearchPage, PlaylistPage, SongList
+// Rectangular Song component used in ArtistPage, SearchPage, PlaylistPage, SongList, AllSongs
 function PlayListSong({
   id,
   data,
-  isPlaylistSong, // is it created from Favourites Component ?
-  collectionName, // what collection is this song from (favourites or playlistsong)
-  isArtistPage, // is it created from ArtistPage Component ?
+  fromPlaylistPage,
+  fromArtistPage,
+  fromSearchPage,
+  fromSongList,
   isPlayingSong, // is it currentPlaying Song ?
+  collectionName, // what collection is this song from (favourites or playlistsong)
   removeFromSongList,
-  isSearchSong,
 }) {
-  // is it created from Search Component ?
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [snackBar, setSnackBar] = useState(null);
   const [isModalOpen, SetIsModalOpen] = useState(false);
@@ -35,7 +34,7 @@ function PlayListSong({
   } = useSongFunctions(data, setAnchorEl, setSnackBar);
 
   const removeSongFunc = () => {
-    if (isPlaylistSong) removeFromPlaylist(collectionName, id);
+    if (fromPlaylistPage) removeFromPlaylist(collectionName, id);
     else removeFromSongList(data);
     setAnchorEl(false);
   };
@@ -58,91 +57,96 @@ function PlayListSong({
         <p className="playlistsong__infoName">{data?.name}</p>
         <p className="playlistsong__infoArtist">{data?.artist}</p>
       </div>
-      {/* If this is the current playing Song then don't show the play Icon */}
+      {/* If this is not the current playing */}
       {!isPlayingSong && (
         <div>
-          <IconButton className="playlistsong__optionsIcon" onClick={playSong}>
-            <PlayArrowIcon />
-          </IconButton>
-        </div>
-      )}
-      {/* If this is the not the current playing Song then show the options */}
-      {!isPlayingSong && (
-        <div className="playlistsong__options">
-          {/* If this song is from Favourites or ArtistPage then show the options (playnext,add to queue,add to Favaourites) */}
-          {/* else this song is from SongList then show the remove Icon alone */}
-          {isSearchSong || isPlaylistSong || isArtistPage ? (
-            <>
-              <IconButton
-                className="playlistsong__optionsIcon"
-                aria-controls="simple-menu"
-                aria-haspopup="true"
-                onClick={openOptions}
-              >
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={() => setAnchorEl(false)}
-              >
-                <MenuItem
-                  className="playlistsong__optionsItem"
-                  onClick={playNext}
-                >
-                  Play Next
-                </MenuItem>
-                <MenuItem
-                  className="playlistsong__optionsItem"
-                  onClick={addToQueue}
-                >
-                  Add to Queue
-                </MenuItem>
-                {/* If this is not from search and ArtistPage then show the removebutton cause it is from songlist */}
-                {!isSearchSong && !isArtistPage && (
-                  <MenuItem
-                    className="playlistsong__optionsItem"
-                    onClick={removeSongFunc}
-                  >
-                    Remove
-                  </MenuItem>
-                )}
-                {(isSearchSong || isArtistPage) && (
-                  <div>
-                    <MenuItem
-                      className="playlistsong__optionsItem"
-                      onClick={addToFavourites}
-                    >
-                      add To Favourites
-                    </MenuItem>
-                    <MenuItem
-                      className="song__optionItem"
-                      onClick={openAddSongPlaylistModal}
-                    >
-                      Add To Playlist
-                    </MenuItem>
-                  </div>
-                )}
-              </Menu>
-            </>
-          ) : (
+          {/* if it is from SongList, show remove the button */}
+          {/* else show the play button*/}
+          {fromSongList ? (
             <IconButton
               className="playlistsong__optionsIcon"
               onClick={removeSongFunc}
             >
               <DeleteIcon />
             </IconButton>
+          ) : (
+            <IconButton
+              className="playlistsong__optionsIcon"
+              onClick={playSong}
+            >
+              <PlayArrowIcon />
+            </IconButton>
           )}
         </div>
       )}
+
+      <div className="playlistsong__options">
+        {/* If this song is not from SongList Component then it is from PlaylistPage or ArtistPage or SearchPage so show the options (playnext,add to queue,add to Favaourites) */}
+        {!fromSongList && (
+          <>
+            <IconButton
+              className="playlistsong__optionsIcon"
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={openOptions}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={() => setAnchorEl(false)}
+            >
+              <MenuItem
+                className="playlistsong__optionsItem"
+                onClick={playNext}
+              >
+                Play Next
+              </MenuItem>
+              <MenuItem
+                className="playlistsong__optionsItem"
+                onClick={addToQueue}
+              >
+                Add to Queue
+              </MenuItem>
+              {/* If this is from PlaylistPage then show the remove button */}
+              {fromPlaylistPage ? (
+                <MenuItem
+                  className="playlistsong__optionsItem"
+                  onClick={removeSongFunc}
+                >
+                  Remove
+                </MenuItem>
+              ) : (
+                // if this is from SearchPage or ArtistPage then show these below
+                <div>
+                  <MenuItem
+                    className="playlistsong__optionsItem"
+                    onClick={addToFavourites}
+                  >
+                    add To Favourites
+                  </MenuItem>
+                  <MenuItem
+                    className="song__optionItem"
+                    onClick={openAddSongPlaylistModal}
+                  >
+                    Add To Playlist
+                  </MenuItem>
+                </div>
+              )}
+            </Menu>
+          </>
+        )}
+      </div>
+
       {/* If this song is from Playlist or Favourites or ArtistPage then show SnackBar Notifications */}
-      {(isSearchSong || isPlaylistSong || isArtistPage) && snackBar && (
+      {(fromSearchPage || fromPlaylistPage || fromArtistPage) && snackBar && (
         <SnackBar snackBar={snackBar} setSnackBar={setSnackBar} />
       )}
       {/* To Show Pop Up messages */}
-      {/* If this song is from Playlist or ArtistPage then show SnackBar Notifications */}
+      {/* If this song is from PlaylistPage or ArtistPage or SearchPage then show SnackBar Notifications */}
       {isModalOpen && (
         <AddPlayListSongModal
           song={data}
