@@ -4,8 +4,9 @@ import newReleasesReducer from "./newReleasesReducer";
 import artistsReducer from "./artistsReducer";
 import currentSessionReducer from "./currentSessionReducer";
 import playListReducer from "./playListReducer";
+import { LOGOUT_USER } from "../constants";
 
-const reducers = combineReducers({
+const allReducers = combineReducers({
   user: authReducer,
   newReleases: newReleasesReducer,
   artists: artistsReducer,
@@ -13,4 +14,12 @@ const reducers = combineReducers({
   playlists: playListReducer,
 });
 
-export default reducers;
+const rootReducer = (state, action) => {
+  if (action.type === LOGOUT_USER) {
+    return allReducers(undefined, action);
+  }
+
+  return allReducers(state, action);
+};
+
+export default rootReducer;
