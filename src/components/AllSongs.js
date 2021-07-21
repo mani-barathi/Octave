@@ -11,23 +11,28 @@ const AllSongs = () => {
   const newReleases = useSelector((state) => state.newReleases);
   const [songs, setSongs] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (newReleases.length === 0) return;
-    const lastSongCreateAt = newReleases[newReleases.length - 1].data.createdAt;
-    getPaginatedSongs(lastSongCreateAt).then((snapshot) => {
+    // don't fetch songs if no of songs in new releaes
+    if (newReleases.length < 8) return;
+    setLoading(true);
+    // fetch songs after 4th song in NewReleases
+    const lastSongCreateAt = newReleases[3].data.createdAt;
+    getPaginatedSongs(lastSongCreateAt, LIMIT).then((snapshot) => {
       const resSongs = snapshot.docs.map((doc) => ({
         id: doc.id,
         data: doc.data(),
       }));
       if (resSongs.length < LIMIT) setHasMore(false);
       setSongs(resSongs);
-    });
+      setLoading(false);
+    }); // end of getPaginatedSongs
   }, [newReleases]);
 
   const handleLoadMore = () => {
     const lastSongCreateAt = songs[songs.length - 1].data.createdAt;
-    getPaginatedSongs(lastSongCreateAt).then((snapshot) => {
+    getPaginatedSongs(lastSongCreateAt, LIMIT).then((snapshot) => {
       const resSongs = snapshot.docs.map((doc) => ({
         id: doc.id,
         data: doc.data(),
@@ -39,23 +44,30 @@ const AllSongs = () => {
     });
   };
 
+  if (newReleases.length < 8) return null;
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          margin: "8rem 0",
+        }}
+      >
+        <CircularProgress color="secondary" />
+      </div>
+    );
+  }
+
+  if (songs.length === 0) return null;
+
   return (
     <div className="row user-select-none">
-      {songs.length > 0 ? (
-        <div className="row__headerText">
-          <h2>Songs</h2>
-        </div>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "8rem 0",
-          }}
-        >
-          <CircularProgress color="secondary" />
-        </div>
-      )}
+      <div className="row__headerText">
+        <h2>Songs</h2>
+      </div>
+
       <div className="allsongs__container">
         {songs.length > 0 &&
           songs.map((song) => (
@@ -68,18 +80,16 @@ const AllSongs = () => {
           ))}
       </div>
 
-      {songs.length > 0 && (
-        <div style={{ margin: "1rem" }}>
-          <Button
-            color="inherit"
-            variant="outlined"
-            disabled={!hasMore}
-            onClick={handleLoadMore}
-          >
-            Load More
-          </Button>
-        </div>
-      )}
+      <div style={{ margin: "1rem" }}>
+        <Button
+          color="inherit"
+          variant="outlined"
+          disabled={!hasMore}
+          onClick={handleLoadMore}
+        >
+          Load More
+        </Button>
+      </div>
     </div>
   );
 };
