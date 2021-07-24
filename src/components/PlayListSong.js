@@ -60,21 +60,16 @@ function PlayListSong({
       {/* If this is not the current playing */}
       {!isPlayingSong && (
         <div>
+          <IconButton className="playlistsong__optionsIcon" onClick={playSong}>
+            <PlayArrowIcon />
+          </IconButton>
           {/* if it is from SongList, show remove the button */}
-          {/* else show the play button*/}
-          {fromSongList ? (
+          {fromSongList && (
             <IconButton
               className="playlistsong__optionsIcon"
               onClick={removeSongFunc}
             >
               <DeleteIcon />
-            </IconButton>
-          ) : (
-            <IconButton
-              className="playlistsong__optionsIcon"
-              onClick={playSong}
-            >
-              <PlayArrowIcon />
             </IconButton>
           )}
         </div>
