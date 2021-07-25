@@ -7,7 +7,6 @@
   transition: all 0.3s ease;
   width: 100%;
   user-select: none;
-  position: relative;
 }
 
 .playlistsong:hover,
@@ -25,6 +24,12 @@
 .playlistsong__info {
   margin-left: 0.5rem;
   flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.playlistsong__infoName {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

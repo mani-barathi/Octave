@@ -52,10 +52,14 @@ function PlayListSong({
     <div
       className={isPlayingSong ? "playlistsong playing-song" : "playlistsong"}
     >
-      <img src={data?.imageUrl} alt="" className="playlistsong__img" />
+      <img src={data.imageUrl} alt="" className="playlistsong__img" />
       <div className="playlistsong__info">
-        <p className="playlistsong__infoName">{data?.name}</p>
-        <p className="playlistsong__infoArtist">{data?.artist}</p>
+        <p className="playlistsong__infoName" title={data.name}>
+          {data.name}
+        </p>
+        <p className="playlistsong__infoArtist" title={data.artist}>
+          {data.artist}
+        </p>
       </div>
       {/* If this is not the current playing */}
       {!isPlayingSong && (
