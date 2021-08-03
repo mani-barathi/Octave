@@ -92,7 +92,7 @@ function Library() {
         {/*  Favorities Card */}
         <div key="fav" className="library__playlist" onClick={goToFavourities}>
           <img
-            src="https://prexoo.com/images/no-music-cover.png"
+            src="https://firebasestorage.googleapis.com/v0/b/music-streaming-app-4a392.appspot.com/o/images%2Fno-music-cover-04.png?alt=media&token=cd64ad9f-4b8c-47bd-a4d7-611f192b9311"
             alt=""
             className="library__playlistFavouritesImg"
           />

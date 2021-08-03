@@ -56,7 +56,7 @@ export function createNamesArrayWithCaptitalizedWords(name) {
 }
 
 const playlistImages = [
-  "https://prexoo.com/images/no-music-cover.png",
+  "https://firebasestorage.googleapis.com/v0/b/music-streaming-app-4a392.appspot.com/o/images%2Fno-music-cover.png?alt=media&token=c331e7e9-fbb6-41bd-8b63-706bd70429c7",
   "https://www.soundlaunch.com/cover_photos/default_cover.jpg",
   "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/abstract-music-cd-cover-art-design-template-e43d2f90de58fd720f97f7e8068bb4f8_screen.jpg?ts=1570368591",
   "https://upload.wikimedia.org/wikipedia/en/c/c9/Zedd-True-Colors.png",

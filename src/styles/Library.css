@@ -1,116 +1,116 @@
-.library{
-    color: var(--textColor);
-    padding: 0.5rem 1rem;
+.library {
+  color: var(--textColor);
+  padding: 0.5rem 1rem;
 }
 
-.library__header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.library__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.library__titleText{
+.library__titleText {
+  margin-left: 1rem;
+  font-size: 2.2rem;
+  font-weight: 500;
+}
+
+.library__playlistTitleText {
+  margin-left: 1rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+.library__playlistSubText {
+  margin-left: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.library__playlists {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.library__playlist {
+  width: 100%;
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 5px;
+  margin: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.library__playlist:hover {
+  transform: scale(0.98);
+}
+
+.library__playlistFavouritesImg {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  box-shadow: 0 15px 30px 5px rgba(0, 0, 0, 0.1);
+}
+
+.library__playlistPlayIcon {
+  padding: 0 !important;
+  transform: scale(2);
+  position: absolute;
+  bottom: 7%;
+  right: 12%;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.library__playlistPlayIcon:hover {
+  transform: scale(2.3);
+}
+.library__playlistPlayIcon:active {
+  transform: scale(1.8) !important;
+}
+
+.library__playlistName {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0 0.2rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.library__playlistCreate {
+  border: 2px solid var(--songHoverBgColor);
+}
+
+.library__addPlaylistInput {
+  border: 2px solid grey;
+  background-color: rgb(236, 232, 232);
+  width: 100%;
+  padding: 0.5rem 0.8rem;
+  border-radius: 3px;
+  font-size: 1.2rem;
+}
+
+@media screen and (max-width: 600px) {
+  .library__playlist {
+    max-width: 150px;
+    max-height: 150px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .library__playlist {
+    max-width: 110px;
+    max-height: 110px;
+  }
+  .library__titleText {
     margin-left: 1rem;
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight: 500;
-}
-
-.library__playlistTitleText{
-    margin-left: 1rem;
-    font-size: 1.6rem;
-    font-weight: 500;
-}
-.library__playlistSubText{
-    margin-left: 1rem;
-    font-size: 1rem;
-    font-weight: 500;
-}
-
-.library__playlists{
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.library__playlist{
-    max-width: 200px;
-    max-height: 200px;
-    border-radius:5px;
-    margin:1rem;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    margin-bottom:2rem;
-    position: relative;
-}
-.library__playlist:hover{
-    transform:scale(0.98)
-}
-
-.library__playlistFavouritesImg{
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border-radius:5px;
-    box-shadow: 0 15px 30px 5px rgba(0,0,0,0.1);
-}
-
-.library__playlistPlayIcon{
-    padding: 0 !important;
-    transform: scale(2);
-    position: absolute;
-    bottom: 7%;
-    right:12%;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-.library__playlistPlayIcon:hover{
-    transform:scale(2.3);
-}
-.library__playlistPlayIcon:active{
-    transform:scale(1.8) !important; 
-}
-
-.library__playlistName{
-    text-align: center;
-    font-size: 1rem;
-    font-weight:500;
-    padding: 0 0.2rem;
-    text-align:center;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.library__playlistCreate{
-    border: 2px solid var(--songHoverBgColor);
-}
-
-.library__addPlaylistInput{
-    border: 2px solid grey;
-    background-color: rgb(236, 232, 232);
-    width: 100%;
-    padding: 0.5rem 0.8rem;
-    border-radius: 3px;
-    font-size: 1.2rem;
-} 
-
-@media screen and (max-width:450px){
-    .library__playlist{
-        max-width: 150px;
-        max-height: 150px;
-    }
-
-}
-
-@media screen and (max-width:400px){
-    .library__playlist{
-        max-width: 110px;
-        max-height: 110px;
-    }
-    .library__titleText{
-        margin-left: 1rem;
-        font-size: 1.8rem;
-        font-weight: 500;
-    }
-    .library__playlistName{
-        font-size: 0.9rem;
-    }
+  }
+  .library__playlistName {
+    font-size: 0.9rem;
+  }
 }
