@@ -13,7 +13,7 @@ function RecentlyListened() {
   const { leftBtn, rightBtn, scrollLeft, scrollRight, lastNodeRef, rowRef } =
     useMoveLeftRight();
 
-  if (recentPlayedSongs.length > 0) return null;
+  if (recentPlayedSongs.length <= 0) return null;
 
   return (
     <div className="row user-select-none">
