@@ -17,8 +17,8 @@ const AllSongs = () => {
     // don't fetch songs if no of songs in new releaes
     if (newReleases.length < 8) return;
     setLoading(true);
-    // fetch songs after 4th song in NewReleases
-    const lastSongCreateAt = newReleases[3].data.createdAt;
+    // fetch songs after 7th song in NewReleases
+    const lastSongCreateAt = newReleases[7].data.createdAt;
     getPaginatedSongs(lastSongCreateAt, LIMIT).then((snapshot) => {
       const resSongs = snapshot.docs.map((doc) => ({
         id: doc.id,

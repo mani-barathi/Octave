@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useState } from "react";
 import "../styles/Home.css";
 import { useSelector } from "react-redux";
 import NewReleases from "../components/NewReleases";
@@ -12,7 +12,7 @@ import { getRandomWelcomeText } from "../utils/common";
 
 function Home() {
   const user = useSelector((state) => state.user);
-  const welcomeText = useMemo(
+  const [welcomeText] = useState(
     () =>
       user.displayName
         ? getRandomWelcomeText(user.displayName)

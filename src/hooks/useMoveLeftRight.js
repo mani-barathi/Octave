@@ -13,18 +13,18 @@ function useMoveLeftRight() {
   }, []);
 
   const scrollLeft = () => {
-    rowRef.current.scrollLeft -= 400;
-    const hasMoreLeft = rowRef.current.scrollLeft > 400;
+    rowRef.current.scrollLeft -= 600;
+    const hasMoreLeft = rowRef.current.scrollLeft > 600;
     setLeftBtn(hasMoreLeft);
     setRightBtn(true);
   };
 
   const scrollRight = () => {
     const offsetWidth = rowRef.current.offsetWidth;
-    rowRef.current.scrollLeft += 400;
+    rowRef.current.scrollLeft += 600;
     const hasMoreRight =
       rowRef.current.scrollWidth - (offsetWidth + rowRef.current.scrollLeft) >
-      400;
+      600;
     setRightBtn(hasMoreRight);
     setLeftBtn(true);
   };
