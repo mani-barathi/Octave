@@ -1,13 +1,13 @@
 import React from "react";
 import "../styles/Artist.css";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Aritist card present inside Home Page
 function Artist({ id, data }) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const goToArtistPage = () => {
-    history.push(`/artist/${id}`);
+    navigate(`/artist/${id}`);
   };
 
   return (

@@ -3,7 +3,7 @@ import "../styles/PlayList.css";
 import PlayListSong from "../components/PlayListSong";
 import Error404 from "../components/Error404";
 import Spinner from "../components/Spinner";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { IconButton, Button, CircularProgress } from "@material-ui/core";
@@ -22,7 +22,7 @@ import { handleError } from "../utils/common";
 
 function PlayListPage() {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -87,7 +87,7 @@ function PlayListPage() {
       deleteSongFromPlaylist("playlistsongs", song.id).catch(handleError);
     }
     deletePlaylist(id)
-      .then(() => history.push("/library"))
+      .then(() => navigate("/library"))
       .catch(handleError);
   };
 

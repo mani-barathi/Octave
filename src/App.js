@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./styles/App.css";
 
@@ -35,15 +35,19 @@ function App() {
             <Navbar />
             <div className="app__window">
               <Suspense fallback={<Spinner />}>
-                <Switch>
-                  <Route exact path="/library" component={LibraryPage} />
-                  <Route exact path="/playlists/:id" component={PlayListPage} />
-                  <Route exact path="/search" component={SearchPage} />
-                  <Route exact path="/artist/:id" component={ArtistPage} />
-                  <Route exact path="/admin" component={AdminPage} />
-                  <Route exact path="/" component={HomePage} />
-                  <Route path="*" component={Error404Page} />
-                </Switch>
+                <Routes>
+                  <Route exact path="/library" element={<LibraryPage />} />
+                  <Route
+                    exact
+                    path="/playlists/:id"
+                    element={<PlayListPage />}
+                  />
+                  <Route exact path="/search" element={<SearchPage />} />
+                  <Route exact path="/artist/:id" element={<ArtistPage />} />
+                  <Route exact path="/admin" element={<AdminPage />} />
+                  <Route exact path="/" element={<HomePage />} />
+                  <Route path="*" element={<Error404Page />} />
+                </Routes>
               </Suspense>
             </div>
             {isSongListOpen && <SongList />} {/* current Playing Song List */}

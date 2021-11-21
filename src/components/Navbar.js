@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Navbar.css";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Menu, MenuItem, IconButton, Avatar } from "@material-ui/core";
@@ -14,7 +14,7 @@ import { signOut } from "../api/auth";
 
 function Navbar() {
   const dispatch = useDispatch();
-  const router = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentLocation, setCurrentLocation] = useState("/");
@@ -24,12 +24,12 @@ function Navbar() {
     setCurrentLocation(location.pathname);
   }, [location.pathname]);
 
-  useEffect(() => {
-    let unlisten = router.listen((location, action) => {
-      setCurrentLocation(location.pathname);
-    });
-    return unlisten;
-  }, [router]);
+  // useEffect(() => {
+  //   let unlisten = history.listen((location) => {
+  //     setCurrentLocation(location.pathname);
+  //   });
+  //   return unlisten;
+  // }, [history]);
 
   const openOptions = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,7 +39,7 @@ function Navbar() {
     try {
       await signOut();
       dispatch(logoutUser());
-      router.replace("/");
+      navigate("/");
     } catch (error) {
       alert(error.message);
     }
@@ -51,7 +51,7 @@ function Navbar() {
         className="navbar__logo"
         src="https://raw.githubusercontent.com/mani-barathi/mani-barathi.github.io/master/assets/favicon.ico"
         alt=""
-        onDoubleClick={() => router.push("/admin")}
+        onDoubleClick={() => navigate("/admin")}
       />
 
       <div className="navbar__center">

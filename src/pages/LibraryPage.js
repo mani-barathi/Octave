@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "../styles/Library.css";
 import RecentlyListened from "../components/RecentlyListened";
@@ -19,7 +19,7 @@ import { setNewSong, setSongIndex } from "../actions/currentSessionActions";
 function Library() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const playlists = useSelector((state) => state.playlists);
   const [isOpen, setIsOpen] = useState(false);
   const [snackBar, setSnackBar] = useState(null);
@@ -61,8 +61,8 @@ function Library() {
       .catch((error) => alert(error.message));
   };
 
-  const goToFavourities = () => history.push("/playlists/favorites");
-  const goToPlaylistPage = (id) => history.push(`/playlists/${id}`);
+  const goToFavourities = () => navigate("/playlists/favorites");
+  const goToPlaylistPage = (id) => navigate(`/playlists/${id}`);
 
   return (
     <div className="library">
