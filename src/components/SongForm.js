@@ -78,7 +78,7 @@ function SongForm({ artists }) {
         },
         handleError,
         () => {
-          getSongURL(formData.file.name)
+          getSongURL(uploadTask.snapshot.ref)
             .then(async (url) => {
               console.log(url);
               data.url = url; // adding the recived Url

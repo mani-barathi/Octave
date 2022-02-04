@@ -1,4 +1,5 @@
 import { db, storage, getServerTimeStamp } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export const getArtists = () => {
   return db.collection("artists").orderBy("name");
@@ -11,11 +12,12 @@ export const addArtist = (data) => {
 
 export const uploadArtistToStorage = (file) => {
   const { name } = file;
-  return storage.ref(`artists-images/${name}`).put(file);
+  const storageRef = ref(storage, `artists-images/${name}`);
+  return uploadBytesResumable(storageRef, file);
 };
 
-export const getArtistImageURL = (fileName) => {
-  return storage.ref("artists-images").child(fileName).getDownloadURL();
+export const getArtistImageURL = (fileRef) => {
+  return getDownloadURL(fileRef);
 };
 
 export const searchArtist = (name) => {

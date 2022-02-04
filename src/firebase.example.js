@@ -1,7 +1,7 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
-import "firebase/storage";
+import firebase from "firebase/compat/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import "firebase/compat/firestore";
+import "firebase/compat/storage";
 
 // Replace project keys here
 const firebaseConfig = {
@@ -19,6 +19,6 @@ if (!firebase.apps.length) {
 
 export const db = firebase.firestore();
 export const storage = firebase.storage();
-export const auth = firebase.auth();
-export const provider = new firebase.auth.GoogleAuthProvider();
+export const auth = getAuth();
+export const provider = new GoogleAuthProvider();
 export const getServerTimeStamp = firebase.firestore.FieldValue.serverTimestamp;

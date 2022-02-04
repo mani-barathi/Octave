@@ -1,12 +1,14 @@
 import { db, getServerTimeStamp, storage } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export const uploadSongToStorage = (file) => {
   const { name } = file;
-  return storage.ref(`songs/${name}`).put(file);
+  const storageRef = ref(storage, `songs/${name}`);
+  return uploadBytesResumable(storageRef, file);
 };
 
-export const getSongURL = (fileName) => {
-  return storage.ref("songs").child(fileName).getDownloadURL();
+export const getSongURL = (fileRef) => {
+  return getDownloadURL(fileRef);
 };
 
 export const addSong = (data) => {
