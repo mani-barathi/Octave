@@ -72,7 +72,7 @@ function ArtistForm({ artists }) {
         },
         handleError,
         () => {
-          getArtistImageURL(formData.image.name)
+          getArtistImageURL(uploadTask.snapshot.ref)
             .then(async (url) => {
               console.log(url);
               data.imageUrl = url; // adding the recived Url
