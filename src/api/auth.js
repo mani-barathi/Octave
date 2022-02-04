@@ -1,20 +1,27 @@
 import { auth, provider } from "../firebase";
+import {
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut as logout,
+  updateProfile,
+} from "firebase/auth";
 
 export const signUp = (email, password) => {
-  return auth.createUserWithEmailAndPassword(email, password);
+  return createUserWithEmailAndPassword(auth, email, password);
 };
 
 export const signIn = (email, password) => {
-  return auth.signInWithEmailAndPassword(email, password);
+  return signInWithEmailAndPassword(auth, email, password);
 };
 
-export const signOut = () => {
-  auth.signOut();
+export const signOut = async () => {
+  await logout(auth);
 };
 
 export const signInWithGoogle = () => {
-  auth
-    .signInWithPopup(provider)
+  signInWithPopup(auth, provider)
     .then((result) => console.log(`${result.user.displayName} Logged In!`))
     .catch((error) => {
       console.log("Login Error: ", error);
@@ -22,13 +29,14 @@ export const signInWithGoogle = () => {
     });
 };
 
-export const updateProfile = (userAuth, name, photoURL) => {
-  return userAuth.user.updateProfile({
+export const updateUserDetails = (userAuth, name, photoURL) => {
+  return updateProfile(userAuth.user, {
     displayName: name,
     photoURL: photoURL || `https://ui-avatars.com/api/?name=${name}`,
   });
 };
 
 export const resetPassword = (email) => {
-  return auth.sendPasswordResetEmail(email);
+  console.log("email is", email);
+  return sendPasswordResetEmail(auth, email);
 };

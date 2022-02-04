@@ -4,9 +4,15 @@ import ForgotPassword from "../components/ForgotPassword";
 import Spinner from "../components/Spinner";
 import { Typography, Button, Link } from "@material-ui/core";
 import { useDispatch } from "react-redux";
+import { onAuthStateChanged } from "firebase/auth";
 
 import { auth } from "../firebase";
-import { signUp, signIn, updateProfile, signInWithGoogle } from "../api/auth";
+import {
+  signUp,
+  signIn,
+  updateUserDetails,
+  signInWithGoogle,
+} from "../api/auth";
 import { loginUser } from "../actions/authActions";
 
 function Login() {
@@ -21,7 +27,7 @@ function Login() {
   useEffect(() => {
     // clear the sessionStorage, (to make sure everything is clean even if the user tries to refrest the page)
     sessionStorage.removeItem("SONG_LIST");
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       // If the authChange gives the logged in user,
       if (authUser) {
         const user = {
@@ -56,15 +62,12 @@ function Login() {
 
     try {
       if (isLogin) {
-        // If the User is trying to Log In
         await signIn(data.email, data.password);
       } else {
-        // If the User is trying to Sign UP
         data.name = formRef.current.name.value;
         data.photoURL = formRef.current.photoURL.value;
         const userAuth = await signUp(data.email, data.password);
-        console.log(userAuth.user);
-        await updateProfile(userAuth, data.name, data.photoURL);
+        await updateUserDetails(userAuth, data.name, data.photoURL);
       }
     } catch (error) {
       setErr(error);
