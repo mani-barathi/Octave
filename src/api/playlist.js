@@ -75,7 +75,7 @@ export const getFavouriteSongs = (uid, cb) => {
     where("uid", "==", uid),
     orderBy("addedAt", "desc")
   );
-  return onSnapshot(q, cb);
+  return !cb ? getDocs(q) : onSnapshot(q, cb);
 };
 
 export const getPlaylistSongs = (playlistId, cb) => {
@@ -84,5 +84,5 @@ export const getPlaylistSongs = (playlistId, cb) => {
     where("playlistId", "==", playlistId),
     orderBy("addedAt", "desc")
   );
-  return onSnapshot(q, cb);
+  return !cb ? getDocs(q) : onSnapshot(q, cb);
 };

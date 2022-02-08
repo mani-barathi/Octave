@@ -43,7 +43,6 @@ function Library() {
     const payloadId = isFavorites ? user.uid : id;
     const getSongs = isFavorites ? getFavouriteSongs : getPlaylistSongs;
     getSongs(payloadId)
-      .get()
       .then((snapshot) => {
         const songs = snapshot.docs.map((doc) => doc.data());
         if (songs.length > 0) {
