@@ -25,7 +25,7 @@ function Library() {
   const [snackBar, setSnackBar] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = getAllPlaylists(user.uid).onSnapshot((snapshot) => {
+    const unsubscribe = getAllPlaylists(user.uid, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         data: doc.data(),

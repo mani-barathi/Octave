@@ -1,8 +1,20 @@
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { db, getServerTimeStamp } from "../firebase";
 import { getRandomPlaylistImage } from "../utils/common";
 
 export const createNewPlaylist = (name, uid) => {
-  return db.collection("playlists").add({
+  return addDoc(collection(db, "playlists"), {
     uid,
     name,
     createdAt: getServerTimeStamp(),
@@ -11,18 +23,20 @@ export const createNewPlaylist = (name, uid) => {
 };
 
 export const deletePlaylist = (playlistId) => {
-  return db.collection("playlists").doc(playlistId).delete();
+  return deleteDoc(doc(db, "playlists", playlistId));
 };
 
 export const getPlaylist = (id) => {
-  return db.collection("playlists").doc(id);
+  return getDoc(doc(db, "playlists", id));
 };
 
-export const getAllPlaylists = (uid) => {
-  return db
-    .collection("playlists")
-    .where("uid", "==", uid)
-    .orderBy("createdAt", "desc");
+export const getAllPlaylists = (uid, cb) => {
+  const q = query(
+    collection(db, "playlists"),
+    where("uid", "==", uid),
+    orderBy("createdAt", "desc")
+  );
+  return !cb ? getDocs(q) : onSnapshot(q, cb);
 };
 
 export const addSongToPlaylist = (playlistId, song) => {
@@ -35,7 +49,7 @@ export const addSongToPlaylist = (playlistId, song) => {
     artist,
     addedAt: getServerTimeStamp(),
   };
-  return db.collection("playlistsongs").add(data);
+  return addDoc(collection(db, "playlistsongs"), data);
 };
 
 export const addSongTofavorites = (song, uid) => {
@@ -48,23 +62,27 @@ export const addSongTofavorites = (song, uid) => {
     artist,
     addedAt: getServerTimeStamp(),
   };
-  return db.collection("favorites").add(data);
+  return addDoc(collection(db, "favorites"), data);
 };
 
 export const deleteSongFromPlaylist = (collectionName, songId) => {
-  return db.collection(collectionName).doc(songId).delete();
+  return deleteDoc(doc(db, collectionName, songId));
 };
 
-export const getFavouriteSongs = (uid) => {
-  return db
-    .collection("favorites")
-    .where("uid", "==", uid)
-    .orderBy("addedAt", "desc");
+export const getFavouriteSongs = (uid, cb) => {
+  const q = query(
+    collection(db, "favorites"),
+    where("uid", "==", uid),
+    orderBy("addedAt", "desc")
+  );
+  return onSnapshot(q, cb);
 };
 
-export const getPlaylistSongs = (playlistId) => {
-  return db
-    .collection("playlistsongs")
-    .where("playlistId", "==", playlistId)
-    .orderBy("addedAt", "desc");
+export const getPlaylistSongs = (playlistId, cb) => {
+  const q = query(
+    collection(db, "playlistsongs"),
+    where("playlistId", "==", playlistId),
+    orderBy("addedAt", "desc")
+  );
+  return onSnapshot(q, cb);
 };
