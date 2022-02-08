@@ -10,7 +10,7 @@ function Admin() {
   const [artists, setArtists] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = getArtists().onSnapshot((snapshot) => {
+    const unsubscribe = getArtists((snapshot) => {
       setArtists(snapshot.docs.map((doc) => doc.data().name));
     });
     return unsubscribe;
