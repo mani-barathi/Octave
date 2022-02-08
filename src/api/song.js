@@ -1,5 +1,15 @@
 import { db, getServerTimeStamp, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {
+  addDoc,
+  collection,
+  orderBy,
+  startAfter,
+  limit,
+  query,
+  getDocs,
+  where,
+} from "firebase/firestore";
 
 export const uploadSongToStorage = (file) => {
   const { name } = file;
@@ -13,22 +23,34 @@ export const getSongURL = (fileRef) => {
 
 export const addSong = (data) => {
   data.createdAt = getServerTimeStamp();
-  return db.collection("songs").add(data);
+  return addDoc(collection(db, "songs"), data);
 };
 
 export const searchSong = (name) => {
-  return db.collection("songs").where("names", "array-contains", name).get();
+  const q = query(
+    collection(db, "songs"),
+    where("names", "array-contains", name)
+  );
+  return getDocs(q);
 };
 
-export const getNewReleases = (limit = 8) => {
-  return db.collection("songs").orderBy("createdAt", "desc").limit(limit).get();
+// changing the limit(l) value here from 8 to some other values,
+// requries change in AllSongs useEffect
+export const getNewReleases = (l = 8) => {
+  const q = query(
+    collection(db, "songs"),
+    orderBy("createdAt", "desc"),
+    limit(l)
+  );
+  return getDocs(q);
 };
 
-export const getPaginatedSongs = (lastSongCreateAt, limit = 10) => {
-  return db
-    .collection("songs")
-    .orderBy("createdAt", "desc")
-    .startAfter(lastSongCreateAt)
-    .limit(limit)
-    .get();
+export const getPaginatedSongs = (lastSongCreateAt, l) => {
+  const q = query(
+    collection(db, "songs"),
+    orderBy("createdAt", "desc"),
+    startAfter(lastSongCreateAt),
+    limit(l)
+  );
+  return getDocs(q);
 };

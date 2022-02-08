@@ -39,15 +39,13 @@ function PlayListPage() {
   // 1. check whether there is playlist exist with the id ,if not return to library page
   useEffect(() => {
     if (id === "favorites") return;
-    getPlaylist(id)
-      .get()
-      .then((snapshot) => {
-        const result = snapshot.data();
-        if (!result) {
-          return setLoading(false);
-        }
-        setPlaylist(result);
-      });
+    getPlaylist(id).then((snapshot) => {
+      const result = snapshot.data();
+      if (!result) {
+        return setLoading(false);
+      }
+      setPlaylist(result);
+    });
   }, [id]);
 
   // 2. if playlist exists then grab all the songs from it
@@ -56,7 +54,7 @@ function PlayListPage() {
     const isFavorites = id === "favorites";
     const payloadId = isFavorites ? user.uid : id;
     const getSongs = isFavorites ? getFavouriteSongs : getPlaylistSongs;
-    const unsubscribe = getSongs(payloadId).onSnapshot((snapshot) => {
+    const unsubscribe = getSongs(payloadId, (snapshot) => {
       setSongs(
         snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -138,7 +136,7 @@ function PlayListPage() {
           ))
         ) : (
           <p style={{ marginLeft: "1rem" }}>
-            You haven't added any songs this Playlist...Try Adding a song!
+            You haven't added any songs to this Playlist...Try Adding a song!
           </p>
         )}
       </div>

@@ -1,13 +1,24 @@
 import { db, storage, getServerTimeStamp } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {
+  collection,
+  query,
+  orderBy,
+  addDoc,
+  where,
+  getDocs,
+  onSnapshot,
+  limit,
+} from "firebase/firestore";
 
-export const getArtists = () => {
-  return db.collection("artists").orderBy("name");
+export const getArtists = (cb) => {
+  const q = query(collection(db, "artists"), orderBy("name"));
+  return onSnapshot(q, cb);
 };
 
 export const addArtist = (data) => {
   data.createdAt = getServerTimeStamp();
-  return db.collection("artists").add(data);
+  return addDoc(collection(db, "artists"), data);
 };
 
 export const uploadArtistToStorage = (file) => {
@@ -21,13 +32,18 @@ export const getArtistImageURL = (fileRef) => {
 };
 
 export const searchArtist = (name) => {
-  return db.collection("artists").where("names", "array-contains", name).get();
+  const q = query(
+    collection(db, "artists"),
+    where("names", "array-contains", name)
+  );
+  return getDocs(q);
 };
 
-export const getRecentArtists = (limit = 8) => {
-  return db
-    .collection("artists")
-    .orderBy("createdAt", "desc")
-    .limit(limit)
-    .get();
+export const getRecentArtists = (l = 8) => {
+  const q = query(
+    collection(db, "artists"),
+    orderBy("createdAt", "desc"),
+    limit(l)
+  );
+  return getDocs(q);
 };
