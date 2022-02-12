@@ -1,9 +1,11 @@
 # Octave
+
 A Music Streaming Web App developed with ReactJs🚀 and Firebase🔥
 <br /><br />
 **Click [Here](https://octave-music.web.app/) to view the Live Website**
 
 ## Technology Used
+
 [<img title="React" align="left" alt="React" width="42px" height="42px" src="https://sujanbyanjankar.com.np/wp-content/uploads/2019/01/React.js_logo-512.png" />](https://reactjs.org/)
 [<img title="Redux" align="left" alt="Redux" width="38px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/redux/redux.png" />](https://redux.js.org/)
 [<img title="Firebase" align="left" alt="Firebase" width="45px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/firebase/firebase.png" />](https://firebase.google.com/)
@@ -13,6 +15,7 @@ A Music Streaming Web App developed with ReactJs🚀 and Firebase🔥
 <br /><br />
 
 ## 📸 Design Preview
+
 <img src="./public/preview.gif" />
 
 ## Functionalities
@@ -34,7 +37,7 @@ A Music Streaming Web App developed with ReactJs🚀 and Firebase🔥
 - Clone the repo, and cd into it
 - Install all the dependencies from package.json
 - Create a firebase project and enable **Firestore** database, **Google login** and **Email-Password** for Authentication
-- Create a file **src/firebase.js** and place firebase project Keys inside as shown in [src/firebase.example.js](https://github.com/mani-barathi/Octave/blob/master/src/firebase.example.js)
+- Create a file **.env** and place firebase project Keys inside as shown in [.env.example](https://github.com/mani-barathi/Octave/blob/master/.env.example)
 - Run app by typing `npm start` in command line
 - Make sure to read the **Note** section below to know about setting up **Indexes in firestore**
 

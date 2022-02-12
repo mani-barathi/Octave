@@ -4,14 +4,12 @@ import ForgotPassword from "../components/ForgotPassword";
 import Spinner from "../components/Spinner";
 import { Typography, Button, Link } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { onAuthStateChanged } from "firebase/auth";
-
-import { auth } from "../firebase";
 import {
   signUp,
   signIn,
   updateUserDetails,
   signInWithGoogle,
+  handleAuthStateChanged,
 } from "../api/auth";
 import { loginUser } from "../actions/authActions";
 
@@ -27,7 +25,7 @@ function Login() {
   useEffect(() => {
     // clear the sessionStorage, (to make sure everything is clean even if the user tries to refrest the page)
     sessionStorage.removeItem("SONG_LIST");
-    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+    const unsubscribe = handleAuthStateChanged((authUser) => {
       // If the authChange gives the logged in user,
       if (authUser) {
         const user = {

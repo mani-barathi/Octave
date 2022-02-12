@@ -6,6 +6,7 @@ import {
   sendPasswordResetEmail,
   signOut as logout,
   updateProfile,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 export const signUp = (email, password) => {
@@ -27,6 +28,10 @@ export const signInWithGoogle = () => {
       console.log("Login Error: ", error);
       alert(error.message);
     });
+};
+
+export const handleAuthStateChanged = (cb) => {
+  return onAuthStateChanged(auth, cb);
 };
 
 export const updateUserDetails = (userAuth, name, photoURL) => {
