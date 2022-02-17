@@ -15,14 +15,15 @@ export const deletePlaylist = (playlistId) => {
 };
 
 export const getPlaylist = (id) => {
-  return db.collection("playlists").doc(id);
+  return db.collection("playlists").doc(id).get();
 };
 
-export const getAllPlaylists = (uid) => {
+export const getAllPlaylists = (uid, cb) => {
   return db
     .collection("playlists")
     .where("uid", "==", uid)
-    .orderBy("createdAt", "desc");
+    .orderBy("createdAt", "desc")
+    .onSnapshot(cb);
 };
 
 export const addSongToPlaylist = (playlistId, song) => {
@@ -55,16 +56,18 @@ export const deleteSongFromPlaylist = (collectionName, songId) => {
   return db.collection(collectionName).doc(songId).delete();
 };
 
-export const getFavouriteSongs = (uid) => {
-  return db
+export const getFavouriteSongs = (uid, cb) => {
+  const query = db
     .collection("favorites")
     .where("uid", "==", uid)
     .orderBy("addedAt", "desc");
+  return !cb ? query.get() : query.onSnapshot(cb);
 };
 
-export const getPlaylistSongs = (playlistId) => {
-  return db
+export const getPlaylistSongs = (playlistId, cb) => {
+  const query = db
     .collection("playlistsongs")
     .where("playlistId", "==", playlistId)
     .orderBy("addedAt", "desc");
+  return !cb ? query.get() : query.onSnapshot(cb);
 };
