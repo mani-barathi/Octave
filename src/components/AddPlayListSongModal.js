@@ -20,15 +20,13 @@ function AddPlayListSongModal({ song, closeModal, setSnackBar }) {
 
   useEffect(() => {
     if (playlists) return;
-    getAllPlaylists(user.uid)
-      .get()
-      .then((snapshot) => {
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }));
-        dispatch(setPlaylists(data));
-      });
+    getAllPlaylists(user.uid).then((snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      dispatch(setPlaylists(data));
+    });
   }, [dispatch, playlists, user.uid]);
 
   const addSong = (playlistId) => {

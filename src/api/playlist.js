@@ -19,11 +19,11 @@ export const getPlaylist = (id) => {
 };
 
 export const getAllPlaylists = (uid, cb) => {
-  return db
+  const query = db
     .collection("playlists")
     .where("uid", "==", uid)
-    .orderBy("createdAt", "desc")
-    .onSnapshot(cb);
+    .orderBy("createdAt", "desc");
+  return !cb ? query.get() : query.onSnapshot(cb);
 };
 
 export const addSongToPlaylist = (playlistId, song) => {
