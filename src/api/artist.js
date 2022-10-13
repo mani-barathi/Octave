@@ -9,6 +9,8 @@ import {
   getDocs,
   onSnapshot,
   limit,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 
 export const getArtists = (cb) => {
@@ -37,6 +39,11 @@ export const searchArtist = (name) => {
     where("names", "array-contains", name)
   );
   return getDocs(q);
+};
+
+export const getArtistById = (id) => {
+  const docRef = doc(db, "artists", id);
+  return getDoc(docRef);
 };
 
 export const getRecentArtists = (l = 8) => {

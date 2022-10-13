@@ -54,3 +54,13 @@ export const getPaginatedSongs = (lastSongCreateAt, l) => {
   );
   return getDocs(q);
 };
+
+export const getArtistSongs = (artist) => {
+  const q = query(
+    collection(db, "songs"),
+    where("artist", ">=", artist.name),
+    where("artist", "<=", artist.name + "\uf8ff")
+  );
+
+  return getDocs(q);
+};

@@ -7,7 +7,8 @@ import Spinner from "../components/Spinner";
 import { useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 
-import { db } from "../firebase";
+import { getArtistById } from "../api/artist";
+import { getArtistSongs } from "../api/song";
 
 // Artist Page when user clicks on a Artist card presernt inside Home or Search Page
 function ArtistPage() {
@@ -17,29 +18,23 @@ function ArtistPage() {
   const [songs, setSongs] = useState([]);
 
   useEffect(() => {
-    db.collection("artists")
-      .doc(id)
-      .get()
-      .then((snapshot) => {
-        const fetchedArtist = snapshot.data();
-        if (!fetchedArtist) {
-          return setLoading(false);
-        }
-        setArtist(fetchedArtist);
-        db.collection("songs")
-          .where("artist", ">=", fetchedArtist.name)
-          .where("artist", "<=", fetchedArtist.name + "\uf8ff")
-          .get()
-          .then((snapshot) => {
-            setSongs(
-              snapshot.docs.map((doc) => ({
-                id: doc.id,
-                data: doc.data(),
-              }))
-            );
-            setLoading(false);
-          });
+    getArtistById(id).then((snapshot) => {
+      const fetchedArtist = snapshot.data();
+      if (!fetchedArtist) {
+        return setLoading(false);
+      }
+      setArtist(fetchedArtist);
+
+      getArtistSongs(fetchedArtist).then((snapshot) => {
+        setSongs(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        );
+        setLoading(false);
       });
+    });
   }, [id]);
 
   if (loading) return <Spinner />;
