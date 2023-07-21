@@ -5,10 +5,11 @@ import {
   TextField,
   LinearProgress,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   addArtist,
   getArtistImageURL,
+  getArtists,
   uploadArtistToStorage,
 } from "../api/artist";
 import useForm from "../hooks/useForm";
@@ -19,16 +20,24 @@ import {
   isValidURL,
 } from "../utils/common";
 
-function ArtistForm({ artists }) {
+function ArtistForm() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [artists, setArtists] = useState([]);
   const [formData, handleChange, formRef, clearForm] = useForm({
     name: "",
     description: "",
     imageUrl: "",
     image: null,
   });
+
+  useEffect(() => {
+    const unsubscribe = getArtists((snapshot) => {
+      setArtists(snapshot.docs.map((doc) => doc.data().name));
+    });
+    return unsubscribe;
+  }, []);
 
   const handleAddArtistForm = async (e) => {
     e.preventDefault();

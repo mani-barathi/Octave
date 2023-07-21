@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Input,
@@ -17,11 +17,13 @@ import {
   capitalize,
   createNamesArray,
 } from "../utils/common";
+import { getArtists } from "../api/artist";
 
-function SongForm({ artists }) {
+function SongForm() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [artists, setArtists] = useState([]);
   const [formData, handleChange, formRef, clearForm] = useForm({
     name: "",
     artist: "",
@@ -29,6 +31,13 @@ function SongForm({ artists }) {
     url: "",
     file: null,
   });
+
+  useEffect(() => {
+    const unsubscribe = getArtists((snapshot) => {
+      setArtists(snapshot.docs.map((doc) => doc.data().name));
+    });
+    return unsubscribe;
+  }, []);
 
   const handleAddSongForm = async (event) => {
     event.preventDefault();
@@ -60,7 +69,7 @@ function SongForm({ artists }) {
         type: "error",
         text: "Invliad audio URL",
       });
-    } else if (!formData.file.type.startsWith("audio")) {
+    } else if (formData.file && !formData.file?.type?.startsWith("audio")) {
       return setMessage({
         type: "error",
         text: "File must be of type audio",
@@ -127,7 +136,9 @@ function SongForm({ artists }) {
       </div>
       <div className="admin__fromGroup" style={{ paddingTop: "0.5rem" }}>
         <FormControl>
-          <InputLabel htmlFor="age-native-simple">Artist</InputLabel>
+          <InputLabel htmlFor="artist" color="secondary">
+            Artist
+          </InputLabel>
           <Select
             native
             name="artist"

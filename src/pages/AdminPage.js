@@ -1,20 +1,11 @@
 import { Paper, Tab, Tabs } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { getArtists } from "../api/artist";
+import React from "react";
 import ArtistForm from "../components/ArtistForm";
 import SongForm from "../components/SongForm";
 import "../styles/Admin.css";
 
 function Admin() {
   const [tab, setTab] = React.useState(0);
-  const [artists, setArtists] = useState([]);
-
-  useEffect(() => {
-    const unsubscribe = getArtists((snapshot) => {
-      setArtists(snapshot.docs.map((doc) => doc.data().name));
-    });
-    return unsubscribe;
-  }, []);
 
   return (
     <div className="admin">
@@ -32,13 +23,7 @@ function Admin() {
           </Tabs>
         </Paper>
 
-        {tab === 0 ? (
-          <SongForm artists={artists} />
-        ) : tab === 1 ? (
-          <ArtistForm artists={artists} />
-        ) : (
-          <div></div>
-        )}
+        {tab === 0 ? <SongForm /> : tab === 1 ? <ArtistForm /> : <div></div>}
       </div>
     </div>
   );
